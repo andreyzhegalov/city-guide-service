@@ -18,17 +18,13 @@ public class SuggestionsList {
         return suggestions;
     }
 
-    public void setSuggestions( List<Suggestion> suggestions){
+    public void setSuggestions(List<Suggestion> suggestions) {
         this.suggestions = suggestions;
     }
 
     @Override
     public String toString() {
-        return "SuggestionsList{" +
-            "suggestions = " + getSuggestions() +
-            "}";
+        return "SuggestionsList{" + "suggestions = " + getSuggestions() + "}";
     }
 }
-
-
 

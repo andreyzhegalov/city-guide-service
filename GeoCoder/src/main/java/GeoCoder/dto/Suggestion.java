@@ -25,12 +25,7 @@ public class Suggestion {
 
     @Override
     public String toString() {
-        return "Suggestion{" +
-            "value = " + getValue() +
-            ", data = " + getData() +
-            "}";
+        return "Suggestion{" + "value = " + getValue() + ", data = " + getData() + "}";
     }
 }
-
-
 
