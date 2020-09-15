@@ -1,5 +1,7 @@
 package contoroller;
 
+import java.util.List;
+
 import model.Adress;
 import model.GeoPosition;
 import model.ShowPlace;
@@ -7,7 +9,7 @@ import model.ShowPlace;
 public interface DbController {
     void setData(ShowPlace showPlace);
 
-    ShowPlace getData(Adress adress);
+    List<ShowPlace> getData(Adress adress);
 
-    ShowPlace getNearest(GeoPosition geoPosition);
+    List<ShowPlace> getNearest(GeoPosition geoPosition);
 }

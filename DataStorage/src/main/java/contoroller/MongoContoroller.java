@@ -1,9 +1,16 @@
 package contoroller;
 
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+
+import org.bson.Document;
 
 import model.Adress;
 import model.GeoPosition;
@@ -25,26 +32,33 @@ public class MongoContoroller implements DbController {
         this.mongoTemplate = new MongoTemplateImpl(collection, mapper);
     }
 
-    public void closeClient(){
+    public void closeClient() {
         mongoClient.close();
     }
 
     @Override
     public void setData(ShowPlace showPlace) {
         final var id = mongoTemplate.insert(showPlace);
-        if(id == null ){
-            throw new  MongoContorollerException("Insert showplace failed");
+        if (id == null) {
+            throw new MongoContorollerException("Insert showplace failed");
         }
     }
 
     @Override
-    public ShowPlace getData(Adress adress) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<ShowPlace> getData(Adress adress) {
+        final String jsonAdress;
+        try {
+            jsonAdress = adress.toJson();
+        } catch (JsonProcessingException e) {
+            throw new MongoContorollerException(e.getMessage());
+        }
+        final String queryJson = "{\"adress\":" + jsonAdress + "}";
+        final var resList = mongoTemplate.find(Document.parse(queryJson), ShowPlace.class);
+        return resList;
     }
 
     @Override
-    public ShowPlace getNearest(GeoPosition geoPosition) {
+    public List<ShowPlace> getNearest(GeoPosition geoPosition) {
         // TODO Auto-generated method stub
         return null;
     }
