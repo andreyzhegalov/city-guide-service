@@ -12,7 +12,7 @@ import com.mongodb.client.MongoClients;
 
 import org.bson.Document;
 
-import model.Adress;
+import model.Address;
 import model.GeoPosition;
 import model.ShowPlace;
 import templates.MongoTemplate;
@@ -45,14 +45,8 @@ public class MongoContoroller implements DbController {
     }
 
     @Override
-    public List<ShowPlace> getData(Adress adress) {
-        final String jsonAdress;
-        try {
-            jsonAdress = adress.toJson();
-        } catch (JsonProcessingException e) {
-            throw new MongoContorollerException(e.getMessage());
-        }
-        final String queryJson = "{\"adress\":" + jsonAdress + "}";
+    public List<ShowPlace> getData(Address adress) {
+        final String queryJson = "{\"adress_string\":" + adress.toString() + "}";
         final var resList = mongoTemplate.find(Document.parse(queryJson), ShowPlace.class);
         return resList;
     }

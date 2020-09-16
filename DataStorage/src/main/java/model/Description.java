@@ -1,38 +1,54 @@
 package model;
 
 public class Description {
-    private final String title;
+    private String title;
     private String yearOfConstructon;
     private String architect;
-    private final String info;
+    private String info;
 
-    public Description(String title, String info) {
+    public void setTitle(String title) {
         this.title = title;
-        this.info = info;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public Description setYearOfConstructon(String yearOfConstructon) {
+        this.yearOfConstructon = yearOfConstructon;
+        return this;
+    }
+
     public String getYearOfConstructon() {
         return yearOfConstructon;
     }
 
-    public void setYearOfConstructon(String yearOfConstructon) {
-        this.yearOfConstructon = yearOfConstructon;
+    public Description setArchitect(String architect) {
+        this.architect = architect;
+        return this;
     }
 
     public String getArchitect() {
         return architect;
     }
 
-    public void setArchitect(String architect) {
-        this.architect = architect;
+    public Description setInfo(String info) {
+        this.info = info;
+        return this;
     }
 
     public String getInfo() {
         return info;
+    }
+
+    @Override
+    public String toString() {
+        return "Description{" +
+            "title = " + getTitle() +
+            ", yearOfConstructon = " + getYearOfConstructon() +
+            ", architect = " + getArchitect() +
+            ", info = " + getInfo() +
+            "}";
     }
 
 }

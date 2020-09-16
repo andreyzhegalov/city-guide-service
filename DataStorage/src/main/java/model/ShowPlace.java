@@ -1,43 +1,75 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+
 public class ShowPlace {
-    private Adress adress;
-    private GeoPosition geoPosition;
-    private Description description;
+    private ObjectId id;
+    private Address address;
+    @BsonProperty(value = "address_string")
+    private String addressString;
+    private GeoPosition location;
+    private List<Description> descriptionList = new ArrayList<>();
 
     public ShowPlace() {
-        this.adress = null;
-        this.geoPosition = null;
-        this.description = null;
     }
 
-    public ShowPlace(Adress adress, GeoPosition geoPosition, Description description) {
-        this.adress = adress;
-        this.geoPosition = geoPosition;
-        this.description = description;
+    public ObjectId getId() {
+        return id;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public ShowPlace setId(final ObjectId id) {
+        this.id = id;
+        return this;
     }
 
-    public void setAdress(Adress adress){
-        this.adress = adress;
+    public Address getAdress() {
+        return address;
     }
 
-    public GeoPosition getGeoPosition() {
-        return geoPosition;
+    public ShowPlace setAdress(Address adress) {
+        this.address = adress;
+        return this;
     }
 
-    public void setGeoPosition(GeoPosition geoPosition){
-        this.geoPosition = geoPosition;
+    public List<Description> getDescriptionList() {
+        return descriptionList;
     }
 
-    public Description getDescription() {
-        return description;
+    public ShowPlace setDescriptionList(List<Description> descriptionList) {
+        this.descriptionList = descriptionList;
+        return this;
     }
 
-    public void setDescription(Description description){
-        this.description = description;
+    public ShowPlace setAddressString(String addressString) {
+        this.addressString = addressString;
+        return this;
+    }
+
+    public String getAddressString() {
+        return addressString;
+    }
+
+    public ShowPlace setLocation(GeoPosition location) {
+        this.location = location;
+        return this;
+    }
+
+    public GeoPosition getLocation() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return "ShowPlace{" +
+            "id = " + getId() +
+            ", address = " + address +
+            ", addressString = " + getAddressString() +
+            ", location = " + getLocation() +
+            ", descriptionList = " + getDescriptionList() +
+            "}";
     }
 }

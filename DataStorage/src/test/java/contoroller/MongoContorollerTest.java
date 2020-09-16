@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import model.Adress;
+import model.Address;
 import model.ShowPlace;
 
 public class MongoContorollerTest {
@@ -14,8 +14,12 @@ public class MongoContorollerTest {
     public void testSaveSelectByAdress() {
         final MongoContoroller mongoContoroller = new MongoContoroller(MONGO_URL);
         final var showPlace = new ShowPlace();
-        final var adress = new Adress("12", "street", "");
-        showPlace.setAdress(new Adress("12", "street", ""));
+        final var adress = new Address();
+        adress.setStreet("new street");
+        adress.setHouse("12");
+        adress.setBlock("2");
+        showPlace.setAdress(adress);
+        showPlace.setAddressString(adress.toString());
 
         mongoContoroller.setData(showPlace);
 
