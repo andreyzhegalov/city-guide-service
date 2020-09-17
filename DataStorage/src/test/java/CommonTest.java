@@ -15,7 +15,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
-import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.ReturnDocument;
 
 import org.bson.Document;
@@ -30,8 +29,8 @@ import model.Description;
 import model.GeoPosition;
 import model.ShowPlace;
 
-//https://mongodb.github.io/mongo-java-driver/3.5/driver/getting-started/quick-start-pojo/
-//https://www.mongodb.com/blog/post/quick-start-java-and-mongodb--mapping-pojos?utm_campaign=javapojos&utm_source=twitter&utm_medium=organic_social
+// https://mongodb.github.io/mongo-java-driver/3.5/driver/getting-started/quick-start-pojo/
+// https://www.mongodb.com/blog/post/quick-start-java-and-mongodb--mapping-pojos?utm_campaign=javapojos&utm_source=twitter&utm_medium=organic_social
 // https://www.baeldung.com/mongodb-geospatial-support
 // https://docs.mongodb.com/manual/geospatial-queries/
 class CommonTest {
@@ -40,7 +39,7 @@ class CommonTest {
     private static final String MONGO_COLLECTION_NAME = "cityGuideTest";
     private static MongoClient mongoClient;
     private static MongoDatabase database;
-    private static MongoCollection<Document> collection;
+    private static MongoCollection<ShowPlace> showPlaceCollection;
 
     @BeforeAll
     static void setUp() {
@@ -53,26 +52,18 @@ class CommonTest {
 
         mongoClient = MongoClients.create(clientSettings);
         database = mongoClient.getDatabase(MONGO_DATABASE_NAME);
-        collection = database.getCollection(MONGO_COLLECTION_NAME);
-        collection.createIndex(Indexes.geo2dsphere("location"));
+        showPlaceCollection = database.getCollection(MONGO_COLLECTION_NAME, ShowPlace.class);
     }
 
     @AfterAll
     static void tearDown() {
-        collection.drop();
+        showPlaceCollection.drop();
         mongoClient.close();
     }
 
-    @Test
-    public void insertGeoPoint(){
-        collection.insertOne(Document.parse("{'name':'Big Ben','location': {'coordinates':[-0.1268194,51.5007292],'type':'Point'}}"));
-    }
 
     @Test
     public void pojoShowPlaceInsertTest() {
-        final MongoCollection<ShowPlace> showPlaceCollection = database.getCollection(MONGO_COLLECTION_NAME,
-                ShowPlace.class);
-
         final var address1 = new Address().setStreet("new street1").setHouse("1").setBlock("1");
         final var showPlace1 = new ShowPlace()
             .setAdress(address1)
@@ -97,7 +88,7 @@ class CommonTest {
         final var findedShowPlace = showPlaceCollection.find(eq("address_string", address1.toString()));
         System.out.println("Filtred documents");
         for (var place : findedShowPlace) {
-            System.out.println("++++" + place);
+            System.out.println("-----" + place);
         }
 
         // add description
@@ -112,7 +103,7 @@ class CommonTest {
         final FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions()
                 .returnDocument(ReturnDocument.AFTER);
 
-        ShowPlace updatedShowPlace = showPlaceCollection.findOneAndReplace(filtredByAddress, showPlace, returnDocAfterReplace);
+        final ShowPlace updatedShowPlace = showPlaceCollection.findOneAndReplace(filtredByAddress, showPlace, returnDocAfterReplace);
         assertEquals(1, updatedShowPlace.getDescriptionList().size());
 
         System.out.println("All documents after updated");

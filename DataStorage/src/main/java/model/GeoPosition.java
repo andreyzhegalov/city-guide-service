@@ -21,15 +21,32 @@ public class GeoPosition {
         return this;
     }
 
-    public String getType() {
-        return type;
+    public double getLatitude(){
+        if (! hasCoordinate()){
+            throw new ModelException("coordinates not defined");
+        }
+        return coordinates.get(0);
+    }
+
+    public double getLongitude(){
+        if (! hasCoordinate()){
+            throw new ModelException("coordinates not defined");
+        }
+        return coordinates.get(1);
+    }
+
+    private boolean hasCoordinate(){
+        return coordinates.size() == 2;
     }
 
     @Override
     public String toString() {
         return "GeoPosition{" +
             "coordinates = " + getCoordinates() +
-            ", type = " + getType() +
             "}";
+    }
+
+    public String getType() {
+        return type;
     }
 }
