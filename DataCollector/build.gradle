@@ -9,11 +9,8 @@ targetCompatibility = JavaVersion.VERSION_13
 group 'city.guide'
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic")
-    implementation("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
-    implementation("org.mongodb:bson:${Versions.mongodb}")
-    implementation("org.mongodb:mongodb-driver:${Versions.mongodb}")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation 'ch.qos.logback:logback-classic'
+    compile 'org.jsoup:jsoup:1.13.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

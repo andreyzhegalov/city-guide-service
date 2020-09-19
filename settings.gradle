@@ -1,4 +1,5 @@
 rootProject.name = 'cityGuideService'
 include 'GeoCoder'
 include 'DataStorage'
+include 'DataCollector'
 
