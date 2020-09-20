@@ -23,7 +23,7 @@ public class PageHandlerImpl implements PageHandler {
     @Override
     public Optional<URL> getNextPage(URL currentPage) {
         final int currentPageNum = getCurrentPageNumber(currentPage);
-        if (currentPageNum >= WalkspbBuilding.getPageCnt()) {
+        if (currentPageNum >= WalkspbBuilding.getPageCnt() - 1) {
             return Optional.empty();
         }
         return Optional.of(getPageUrl(currentPageNum + 1));
@@ -48,12 +48,12 @@ public class PageHandlerImpl implements PageHandler {
 
     private int getCurrentPageNumber(URL url) {
         final String urlString = url.toString();
-        final String pageParametr = "start=";
-        final int index = urlString.indexOf(pageParametr);
+        final String pageParameter = "start=";
+        final int index = urlString.indexOf(pageParameter);
         if (index == -1) {
             return 0;
         }
-        final String numString = urlString.substring(index + pageParametr.length(), urlString.length() - 1);
-        return Integer.parseInt(numString);
+        final String numString = urlString.substring(index + pageParameter.length(), urlString.length());
+        return Integer.parseInt(numString) / WalkspbBuilding.getItemOnPage();
     }
 }

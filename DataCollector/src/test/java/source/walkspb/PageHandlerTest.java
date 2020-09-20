@@ -27,6 +27,15 @@ public class PageHandlerTest {
     }
 
     @Test
+    public void testIncrement(){
+        final var pageHandler = new PageHandlerImpl();
+        final var currentPage = pageHandler.getFistPage();
+        final var nextPage = pageHandler.getNextPage(currentPage).get();
+        assertThat(pageHandler.getNextPage(nextPage).get().toString())
+                .isEqualTo("https://walkspb.ru/istoriya-peterburga/zd?start=40");
+    }
+
+    @Test
     public void getNextPageForLastPage() {
         final var pageHandler = new PageHandlerImpl();
         final var currentPage = pageHandler.getLastPage();
