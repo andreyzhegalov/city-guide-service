@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'com.github.johnrengelman.shadow'
+}
+
+sourceCompatibility = JavaVersion.VERSION_13
+targetCompatibility = JavaVersion.VERSION_13
+
+group 'city.guide'
+
+dependencies {
+    implementation project(':DataCollector')
+    implementation project(':DataStorage')
+    implementation project(':GeoCoder')
+    implementation 'org.springframework:spring-context'
+    implementation 'ch.qos.logback:logback-classic'
+
+    implementation("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
+    implementation("org.mongodb:bson:${Versions.mongodb}")
+    implementation("org.mongodb:mongodb-driver:${Versions.mongodb}")
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation group: 'org.assertj', name: 'assertj-core'
+}
+
+shadowJar {
+    archiveBaseName.set('data-collector-service')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'cityguide.backend.DataStorageExecutor'
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('geodata-collector-service')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'cityguide.backend.GeoDataCollector'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+check.dependsOn jacocoTestReport

@@ -10,8 +10,8 @@ public class GetDataExample {
             System.exit(1);
         }
         final String token = args[0];
-        final var restController = new RestController(token);
-        final var result = restController.doPost("г Санкт-Петербург, ул Садовая, д 2");
+        final var restController = new GeoCoder(token);
+        final var result = restController.getSuggestions("г Санкт-Петербург, ул Садовая, д 2");
         System.out.println(result);
         System.exit(0);
     }

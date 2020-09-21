@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'jacoco'
     id 'com.github.johnrengelman.shadow'
 }

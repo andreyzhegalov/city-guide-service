@@ -32,7 +32,7 @@ public class ItemParser {
             for (final var span : spans) {
                 address += span.text();
             }
-            addressList.add(address);
+            addressList.add(addCity(address));
         }
         return addressList;
     }
@@ -46,5 +46,9 @@ public class ItemParser {
         }
         final var descriptionText = sb.toString();
         return descriptionText;
+    }
+
+    private String addCity(String address) {
+        return "г.Санкт-Петербург " + address;
     }
 }

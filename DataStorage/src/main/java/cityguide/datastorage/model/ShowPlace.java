@@ -44,6 +44,11 @@ public class ShowPlace {
         return this;
     }
 
+    public ShowPlace addDescription(Description newDescription) {
+        this.descriptionList.add(newDescription);
+        return this;
+    }
+
     public ShowPlace setAddressString(String addressString) {
         this.addressString = addressString;
         return this;
@@ -64,12 +69,7 @@ public class ShowPlace {
 
     @Override
     public String toString() {
-        return "ShowPlace{" +
-            "id = " + getId() +
-            ", address = " + address +
-            ", addressString = " + getAddressString() +
-            ", location = " + getLocation() +
-            ", descriptionList = " + getDescriptionList() +
-            "}";
+        return "ShowPlace{" + "id = " + getId() + ", address = " + address + ", addressString = " + getAddressString()
+                + ", location = " + getLocation() + ", descriptionList = " + getDescriptionList() + "}";
     }
 }

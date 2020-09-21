@@ -1,9 +1,19 @@
 package cityguide.datastorage;
 
+import java.util.List;
+import java.util.Optional;
+
+import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 
 public interface DataStorage {
-    void setData(ShowPlace showPlace);
+    void insertUpdateData(ShowPlace showPlace);
 
-    ShowPlace getData();
+    Optional<ShowPlace> getData(ShowPlace showPlace);
+
+    List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
+
+    List<ShowPlace> getAllData();
+
+    void closeDb();
 }

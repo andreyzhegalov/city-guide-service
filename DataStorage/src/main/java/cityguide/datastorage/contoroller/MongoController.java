@@ -23,12 +23,15 @@ import com.mongodb.client.model.ReturnDocument;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 
 public class MongoController implements DbController {
+    private final static Logger logger = LoggerFactory.getLogger(MongoController.class);
     private static final String MONGO_DATABASE_NAME = "mongo-db-showplace";
     private static final String MONGO_COLLECTION_NAME = "showplace";
     private final MongoClient mongoClient;
@@ -36,6 +39,7 @@ public class MongoController implements DbController {
     private final MongoDatabase database;
 
     public MongoController(String mongoUrl) {
+        logger.info("Connect to MongoDb by address {}", mongoUrl );
         final ConnectionString connectionString = new ConnectionString(mongoUrl);
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
@@ -49,7 +53,8 @@ public class MongoController implements DbController {
         this.showPlaceCollection.createIndex(Indexes.geo2dsphere("location"));
     }
 
-    public void closeClient() {
+    @Override
+    public void closeDb() {
         mongoClient.close();
     }
 
@@ -59,7 +64,7 @@ public class MongoController implements DbController {
 
     @Override
     public void insertUpdateData(ShowPlace showPlace) {
-        final var findedShowPlace = getData(showPlace.getAdress());
+        final var findedShowPlace = getData(showPlace);
         if (findedShowPlace.isEmpty()) {
             showPlaceCollection.insertOne(showPlace);
         } else {
@@ -75,12 +80,15 @@ public class MongoController implements DbController {
     }
 
     @Override
-    public Optional<ShowPlace> getData(Address address) {
-        final var findedShowPlace = showPlaceCollection.find(eq("address_string", address.toString()));
+    public Optional<ShowPlace> getData(ShowPlace showPlace) {
+        if (showPlace == null){
+            return Optional.empty();
+        }
+        final var findedShowPlace = showPlaceCollection.find(eq("address_string", showPlace.getAddressString()));
         final var listShowPlace = toList(findedShowPlace);
         if (listShowPlace.size() > 1) {
             throw new MongoContorollerException(
-                    "Internal error. More than one showplace with address " + address.toString());
+                    "Internal error. More than one showplace with address " + showPlace.getAddressString());
         }
         return (listShowPlace.isEmpty()) ? Optional.empty() : Optional.of(listShowPlace.get(0));
     }

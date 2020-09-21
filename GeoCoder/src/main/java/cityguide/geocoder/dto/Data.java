@@ -6,8 +6,8 @@ public class Data {
     private String street;
     private String house;
     private String block;
-    private float geo_lat;
-    private float geo_lon;
+    private double geo_lat;
+    private double geo_lon;
 
     public Data() {
     }
@@ -52,19 +52,19 @@ public class Data {
         return block;
     }
 
-    public void setGeo_lat(float geo_lat) {
+    public void setGeo_lat(double geo_lat) {
         this.geo_lat = geo_lat;
     }
 
-    public float getGeo_lat() {
+    public double getGeo_lat() {
         return geo_lat;
     }
 
-    public void setGeo_lon(float geo_lon) {
+    public void setGeo_lon(double geo_lon) {
         this.geo_lon = geo_lon;
     }
 
-    public float getGeo_lon() {
+    public double getGeo_lon() {
         return geo_lon;
     }
 

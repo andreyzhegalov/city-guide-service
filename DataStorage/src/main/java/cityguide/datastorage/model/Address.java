@@ -1,6 +1,7 @@
 package cityguide.datastorage.model;
 
 public class Address {
+    private String city;
     private String house;
     private String street;
     private String block;
@@ -35,9 +36,22 @@ public class Address {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Adress{" + "house = " + getHouse() + ", street = " + getStreet() + ", block = " + getBlock() + "}";
+    public Address setCity(String city) {
+        this.city = city;
+        return this;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Address{");
+        sb.append("city = ").append(getCity());
+        sb.append(", house = ").append(getHouse());
+        sb.append(", street = ").append(getStreet());
+        sb.append(", block = ").append(getBlock());
+        return sb.append("}").toString();
+    }
 }

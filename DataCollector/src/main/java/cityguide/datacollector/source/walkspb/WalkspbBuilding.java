@@ -2,7 +2,8 @@ package cityguide.datacollector.source.walkspb;
 
 public class WalkspbBuilding {
     private final static String BASE_URL = "https://walkspb.ru/istoriya-peterburga/zd";
-    private final static int PAGE_CNT = 35;
+    private final static int PAGE_CNT = 1;
+    // private final static int PAGE_CNT = 35;
     private final static int ITEM_ON_PAGE = 20;
 
     public static String getBaseUrl() {

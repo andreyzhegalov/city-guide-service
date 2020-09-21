@@ -58,7 +58,7 @@ public class DataCollector {
 
     private void sleep() {
         try {
-            Thread.sleep(getRandomNumber(1 * 1_000, 1 * 1_000));
+            Thread.sleep(getRandomNumber(1 * 1_000, 3 * 1_000));
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
             Thread.currentThread().interrupt();
