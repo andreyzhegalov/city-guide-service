@@ -10,15 +10,14 @@ targetCompatibility = JavaVersion.VERSION_13
 group 'city.guide'
 
 dependencies {
+
     implementation project(':DataCollector')
     implementation project(':DataStorage')
     implementation project(':GeoCoder')
+    implementation project(':TelegramBot')
+
     implementation 'org.springframework:spring-context'
     implementation 'ch.qos.logback:logback-classic'
-
-    implementation("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
-    implementation("org.mongodb:bson:${Versions.mongodb}")
-    implementation("org.mongodb:mongodb-driver:${Versions.mongodb}")
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -45,6 +44,16 @@ task shadowJarGeoDataCollerctor(type: Jar, dependsOn: shadowJar) {
     archiveClassifier.set('')
     manifest {
         attributes 'Main-Class': 'cityguide.backend.GeoDataCollector'
+    }
+    from zipTree(shadowJar.archivePath)
+}
+
+task shadowJarTelegramBot(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('telegrambot-service')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'cityguide.backend.TelegramBot'
     }
     from zipTree(shadowJar.archivePath)
 }
