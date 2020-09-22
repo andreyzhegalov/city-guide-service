@@ -1,29 +1,36 @@
 package cityguide;
+
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import cityguide.telegrambot.CityGuideBot;
+import cityguide.telegram.Telegram;
+import cityguide.telegram.bot.CityGuideBot;
 
 public class Demo {
-    private static final Logger logger = LogManager.getLogger(Demo.class);
-
+    private static final Logger LOG = LogManager.getLogger(CityGuideBot.class);
     public static void main(String[] args) {
-        if(args.length != 1){
+        if (args.length != 1) {
             System.out.println("Bot token argument not defined");
             System.exit(1);
         }
         final String token = args[0];
-        logger.info("Initializing API context...");
-        ApiContextInitializer.init();
-        final TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(new CityGuideBot(token));
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
-        }
+        final var telegram = new Telegram();
+        final var cityGuideBot = new CityGuideBot(token);
+
+        cityGuideBot.setMessageHandler(message -> {
+            LOG.info("On new message. Recived new message {}", message );
+            if (message.hasText()) {
+                return Optional.of(message.getText());
+            }
+            if (message.hasLocation()) {
+                LOG.info("message has location");
+                return Optional.of(" Recive location " + message.getLocation().toString());
+            }
+            return Optional.empty();
+        });
+
+        telegram.startBot(cityGuideBot);
     }
 }
-
