@@ -26,21 +26,27 @@ dependencies {
 }
 
 shadowJar {
-    archiveBaseName.set('data-collector-service')
+  mergeServiceFiles()
+}
+
+task shadowJarShowPlaceCollector(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('showplace-collector-service')
     archiveVersion.set('0.1')
     archiveClassifier.set('')
     manifest {
-        attributes 'Main-Class': 'cityguide.backend.DataStorageExecutor'
+        attributes 'Main-Class': 'cityguide.backend.ShowPlaceDataCollector'
     }
+    from zipTree(shadowJar.archivePath)
 }
 
-shadowJar {
+task shadowJarGeoDataCollerctor(type: Jar, dependsOn: shadowJar) {
     archiveBaseName.set('geodata-collector-service')
     archiveVersion.set('0.1')
     archiveClassifier.set('')
     manifest {
         attributes 'Main-Class': 'cityguide.backend.GeoDataCollector'
     }
+    from zipTree(shadowJar.archivePath)
 }
 
 jacocoTestReport {
