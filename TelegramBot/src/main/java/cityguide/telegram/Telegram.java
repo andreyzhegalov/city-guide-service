@@ -10,7 +10,11 @@ public class Telegram {
         ApiContextInitializer.init();
     }
 
-    public void startBot(LongPollingBot bot) {
+    public static void ContextInitializer(){
+        ApiContextInitializer.init();
+    }
+
+    public static void startBot(LongPollingBot bot) {
         ApiContextInitializer.init();
         final TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {

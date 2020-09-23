@@ -16,7 +16,8 @@ public class Demo {
             System.exit(1);
         }
         final String token = args[0];
-        final var telegram = new Telegram();
+        Telegram.ContextInitializer();
+
         final var cityGuideBot = new CityGuideBot(token);
 
         cityGuideBot.setMessageHandler(message -> {
@@ -31,6 +32,6 @@ public class Demo {
             return Optional.empty();
         });
 
-        telegram.startBot(cityGuideBot);
+        Telegram.startBot(cityGuideBot);
     }
 }
