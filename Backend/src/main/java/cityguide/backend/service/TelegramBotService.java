@@ -1,9 +1,7 @@
 package cityguide.backend.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -17,6 +15,7 @@ import cityguide.telegram.Telegram;
 import cityguide.telegram.bot.TelegramBot;
 
 public class TelegramBotService {
+    private static final double SEARCH_RADIUS = 100; // meter
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     private final TelegramBot cityGuideBot;
     private final DataStorage dataStorage;
@@ -27,22 +26,26 @@ public class TelegramBotService {
         this.cityGuideBot.setMessageHandler(message -> {
             logger.info("On new message. Recived new message {}", message);
             if (message.hasText()) {
+                // echo for simple message
                 return Optional.of(message.getText());
             }
             if (message.hasLocation()) {
                 final Location location = message.getLocation();
-                final List<Double> coordinates = new ArrayList<>();
-                coordinates.add(Double.valueOf(location.getLatitude().toString()));
-                coordinates.add(Double.valueOf(location.getLongitude().toString()));
-                final GeoPosition geoPosition = new GeoPosition().setCoordinates(coordinates);
-                final List<ShowPlace> showPlaces = this.dataStorage.getNearest(geoPosition, 100);
-                final String responseMessage = (showPlaces.isEmpty()) ? "Ничего не найдено"
-                        : showPlaces.get(0).getDescriptionList().stream().map(data -> data.getInfo())
-                                .collect(Collectors.toList()).toString();
+                final GeoPosition geoPosition = new GeoPosition().setLatitude(location.getLatitude())
+                        .setLongitude(location.getLongitude());
+                final List<ShowPlace> showPlaces = this.dataStorage.getNearest(geoPosition, SEARCH_RADIUS);
+                final String responseMessage = makeResponseMessage(showPlaces);
                 return Optional.of(responseMessage);
             }
             return Optional.empty();
         });
+    }
+
+    private String makeResponseMessage(List<ShowPlace> showPlaces) {
+        // NOTE only first description at this time
+        return (showPlaces.isEmpty()) ? "Ничего не найдено"
+                : showPlaces.get(0).getDescriptionList().stream().map(data -> data.getInfo())
+                        .collect(Collectors.toList()).toString();
     }
 
     public void start() {

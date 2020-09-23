@@ -12,6 +12,7 @@ public class ShowPlace {
     @BsonProperty(value = "address_string")
     private String addressString;
     private GeoPosition location;
+    @BsonProperty(value = "description_list")
     private List<Description> descriptionList = new ArrayList<>();
 
     public ShowPlace() {

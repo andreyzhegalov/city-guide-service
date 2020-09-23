@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import cityguide.datastorage.contoroller.DbController;
-import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 

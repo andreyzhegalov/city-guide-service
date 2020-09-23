@@ -1,11 +1,16 @@
 package cityguide.datastorage.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GeoPosition {
-    private List<Double> coordinates = new ArrayList<>();
+    private List<Double> coordinates = new ArrayList<>(2);
     private String type = "Point";
+
+    public GeoPosition(){
+        coordinates = Arrays.asList(new Double[2]);
+    }
 
     public GeoPosition setCoordinates(List<Double> coordinates) {
         this.coordinates = coordinates;
@@ -21,29 +26,37 @@ public class GeoPosition {
         return this;
     }
 
-    public double getLatitude(){
-        if (! hasCoordinate()){
+    public double getLatitude() {
+        if (!hasCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(0);
     }
 
-    public double getLongitude(){
-        if (! hasCoordinate()){
+    public GeoPosition setLatitude(double latitude) {
+        coordinates.set(0, latitude);
+        return this;
+    }
+
+    public double getLongitude() {
+        if (!hasCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(1);
     }
 
-    private boolean hasCoordinate(){
+    public GeoPosition setLongitude(double longitude) {
+        coordinates.set(1, longitude);
+        return this;
+    }
+
+    private boolean hasCoordinate() {
         return coordinates.size() == 2;
     }
 
     @Override
     public String toString() {
-        return "GeoPosition{" +
-            "coordinates = " + getCoordinates() +
-            "}";
+        return "GeoPosition{" + "coordinates = " + getCoordinates() + "}";
     }
 
     public String getType() {

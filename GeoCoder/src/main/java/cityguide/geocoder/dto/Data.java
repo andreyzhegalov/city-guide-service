@@ -1,13 +1,15 @@
 package cityguide.geocoder.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Data {
     private String region;
     private String city;
     private String street;
     private String house;
     private String block;
-    private double geo_lat;
-    private double geo_lon;
+    private double latitude;
+    private double longitude;
 
     public Data() {
     }
@@ -52,27 +54,34 @@ public class Data {
         return block;
     }
 
-    public void setGeo_lat(double geo_lat) {
-        this.geo_lat = geo_lat;
+    @JsonProperty("geo_lat")
+    public void setLatitude(double geo_lat) {
+        this.latitude = geo_lat;
     }
 
-    public double getGeo_lat() {
-        return geo_lat;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setGeo_lon(double geo_lon) {
-        this.geo_lon = geo_lon;
+    @JsonProperty("geo_lon")
+    public void setLongitude(double geo_lon) {
+        this.longitude = geo_lon;
     }
 
-    public double getGeo_lon() {
-        return geo_lon;
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override
     public String toString() {
-        return "Data{" + "region = " + getRegion() + ", city = " + getCity() + ", street = " + getStreet()
-                + ", house = " + getHouse() + ", block = " + getBlock() + ", geo_lat = " + getGeo_lat() + ", geo_lon = "
-                + getGeo_lon() + "}";
+        final StringBuilder sb = new StringBuilder("Data{");
+        sb.append("region = ").append(getRegion());
+        sb.append(", city = ").append(getCity());
+        sb.append(", street = ").append(getStreet());
+        sb.append(", house = ").append(getHouse());
+        sb.append(", block = ").append(getBlock());
+        sb.append(", latitude = ").append(getLatitude());
+        sb.append(", longitude = ").append(getLongitude());
+        return sb.append("}").toString();
     }
 }
-

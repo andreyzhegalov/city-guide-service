@@ -41,8 +41,8 @@ public class GeoDataCollectorService implements DataCollectorService {
     }
 
     private void fillShowPlace(ShowPlace showPlace, Data data) {
-        final GeoPosition geoPosition = new GeoPosition()
-                .setCoordinates(Arrays.asList(data.getGeo_lat(), data.getGeo_lon()));
+        final GeoPosition geoPosition = new GeoPosition().setLatitude(data.getLatitude())
+                .setLongitude(data.getLongitude());
         showPlace.setLocation(geoPosition);
         showPlace.setAdress(new Address().setCity(data.getCity()).setStreet(data.getStreet()).setHouse(data.getHouse())
                 .setBlock(data.getBlock()));
