@@ -17,6 +17,7 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-slf4j-impl'
 
     compile 'org.telegram:telegrambots:4.9.1'
+    implementation 'com.google.guava:guava'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

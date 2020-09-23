@@ -1,5 +1,10 @@
 package cityguide.telegram.bot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Splitter;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -8,13 +13,15 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class CityGuideBot extends TelegramLongPollingBot {
-    private static final Logger LOG = LogManager.getLogger(CityGuideBot.class);
+public class TelegramBot extends TelegramLongPollingBot {
+    private static final Logger LOG = LogManager.getLogger(TelegramBot.class);
     private final String botToken;
+    private final String botName;
     private MessageHandler messageHandler;
 
-    public CityGuideBot(String token) {
+    public TelegramBot(String botName, String token) {
         this.botToken = token;
+        this.botName = botName;
     }
 
     public void setMessageHandler(MessageHandler messageHandler) {
@@ -23,7 +30,7 @@ public class CityGuideBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "CityGuide2020Bot";
+        return botName;
     }
 
     @Override
@@ -37,11 +44,15 @@ public class CityGuideBot extends TelegramLongPollingBot {
             if (mayBeResponse.isEmpty()) {
                 return;
             }
-            sendMessage(update.getMessage().getChatId().toString(), mayBeResponse.get().toString());
+            final var messageList = splitMessage(mayBeResponse.get().toString());
+            final var chatId = message.getChatId().toString();
+            for (final var partOfMessage : messageList) {
+                sendMessage(chatId, partOfMessage);
+            }
         }
     }
 
-    public synchronized void sendMessage(String chatId, String s) {
+    public void sendMessage(String chatId, String s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
@@ -52,6 +63,14 @@ public class CityGuideBot extends TelegramLongPollingBot {
             e.printStackTrace();
             LOG.error("Exception: {}", e.toString());
         }
+    }
+
+    private List<String> splitMessage(String message) {
+        final var messageList = new ArrayList<String>();
+        for (final String chunk : Splitter.fixedLength(MessageHandler.MAX_RESPONSE_MESSAGE_LENGTH).split(message)) {
+            messageList.add(chunk);
+        }
+        return messageList;
     }
 
     @Override

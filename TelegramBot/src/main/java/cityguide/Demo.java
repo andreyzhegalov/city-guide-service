@@ -6,10 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cityguide.telegram.Telegram;
-import cityguide.telegram.bot.CityGuideBot;
+import cityguide.telegram.bot.TelegramBot;
 
 public class Demo {
-    private static final Logger LOG = LogManager.getLogger(CityGuideBot.class);
+    private static final Logger LOG = LogManager.getLogger(TelegramBot.class);
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Bot token argument not defined");
@@ -18,7 +18,7 @@ public class Demo {
         final String token = args[0];
         Telegram.initContext();
 
-        final var cityGuideBot = new CityGuideBot(token);
+        final var cityGuideBot = new TelegramBot("CityGuide2020Bot", token);
 
         cityGuideBot.setMessageHandler(message -> {
             LOG.info("On new message. Recived new message {}", message );

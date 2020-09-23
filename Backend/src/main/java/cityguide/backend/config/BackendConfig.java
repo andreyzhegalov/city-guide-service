@@ -10,7 +10,7 @@ import cityguide.datastorage.contoroller.DbController;
 import cityguide.datastorage.contoroller.MongoController;
 import cityguide.geocoder.GeoCoder;
 import cityguide.telegram.Telegram;
-import cityguide.telegram.bot.CityGuideBot;
+import cityguide.telegram.bot.TelegramBot;
 
 
 @Configuration
@@ -22,12 +22,12 @@ public class BackendConfig {
 
     @Bean
     public DbController dbController(){
-        return new MongoController("mongodb://172.17.0.3");
+        return new MongoController("mongourl");
     }
 
     @Bean
     public GeoCoder geoCoder(){
-        // return new GeoCoder("token");
+        return new GeoCoder("token");
     }
 
     @Bean(destroyMethod = "closeDb")
@@ -36,9 +36,9 @@ public class BackendConfig {
     }
 
     @Bean
-    public CityGuideBot cityGuideBot(){
+    public TelegramBot cityGuideBot(){
         Telegram.initContext();
-        // return new CityGuideBot("token");
+        return new TelegramBot("CityGuide2020Bot", "token");
     }
 }
 
