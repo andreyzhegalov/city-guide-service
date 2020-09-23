@@ -9,6 +9,8 @@ import cityguide.datastorage.DataStorageImpl;
 import cityguide.datastorage.contoroller.DbController;
 import cityguide.datastorage.contoroller.MongoController;
 import cityguide.geocoder.GeoCoder;
+import cityguide.telegram.Telegram;
+import cityguide.telegram.bot.CityGuideBot;
 
 
 @Configuration
@@ -25,11 +27,18 @@ public class BackendConfig {
 
     @Bean
     public GeoCoder geoCoder(){
+        // return new GeoCoder("token");
     }
 
     @Bean(destroyMethod = "closeDb")
     public DataStorage dataStorage(DbController dbController){
         return new DataStorageImpl(dbController);
+    }
+
+    @Bean
+    public CityGuideBot cityGuideBot(){
+        Telegram.initContext();
+        // return new CityGuideBot("token");
     }
 }
 

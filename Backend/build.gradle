@@ -16,6 +16,11 @@ dependencies {
     implementation project(':GeoCoder')
     implementation project(':TelegramBot')
 
+    implementation("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
+    implementation("org.mongodb:bson:${Versions.mongodb}")
+    implementation("org.mongodb:mongodb-driver:${Versions.mongodb}")
+
+
     implementation 'org.springframework:spring-context'
     implementation 'ch.qos.logback:logback-classic'
 

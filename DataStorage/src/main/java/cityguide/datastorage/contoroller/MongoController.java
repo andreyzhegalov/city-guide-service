@@ -26,7 +26,6 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 
@@ -39,7 +38,7 @@ public class MongoController implements DbController {
     private final MongoDatabase database;
 
     public MongoController(String mongoUrl) {
-        logger.info("Connect to MongoDb by address {}", mongoUrl );
+        logger.info("Connect to MongoDb by address {}", mongoUrl);
         final ConnectionString connectionString = new ConnectionString(mongoUrl);
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
@@ -81,7 +80,7 @@ public class MongoController implements DbController {
 
     @Override
     public Optional<ShowPlace> getData(ShowPlace showPlace) {
-        if (showPlace == null){
+        if (showPlace == null) {
             return Optional.empty();
         }
         final var findedShowPlace = showPlaceCollection.find(eq("address_string", showPlace.getAddressString()));

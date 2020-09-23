@@ -10,7 +10,7 @@ public class Telegram {
         ApiContextInitializer.init();
     }
 
-    public static void ContextInitializer(){
+    public static void initContext(){
         ApiContextInitializer.init();
     }
 

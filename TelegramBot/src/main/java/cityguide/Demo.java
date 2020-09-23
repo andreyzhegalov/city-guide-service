@@ -16,7 +16,7 @@ public class Demo {
             System.exit(1);
         }
         final String token = args[0];
-        Telegram.ContextInitializer();
+        Telegram.initContext();
 
         final var cityGuideBot = new CityGuideBot(token);
 

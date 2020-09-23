@@ -26,7 +26,7 @@ public class MongoContorollerTest {
 
     @AfterAll
     public static void afterAll(){
-        mongoContoroller.closeClient();
+        mongoContoroller.closeDb();
     }
 
     @Test
@@ -58,7 +58,7 @@ public class MongoContorollerTest {
                 .setLocation(new GeoPosition().setCoordinates(Arrays.asList(0.0, 0.0)));
         mongoContoroller.insertUpdateData(showPlace);
 
-        final Optional<ShowPlace> mayBeShowPlace = mongoContoroller.getData(address);
+        final Optional<ShowPlace> mayBeShowPlace = mongoContoroller.getData(showPlace);
         assertThat(mayBeShowPlace).isNotEmpty();
         assertThat(mayBeShowPlace.get().getLocation().getCoordinates()).isEqualTo(Arrays.asList(0.0, 0.0));
     }
@@ -77,7 +77,7 @@ public class MongoContorollerTest {
 
         assertThat(mongoContoroller.getAllData().size()).isEqualTo(1);
 
-        final var updatedData = mongoContoroller.getData(address);
+        final var updatedData = mongoContoroller.getData(showPlace);
         assertThat(updatedData).isPresent();
         assertThat(updatedData.get().getLocation().getCoordinates()).isEqualTo(Arrays.asList(1.0, 1.0));
     }
