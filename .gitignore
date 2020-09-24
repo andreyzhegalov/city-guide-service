@@ -45,4 +45,4 @@ gradlew.bat
 
 **/bin/*
 *.prefs
-
+backend.properties
