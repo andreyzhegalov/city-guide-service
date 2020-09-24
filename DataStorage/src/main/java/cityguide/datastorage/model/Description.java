@@ -2,7 +2,7 @@ package cityguide.datastorage.model;
 
 public class Description {
     private String title;
-    private String yearOfConstructon;
+    private String yearOfConstruction;
     private String architect;
     private String info;
 
@@ -14,13 +14,13 @@ public class Description {
         return title;
     }
 
-    public Description setYearOfConstruction(String yearOfConstructon) {
-        this.yearOfConstructon = yearOfConstructon;
+    public Description setYearOfConstruction(String yearOfConstruction) {
+        this.yearOfConstruction = yearOfConstruction;
         return this;
     }
 
-    public String getYearOfConstructon() {
-        return yearOfConstructon;
+    public String getYearOfConstruction() {
+        return yearOfConstruction;
     }
 
     public Description setArchitect(String architect) {
@@ -45,7 +45,7 @@ public class Description {
     public String toString() {
         return "Description{" +
             "title = " + getTitle() +
-            ", yearOfConstructon = " + getYearOfConstructon() +
+            ", yearOfConstructon = " + getYearOfConstruction() +
             ", architect = " + getArchitect() +
             ", info = " + getInfo() +
             "}";

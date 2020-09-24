@@ -64,7 +64,7 @@ class CommonTest {
 
 
     @Test
-    public void pojoShowPlaceInsertTest() {
+    public void commonTest() {
         final var address1 = new Address().setStreet("new street1").setHouse("1").setBlock("1");
         final var showPlace1 = new ShowPlace()
             .setAdress(address1)
