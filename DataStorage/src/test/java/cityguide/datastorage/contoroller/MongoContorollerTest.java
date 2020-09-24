@@ -17,7 +17,7 @@ import cityguide.datastorage.model.ShowPlace;
 
 public class MongoContorollerTest {
     private final static String MONGO_URL = "mongodb://172.17.0.3";
-    private final static MongoController mongoContoroller = new MongoController(MONGO_URL);
+    private final static MongoController mongoContoroller = new MongoController(MONGO_URL, "cityguide-db-test");
 
     @AfterEach
     public void tearDown() {

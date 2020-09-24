@@ -20,6 +20,9 @@ public class BackendConfig {
     @Value("${mongo.url}")
     private String mongoUrl;
 
+    @Value("${mongo.db.name}")
+    private String mongoDbName;
+
     @Value("${geocoder.token}")
     private String geoCoderToken;
 
@@ -36,7 +39,7 @@ public class BackendConfig {
 
     @Bean
     public DbController dbController() {
-        return new MongoController(mongoUrl);
+        return new MongoController(mongoUrl, mongoDbName);
     }
 
     @Bean

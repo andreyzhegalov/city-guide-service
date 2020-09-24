@@ -1,6 +1,0 @@
-mongo:
-  url: mongodb://172.17.0.3
-
-logging:
-    level:
-        root: DEBUG

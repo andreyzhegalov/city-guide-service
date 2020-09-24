@@ -31,13 +31,13 @@ import cityguide.datastorage.model.ShowPlace;
 
 public class MongoController implements DbController {
     private final static Logger logger = LoggerFactory.getLogger(MongoController.class);
-    private static final String MONGO_DATABASE_NAME = "mongo-db-showplace";
     private static final String MONGO_COLLECTION_NAME = "showplace";
     private final MongoClient mongoClient;
     private final MongoCollection<ShowPlace> showPlaceCollection;
 
-    public MongoController(String mongoUrl) {
+    public MongoController(String mongoUrl, String mongoDbName) {
         logger.info("Connect to MongoDb by address {}", mongoUrl);
+
         final ConnectionString connectionString = new ConnectionString(mongoUrl);
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
@@ -46,7 +46,7 @@ public class MongoController implements DbController {
                 .codecRegistry(codecRegistry).build();
 
         this.mongoClient = MongoClients.create(clientSettings);
-        final MongoDatabase database = mongoClient.getDatabase(MONGO_DATABASE_NAME);
+        final MongoDatabase database = mongoClient.getDatabase(mongoDbName);
         this.showPlaceCollection = database.getCollection(MONGO_COLLECTION_NAME, ShowPlace.class);
         this.showPlaceCollection.createIndex(Indexes.geo2dsphere("location"));
     }
