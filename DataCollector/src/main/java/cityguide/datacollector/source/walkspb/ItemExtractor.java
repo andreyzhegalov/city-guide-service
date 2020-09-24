@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class ItemExtactor {
+public class ItemExtractor {
     public List<URL> getItemUrl(URL pageWithItem) {
         final Document doc;
         try {

@@ -21,13 +21,13 @@ public class Demo {
         final var cityGuideBot = new TelegramBot("CityGuide2020Bot", token);
 
         cityGuideBot.setMessageHandler(message -> {
-            LOG.info("On new message. Recived new message {}", message );
+            LOG.info("On new message. Received new message {}", message );
             if (message.hasText()) {
                 return Optional.of(message.getText());
             }
             if (message.hasLocation()) {
                 LOG.info("message has location");
-                return Optional.of(" Recive location " + message.getLocation().toString());
+                return Optional.of(" Receive location " + message.getLocation().toString());
             }
             return Optional.empty();
         });

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GeoPosition {
-    private List<Double> coordinates = new ArrayList<>(2);
+    private List<Double> coordinates;
     private String type = "Point";
 
     public GeoPosition(){

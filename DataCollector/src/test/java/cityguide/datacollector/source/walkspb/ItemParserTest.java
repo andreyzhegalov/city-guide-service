@@ -11,7 +11,7 @@ public class ItemParserTest {
     private final static String testUrl = "https://walkspb.ru/istoriya-peterburga/zd/millionnaya22";
 
     @Test
-    public void parseAdressTest() throws MalformedURLException{
+    public void parseAddressTest() throws MalformedURLException{
         final var addressList =  new ItemParser(new URL(testUrl)).getAddresses();
         assertThat(addressList.size()).isEqualTo(3);
     }

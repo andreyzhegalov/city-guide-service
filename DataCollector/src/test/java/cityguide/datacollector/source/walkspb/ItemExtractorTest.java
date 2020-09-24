@@ -11,7 +11,7 @@ public class ItemExtractorTest {
     @Test
     public void getItemsUrlTest() throws MalformedURLException{
         final var pageWithItem = new URL("https://walkspb.ru/istoriya-peterburga/zd?start=20");
-        assertThat(new ItemExtactor().getItemUrl(pageWithItem)).hasSize(20);
+        assertThat(new ItemExtractor().getItemUrl(pageWithItem)).hasSize(20);
     }
 }
 

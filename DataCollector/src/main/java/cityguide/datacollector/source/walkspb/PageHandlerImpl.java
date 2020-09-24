@@ -53,7 +53,7 @@ public class PageHandlerImpl implements PageHandler {
         if (index == -1) {
             return 0;
         }
-        final String numString = urlString.substring(index + pageParameter.length(), urlString.length());
+        final String numString = urlString.substring(index + pageParameter.length());
         return Integer.parseInt(numString) / WalkspbBuilding.getItemOnPage();
     }
 }

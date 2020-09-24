@@ -47,11 +47,10 @@ public class Address {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Address{");
-        sb.append("city = ").append(getCity());
-        sb.append(", house = ").append(getHouse());
-        sb.append(", street = ").append(getStreet());
-        sb.append(", block = ").append(getBlock());
-        return sb.append("}").toString();
+        return "Address{" + "city = " + getCity() +
+                ", house = " + getHouse() +
+                ", street = " + getStreet() +
+                ", block = " + getBlock() +
+                "}";
     }
 }

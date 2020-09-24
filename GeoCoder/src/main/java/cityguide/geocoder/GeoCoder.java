@@ -24,9 +24,8 @@ public class GeoCoder {
         final var personJsonObject = new JSONObject();
         personJsonObject.put("query", objectAddress);
 
-        final HttpEntity<String> request = new HttpEntity<String>(makeRequestBody(objectAddress), makeHeader());
-        final SuggestionsList response = restTemplate.postForObject(URL, request, SuggestionsList.class);
-        return response;
+        final HttpEntity<String> request = new HttpEntity<>(makeRequestBody(objectAddress), makeHeader());
+        return restTemplate.postForObject(URL, request, SuggestionsList.class);
     }
 
     private HttpHeaders makeHeader() {

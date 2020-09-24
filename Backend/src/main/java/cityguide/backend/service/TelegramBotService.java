@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import cityguide.datastorage.model.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Location;
@@ -44,7 +45,7 @@ public class TelegramBotService {
     private String makeResponseMessage(List<ShowPlace> showPlaces) {
         // NOTE only first description at this time
         return (showPlaces.isEmpty()) ? "Ничего не найдено"
-                : showPlaces.get(0).getDescriptionList().stream().map(data -> data.getInfo())
+                : showPlaces.get(0).getDescriptionList().stream().map(Description::getInfo)
                         .collect(Collectors.toList()).toString();
     }
 

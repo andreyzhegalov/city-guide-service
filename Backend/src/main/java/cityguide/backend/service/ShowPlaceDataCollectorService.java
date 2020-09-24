@@ -27,10 +27,8 @@ public class ShowPlaceDataCollectorService implements DataCollectorService {
     @Override
     public void loadData() {
         dataCollector.setCallback((data) -> {
-            logger.debug("recived data from DataCollector for address : {}", data.getAddress());
-            convert(data).forEach(showPlace -> {
-                dataStorage.insertUpdateData(showPlace);
-            });
+            logger.debug("received data from DataCollector for address : {}", data.getAddress());
+            convert(data).forEach(dataStorage::insertUpdateData);
         });
         dataCollector.start();
     }

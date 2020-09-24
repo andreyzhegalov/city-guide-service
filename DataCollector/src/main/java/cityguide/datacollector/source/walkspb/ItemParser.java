@@ -11,11 +11,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class ItemParser {
-    private final URL itemUrl;
     private final Document document;
 
     public ItemParser(URL itemUrl) {
-        this.itemUrl = itemUrl;
         try {
             this.document = Jsoup.connect(itemUrl.toString()).get();
         } catch (IOException e) {
@@ -27,12 +25,12 @@ public class ItemParser {
         final var addressList = new ArrayList<String>();
         final Elements addr = document.select("div.addr>div");
         for (Element item : addr) {
-            String address = new String();
+            StringBuilder address = new StringBuilder();
             final Elements spans = item.select("span");
             for (final var span : spans) {
-                address += span.text();
+                address.append(span.text());
             }
-            addressList.add(addCity(address));
+            addressList.add(addCity(address.toString()));
         }
         return addressList;
     }
@@ -44,8 +42,7 @@ public class ItemParser {
             sb.append(p.text());
             sb.append("\n");
         }
-        final var descriptionText = sb.toString();
-        return descriptionText;
+        return sb.toString();
     }
 
     private String addCity(String address) {

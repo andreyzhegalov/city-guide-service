@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DataCollectorTest {
-    private static Logger logger = LoggerFactory.getLogger(DataCollectorTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataCollectorTest.class);
 
     @Test
     @Disabled
@@ -17,7 +17,7 @@ public class DataCollectorTest {
         dataCollector.start();
     }
 
-    class CallbackTest implements Consumer<DataType> {
+    static class CallbackTest implements Consumer<DataType> {
         @Override
         public void accept(DataType t) {
             logger.info("callback invoke with arg ");

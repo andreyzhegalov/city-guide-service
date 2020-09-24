@@ -14,7 +14,7 @@ public class Description {
         return title;
     }
 
-    public Description setYearOfConstructon(String yearOfConstructon) {
+    public Description setYearOfConstruction(String yearOfConstructon) {
         this.yearOfConstructon = yearOfConstructon;
         return this;
     }

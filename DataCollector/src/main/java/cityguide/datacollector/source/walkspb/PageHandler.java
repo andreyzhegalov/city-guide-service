@@ -9,6 +9,6 @@ public interface PageHandler {
 
     Optional<URL> getNextPage(URL currentPage);
 
-    public URL getLastPage();
+    URL getLastPage();
 }
 

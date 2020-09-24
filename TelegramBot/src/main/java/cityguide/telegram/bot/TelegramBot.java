@@ -44,7 +44,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (mayBeResponse.isEmpty()) {
                 return;
             }
-            final var messageList = splitMessage(mayBeResponse.get().toString());
+            final var messageList = splitMessage(mayBeResponse.get());
             final var chatId = message.getChatId().toString();
             for (final var partOfMessage : messageList) {
                 sendMessage(chatId, partOfMessage);

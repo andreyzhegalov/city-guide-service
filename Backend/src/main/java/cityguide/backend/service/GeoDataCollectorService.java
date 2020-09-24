@@ -1,17 +1,14 @@
 package cityguide.backend.service;
 
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import cityguide.datastorage.DataStorage;
 import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 import cityguide.geocoder.GeoCoder;
 import cityguide.geocoder.dto.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GeoDataCollectorService implements DataCollectorService {
@@ -29,7 +26,7 @@ public class GeoDataCollectorService implements DataCollectorService {
         final var allShowPlace = dataStorage.getAllData();
         for (final var showPlace : allShowPlace) {
             final var suggestionList = geoCoder.getSuggestions(showPlace.getAddressString());
-            logger.debug("Recived suggestions {}", suggestionList);
+            logger.debug("Received suggestions {}", suggestionList);
             if (suggestionList.getSuggestions().isEmpty()) {
                 continue;
             }
@@ -50,7 +47,7 @@ public class GeoDataCollectorService implements DataCollectorService {
 
     private void sleep() {
         try {
-            Thread.sleep(getRandomNumber(1 * 1_000, 3 * 1_000));
+            Thread.sleep(getRandomNumber(1_000, 3 * 1_000));
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
             Thread.currentThread().interrupt();
