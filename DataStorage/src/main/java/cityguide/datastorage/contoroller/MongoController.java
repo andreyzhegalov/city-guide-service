@@ -62,7 +62,7 @@ public class MongoController implements DbController {
 
     @Override
     public void insertUpdateData(ShowPlace showPlace) {
-        final var foundShowPlace = getData(showPlace);
+        final var foundShowPlace = getData(showPlace.getAddressString());
         if (foundShowPlace.isEmpty()) {
             showPlaceCollection.insertOne(showPlace);
         } else {
@@ -78,15 +78,15 @@ public class MongoController implements DbController {
     }
 
     @Override
-    public Optional<ShowPlace> getData(ShowPlace showPlace) {
-        if (showPlace == null) {
+    public Optional<ShowPlace> getData(String address) {
+        if (address == null) {
             return Optional.empty();
         }
-        final var foundShowPlace = showPlaceCollection.find(eq("address_string", showPlace.getAddressString()));
+        final var foundShowPlace = showPlaceCollection.find(eq("address_string", address));
         final var listShowPlace = toList(foundShowPlace);
         if (listShowPlace.size() > 1) {
             throw new MongolControllerException(
-                    "Internal error. More than one showplace with address " + showPlace.getAddressString());
+                    "Internal error. More than one showplace with address " + address);
         }
         return (listShowPlace.isEmpty()) ? Optional.empty() : Optional.of(listShowPlace.get(0));
     }

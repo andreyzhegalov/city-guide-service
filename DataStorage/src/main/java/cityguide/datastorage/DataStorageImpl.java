@@ -20,8 +20,8 @@ public class DataStorageImpl implements DataStorage {
     }
 
     @Override
-    public Optional<ShowPlace> getData(ShowPlace showPlace) {
-        return dbController.getData(showPlace);
+    public Optional<ShowPlace> getData(String address) {
+        return dbController.getData(address);
     }
 
     @Override
