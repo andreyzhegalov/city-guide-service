@@ -1,19 +1,17 @@
 package cityguide.datastorage.contoroller;
 
 import java.util.List;
-import java.util.Optional;
 
-import cityguide.datastorage.model.GeoPosition;
-import cityguide.datastorage.model.ShowPlace;
+import org.bson.Document;
 
-public interface DbController {
-    void insertUpdateData(ShowPlace showPlace);
+public interface DbController<T> {
+    public void insertData(T data);
 
-    Optional<ShowPlace> getData(ShowPlace showPlace);
+    public void updateData(T data, Document filter);
 
-    List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
+    public List<T> getData(Document filter);
 
-    List<ShowPlace> getAllData();
+    public List<T> getAllData();
 
     void closeDb();
 }

@@ -8,8 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 import cityguide.datacollector.DataCollector;
 import cityguide.datastorage.DataStorage;
 import cityguide.datastorage.DataStorageImpl;
-import cityguide.datastorage.contoroller.DbController;
-import cityguide.datastorage.contoroller.MongoController;
+import cityguide.datastorage.contoroller.MongoGeoDbController;
+import cityguide.datastorage.contoroller.GeoDbController;
+import cityguide.datastorage.model.ShowPlace;
 import cityguide.geocoder.GeoCoder;
 import cityguide.telegram.Telegram;
 import cityguide.telegram.bot.TelegramBot;
@@ -22,6 +23,9 @@ public class BackendConfig {
 
     @Value("${mongo.db.name}")
     private String mongoDbName;
+
+    @Value("${mongo.collection.name}")
+    private String mongoCollectionName;
 
     @Value("${geocoder.token}")
     private String geoCoderToken;
@@ -38,8 +42,10 @@ public class BackendConfig {
     }
 
     @Bean
-    public DbController dbController() {
-        return new MongoController(mongoUrl, mongoDbName);
+    public GeoDbController<ShowPlace> dbController() {
+        final var geoController = new MongoGeoDbController<ShowPlace>(mongoUrl);
+        geoController.loadData(mongoDbName, mongoCollectionName, ShowPlace.class);
+        return geoController;
     }
 
     @Bean
@@ -48,7 +54,7 @@ public class BackendConfig {
     }
 
     @Bean(destroyMethod = "closeDb")
-    public DataStorage dataStorage(DbController dbController) {
+    public DataStorage dataStorage(GeoDbController<ShowPlace> dbController) {
         return new DataStorageImpl(dbController);
     }
 

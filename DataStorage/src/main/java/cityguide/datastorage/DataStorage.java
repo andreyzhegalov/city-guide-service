@@ -9,7 +9,7 @@ import cityguide.datastorage.model.ShowPlace;
 public interface DataStorage {
     void insertUpdateData(ShowPlace showPlace);
 
-    Optional<ShowPlace> getData(ShowPlace showPlace);
+    Optional<ShowPlace> getData(String address);
 
     List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
 
