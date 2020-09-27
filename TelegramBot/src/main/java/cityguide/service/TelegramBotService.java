@@ -34,7 +34,7 @@ public class TelegramBotService {
         }
         if (message.hasLocation()) {
             final Location location = message.getLocation();
-            restController.sendPost(location.getLatitude(), location.getLongitude(), SEARCH_RADIUS);
+            return restController.sendGet(location.getLatitude(), location.getLongitude(), SEARCH_RADIUS);
         }
         return Optional.empty();
     }
