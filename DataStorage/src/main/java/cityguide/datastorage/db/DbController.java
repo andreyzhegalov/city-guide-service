@@ -1,4 +1,4 @@
-package cityguide.datastorage.contoroller;
+package cityguide.datastorage.db;
 
 import java.util.List;
 

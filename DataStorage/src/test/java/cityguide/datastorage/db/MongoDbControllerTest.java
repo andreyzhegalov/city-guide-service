@@ -1,4 +1,4 @@
-package cityguide.datastorage.contoroller;
+package cityguide.datastorage.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;

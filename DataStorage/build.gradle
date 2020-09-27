@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'war'
     id 'jacoco'
 }
 
@@ -8,12 +8,31 @@ targetCompatibility = JavaVersion.VERSION_13
 
 group 'city.guide'
 
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
 dependencies {
-    implementation("ch.qos.logback:logback-classic")
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'ch.qos.logback:logback-core'
+
     implementation("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
     implementation("org.mongodb:bson:${Versions.mongodb}")
     implementation("org.mongodb:mongodb-driver:${Versions.mongodb}")
+
     implementation("com.fasterxml.jackson.core:jackson-databind")
+
+    // implementation 'org.springframework:spring-context'
+    // implementation 'org.springframework:spring-webmvc'
+    // implementation 'org.springframework:spring-web'
+    providedCompile 'javax.servlet:javax.servlet-api'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

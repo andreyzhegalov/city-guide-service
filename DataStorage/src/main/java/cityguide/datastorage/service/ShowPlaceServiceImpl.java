@@ -1,19 +1,22 @@
-package cityguide.datastorage;
+package cityguide.datastorage.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.springframework.stereotype.Service;
 
+import cityguide.datastorage.DataStorageException;
 import cityguide.datastorage.db.GeoDbController;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 
 
-public class DataStorageImpl implements DataStorage {
+@Service
+public class ShowPlaceServiceImpl implements ShowPlaceService {
     private final GeoDbController<ShowPlace> geoController;
 
-    public DataStorageImpl(GeoDbController<ShowPlace> geoController) {
+    public ShowPlaceServiceImpl(GeoDbController<ShowPlace> geoController) {
         this.geoController = geoController;
     }
 
@@ -50,8 +53,4 @@ public class DataStorageImpl implements DataStorage {
         return geoController.getAllData();
     }
 
-    @Override
-    public void closeDb() {
-        geoController.closeDb();
-    }
 }

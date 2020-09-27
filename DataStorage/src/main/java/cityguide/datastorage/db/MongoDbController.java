@@ -1,4 +1,4 @@
-package cityguide.datastorage.contoroller;
+package cityguide.datastorage.db;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
