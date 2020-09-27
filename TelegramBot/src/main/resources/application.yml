@@ -1,0 +1,11 @@
+cityguide:
+ telegram:
+     name: CityGuide2020Bot
+     token: none
+
+logging:
+    level:
+        root: ERROR
+        cityguide: DEBUG
+        org.springframework.web: DEBUG
+        org.telegram.telegrambots: DEBUG
