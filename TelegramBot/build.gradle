@@ -1,7 +1,5 @@
 plugins {
     id 'java'
-    // id 'jacoco'
-    // id 'com.github.johnrengelman.shadow'
     id 'org.springframework.boot' version '2.3.1.RELEASE'
 }
 
@@ -13,11 +11,6 @@ group 'city.guide'
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-    // compile 'commons-logging:commons-logging:1.2'
-    // compile 'org.apache.logging.log4j:log4j-api'
-    // compile 'org.apache.logging.log4j:log4j-core'
-    // compile 'org.apache.logging.log4j:log4j-slf4j-impl'
-
     compile 'org.telegram:telegrambots:4.9.1'
     implementation 'com.google.guava:guava'
 
@@ -26,22 +19,6 @@ dependencies {
     testImplementation group: 'org.assertj', name: 'assertj-core'
 }
 
-// shadowJar {
-//     archiveBaseName.set('telegram-bot-demo')
-//     archiveVersion.set('0.1')
-//     archiveClassifier.set('')
-//     manifest {
-//         attributes 'Main-Class': 'cityguide.Demo'
-//     }
-// }
-
-// jacocoTestReport {
-//     reports {
-//         xml.enabled true
-//         html.enabled true
-//     }
-// }
-
 test {
     useJUnitPlatform()
     testLogging {
@@ -49,4 +26,3 @@ test {
     }
 }
 
-// check.dependsOn jacocoTestReport

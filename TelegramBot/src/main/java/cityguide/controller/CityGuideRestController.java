@@ -26,7 +26,7 @@ public class CityGuideRestController {
     }
 
     public Optional<String> sendGet(Float latitude, Float longitude, int searchRadius) {
-        logger.info("invoked sendPost lat {} lon {} searchRadius {}", latitude, longitude, searchRadius);
+        logger.info("invoked sendGet lat {} lon {} searchRadius {}", latitude, longitude, searchRadius);
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder

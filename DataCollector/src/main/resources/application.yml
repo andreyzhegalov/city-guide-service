@@ -1,0 +1,10 @@
+cityguide:
+ restserver:
+     url: http://192.168.1.139:8080/DataStorage/
+     showplaces-uri: api/showplaces
+
+logging:
+    level:
+        root: ERROR
+        cityguide: DEBUG
+        org.springframework.web: DEBUG
