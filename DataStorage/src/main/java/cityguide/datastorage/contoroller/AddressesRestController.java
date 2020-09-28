@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cityguide.datastorage.dto.AddressDto;
+import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.service.ShowPlaceService;
 
 @RestController
@@ -38,7 +39,17 @@ public class AddressesRestController {
     @RequestMapping(value = {
             "/api/addresses" }, method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public void postAddress(@RequestBody AddressDto newAddressData) {
-        logger.info("recive new address data {}", newAddressData);
-        // showPlaceService.insertUpdateShowplace(newAddressData.toShowPlace());
+        final var mayBeShowPlace = showPlaceService.getShowPlace(newAddressData.getAddress());
+        if( mayBeShowPlace.isEmpty())
+        {
+            return;
+        }
+        final var geoPosition = new GeoPosition();
+        geoPosition.setLatitude(newAddressData.getLatitude());
+        geoPosition.setLongitude(newAddressData.getLongitude());
+
+        final var showPlace = mayBeShowPlace.get();
+        showPlace.setLocation(geoPosition);
+        showPlaceService.insertUpdateShowplace(showPlace);
     }
 }

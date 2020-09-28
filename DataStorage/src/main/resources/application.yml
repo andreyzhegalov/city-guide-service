@@ -1,11 +1,11 @@
 mongo.url: mongodb://172.17.0.3
-mongo.db: mongo-db-showplace-test1
+mongo.db: mongo-db-showplace
 mongo.collection: showplace
 
 
 mongo:
     url: mongodb://172.17.0.3
-    db: mongo-db-showplace-test1
+    db: mongo-db-showplace
     collection: showplace
 
 logging:

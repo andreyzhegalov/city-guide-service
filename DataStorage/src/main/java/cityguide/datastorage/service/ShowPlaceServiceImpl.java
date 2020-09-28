@@ -34,10 +34,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
             geoController.insertData(showPlace);
             return;
         }
-
-        if (showPlaceList.get(0).getLocation() == null) {
-            geoController.updateData(showPlace, filter);
-        }
+        geoController.updateData(showPlace, filter);
     }
 
     @Override

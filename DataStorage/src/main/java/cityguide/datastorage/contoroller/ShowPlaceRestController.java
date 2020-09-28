@@ -30,6 +30,7 @@ public class ShowPlaceRestController {
             "radius" }, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public String getShowplace(@RequestParam(name = "lat") Double latiude, @RequestParam(name = "lon") Double longitude,
             @RequestParam(name = "radius", defaultValue = "100") int searchRadius) {
+        logger.info("GET /api/showplaces with  lat = {} lon = {}", latiude, longitude);
         final GeoPosition geoPosition = new GeoPosition().setLatitude(latiude).setLongitude(longitude);
         final List<ShowPlace> showPlaces = showPlaceService.getNearest(geoPosition, searchRadius);
         final String responseMessage = makeResponseMessage(showPlaces);
