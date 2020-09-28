@@ -26,10 +26,8 @@ public class ShowPlaceRestController {
         this.showPlaceService = showPlaceService;
     }
 
-    @RequestMapping(value = {
-            "/api/showplaces" },
-            params = { "lat", "lon", "radius" },
-            method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = { "/api/showplaces" }, params = { "lat", "lon",
+            "radius" }, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public String getShowplace(@RequestParam(name = "lat") Double latiude, @RequestParam(name = "lon") Double longitude,
             @RequestParam(name = "radius", defaultValue = "100") int searchRadius) {
         final GeoPosition geoPosition = new GeoPosition().setLatitude(latiude).setLongitude(longitude);
@@ -39,16 +37,20 @@ public class ShowPlaceRestController {
         return responseMessage;
     }
 
-    @RequestMapping(value = {
-            "/api/showplaces" },
-            params = { "address"},
-            method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressData newAddressData )
-    {
+    @RequestMapping(value = { "/api/showplaces" }, params = {
+            "coord" }, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public List<String> getShowplaceAddresses(@RequestParam(name = "coord") boolean hasCoordinate) {
+        final var showPlaceList = showPlaceService.getAllShowPlace(false);
+        final var addressList = showPlaceList.stream().map(ShowPlace::getAddressString).collect(Collectors.toList());
+        return addressList;
+    }
+
+    @RequestMapping(value = { "/api/showplaces" }, params = {
+            "address" }, method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressData newAddressData) {
         logger.info("recive new address data {}", newAddressData);
         showPlaceService.insertUpdateShowplace(newAddressData.toShowPlace());
     }
-
 
     private String makeResponseMessage(List<ShowPlace> showPlaces) {
         // NOTE only first description at this time

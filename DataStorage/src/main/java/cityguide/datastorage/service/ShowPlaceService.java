@@ -15,5 +15,7 @@ public interface ShowPlaceService {
     List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
 
     List<ShowPlace> getAllShowPlace();
+
+    List<ShowPlace> getAllShowPlace(boolean hasCoordinate);
 }
 

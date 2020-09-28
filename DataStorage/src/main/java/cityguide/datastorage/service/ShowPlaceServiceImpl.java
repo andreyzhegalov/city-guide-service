@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.bson.Document;
 import org.springframework.stereotype.Service;
+import static com.mongodb.client.model.Filters.exists;
 
 import cityguide.datastorage.DataStorageException;
 import cityguide.datastorage.db.GeoDbController;
@@ -34,7 +35,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
             return;
         }
 
-        if (showPlaceList.get(0).getLocation() == null ){
+        if (showPlaceList.get(0).getLocation() == null) {
             geoController.updateData(showPlace, filter);
         }
     }
@@ -54,6 +55,11 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     @Override
     public List<ShowPlace> getAllShowPlace() {
         return geoController.getAllData();
+    }
+
+    @Override
+    public List<ShowPlace> getAllShowPlace(boolean hasCoordinate) {
+        return geoController.getData(exists("location", false));
     }
 
 }

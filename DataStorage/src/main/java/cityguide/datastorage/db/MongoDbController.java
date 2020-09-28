@@ -19,6 +19,7 @@ import com.mongodb.client.model.ReturnDocument;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +79,11 @@ public class MongoDbController<T> implements DbController<T> {
         return toList(dataCollection.find(filter));
     }
 
+	@Override
+	public List<T> getData(Bson filter) {
+        return toList(dataCollection.find(filter));
+	}
+
     @Override
     public List<T> getAllData() {
         return toList(dataCollection.find());
@@ -90,5 +96,4 @@ public class MongoDbController<T> implements DbController<T> {
         }
         return list;
     }
-
 }
