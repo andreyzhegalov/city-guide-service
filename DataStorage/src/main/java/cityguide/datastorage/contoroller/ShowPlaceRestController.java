@@ -38,14 +38,6 @@ public class ShowPlaceRestController {
     }
 
     @RequestMapping(value = { "/api/showplaces" }, params = {
-            "coord" }, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public List<String> getShowplaceAddresses(@RequestParam(name = "coord") boolean hasCoordinate) {
-        final var showPlaceList = showPlaceService.getAllShowPlace(false);
-        final var addressList = showPlaceList.stream().map(ShowPlace::getAddressString).collect(Collectors.toList());
-        return addressList;
-    }
-
-    @RequestMapping(value = { "/api/showplaces" }, params = {
             "address" }, method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressData newAddressData) {
         logger.info("recive new address data {}", newAddressData);
