@@ -46,7 +46,7 @@ public class ShowPlaceRestController {
     public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressData newAddressData )
     {
         logger.info("recive new address data {}", newAddressData);
-        showPlaceService.insertUpdateData(newAddressData.toShowPlace());
+        showPlaceService.insertUpdateShowplace(newAddressData.toShowPlace());
     }
 
 

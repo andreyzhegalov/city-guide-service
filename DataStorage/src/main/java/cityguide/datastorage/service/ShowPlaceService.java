@@ -8,12 +8,12 @@ import cityguide.datastorage.model.ShowPlace;
 
 public interface ShowPlaceService {
 
-    void insertUpdateData(ShowPlace showPlace);
+    void insertUpdateShowplace(ShowPlace showPlace);
 
-    Optional<ShowPlace> getData(String address);
+    Optional<ShowPlace> getShowPlace(String address);
 
     List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
 
-    List<ShowPlace> getAllData();
+    List<ShowPlace> getAllShowPlace();
 }
 

@@ -21,7 +21,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     }
 
     @Override
-    public void insertUpdateData(ShowPlace showPlace) {
+    public void insertUpdateShowplace(ShowPlace showPlace) {
         final var filter = new Document("address_string", showPlace.getAddressString());
 
         final var showPlaceList = geoController.getData(filter);
@@ -33,11 +33,14 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
             geoController.insertData(showPlace);
             return;
         }
-        geoController.updateData(showPlace, filter);
+
+        if (showPlaceList.get(0).getLocation() == null ){
+            geoController.updateData(showPlace, filter);
+        }
     }
 
     @Override
-    public Optional<ShowPlace> getData(String address) {
+    public Optional<ShowPlace> getShowPlace(String address) {
         final var filter = new Document("address_string", address);
         final var showPlaceList = geoController.getData(filter);
         return (showPlaceList.size() > 0) ? Optional.of(showPlaceList.get(0)) : Optional.empty();
@@ -49,7 +52,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     }
 
     @Override
-    public List<ShowPlace> getAllData() {
+    public List<ShowPlace> getAllShowPlace() {
         return geoController.getAllData();
     }
 
