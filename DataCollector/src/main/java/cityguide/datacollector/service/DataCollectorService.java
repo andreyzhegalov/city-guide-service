@@ -1,17 +1,23 @@
-package cityguide.datacollector;
-
-import java.util.function.Consumer;
+package cityguide.datacollector.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+import cityguide.datacollector.controller.DataCollectorRestController;
+import cityguide.datacollector.dto.AddressData;
 import cityguide.datacollector.source.walkspb.ItemExtractor;
 import cityguide.datacollector.source.walkspb.ItemParser;
 import cityguide.datacollector.source.walkspb.PageHandlerImpl;
 
-public class DataCollector {
-    private static final Logger logger = LoggerFactory.getLogger(DataCollector.class);
-    private Consumer<DataType> callback;
+@Service
+public class DataCollectorService {
+    private static final Logger logger = LoggerFactory.getLogger(DataCollectorService.class);
+    private DataCollectorRestController restController;
+
+    public DataCollectorService(DataCollectorRestController restController){
+        this.restController = restController;
+    }
 
     public void start() {
         final var pageHandler = new PageHandlerImpl();
@@ -24,14 +30,12 @@ public class DataCollector {
                 for (final var itemUrl : itemsUrlList) {
                     logger.debug("itemUrl  {}", itemUrl);
                     final var itemParser = new ItemParser(itemUrl);
-                    final var address = itemParser.getAddresses();
-                    final var description = itemParser.getDescription();
-                    final var result = new DataType();
-                    result.setAddress(address);
-                    result.setDescription(description);
-                    if (callback != null) {
-                        callback.accept(result);
-                    }
+
+                    final var result = new AddressData();
+                    result.setAddress(itemParser.getAddresses().get(0));
+                    result.setInfo(itemParser.getDescription());
+
+                    sendData(result);
                     sleep();
                 }
                 final var mayBeCurPage = pageHandler.getNextPage(curPage);
@@ -48,12 +52,12 @@ public class DataCollector {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            throw new DataCollectorException(e.toString());
+            throw new DataCollectorServiceException(e.toString());
         }
     }
 
-    public void setCallback(Consumer<DataType> callback) {
-        this.callback = callback;
+    public void sendData(AddressData addressData){
+        restController.sendPost(addressData);
     }
 
     private void sleep() {
