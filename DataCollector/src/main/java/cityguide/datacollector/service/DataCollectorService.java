@@ -30,7 +30,10 @@ public class DataCollectorService {
                 for (final var itemUrl : itemsUrlList) {
                     logger.debug("itemUrl  {}", itemUrl);
                     final var itemParser = new ItemParser(itemUrl);
-
+                    if(itemParser.getAddresses().isEmpty()){
+                        logger.warn("No address in item {}", itemParser.getDescription().subSequence(0, 20));
+                        continue;
+                    }
                     final var result = new AddressData();
                     result.setAddress(itemParser.getAddresses().get(0));
                     result.setInfo(itemParser.getDescription());
