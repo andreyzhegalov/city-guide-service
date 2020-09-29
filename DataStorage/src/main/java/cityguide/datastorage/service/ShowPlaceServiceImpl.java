@@ -1,6 +1,7 @@
 package cityguide.datastorage.service;
 
 import static com.mongodb.client.model.Filters.exists;
+import static com.mongodb.client.model.Filters.eq;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
 
     @Override
     public void insertUpdateShowplace(ShowPlace showPlace) {
-        final var filter = new Document("address_string", showPlace.getAddressString());
+        final var filter = eq("address_string", showPlace.getAddressString());
         logger.info(" insertUpdateShowplace {}", showPlace);
 
         final var showPlaceList = geoController.getData(filter);
@@ -47,8 +48,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
 
     @Override
     public Optional<ShowPlace> getShowPlace(String address) {
-        final var filter = new Document("address_string", address);
-        final var showPlaceList = geoController.getData(filter);
+        final var showPlaceList = geoController.getData(eq("address_string", address));
         return (showPlaceList.size() > 0) ? Optional.of(showPlaceList.get(0)) : Optional.empty();
     }
 

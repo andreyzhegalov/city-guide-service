@@ -54,15 +54,10 @@ public class MongoDbController<T> implements DbController<T> {
     }
 
     @Override
-    public void updateData(T data, Document filter) {
+    public void updateData(T data, Bson filter) {
         final FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions()
                 .returnDocument(ReturnDocument.AFTER);
         dataCollection.findOneAndReplace(filter, data, returnDocAfterReplace);
-    }
-
-    @Override
-    public List<T> getData(Document filter) {
-        return toList(dataCollection.find(filter));
     }
 
     @Override
