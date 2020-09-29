@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class MongoDbControllerTest {
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoDbController<ShowPlace> mongoContoroller = new MongoDbController<ShowPlace>(MONGO_URL);
+    private final static MongoDbController<ShowPlace> mongoContoroller = new MongoDbController<ShowPlace>();
 
     @BeforeEach
     public void setUp(){
@@ -30,9 +31,14 @@ public class MongoDbControllerTest {
         mongoContoroller.clearAllData();
     }
 
+    @BeforeAll
+    public static void beforeAll(){
+        mongoContoroller.open(MONGO_URL);
+    }
+
     @AfterAll
     public static void afterAll(){
-        mongoContoroller.closeDb();
+        mongoContoroller.close();
     }
 
     @Test

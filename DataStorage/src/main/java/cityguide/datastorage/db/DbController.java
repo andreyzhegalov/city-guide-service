@@ -16,5 +16,7 @@ public interface DbController<T> {
 
     List<T> getAllData();
 
-    void closeDb();
+    void open(String url);
+
+    void close();
 }

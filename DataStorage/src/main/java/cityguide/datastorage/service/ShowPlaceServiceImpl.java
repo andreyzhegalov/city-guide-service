@@ -5,6 +5,8 @@ import static com.mongodb.client.model.Filters.exists;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PreDestroy;
+
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +65,11 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     @Override
     public List<ShowPlace> getAllShowPlace(boolean hasCoordinate) {
         return geoController.getData(exists("location", false));
+    }
+
+    @PreDestroy
+    private void closeGeoController(){
+        geoController.close();
     }
 
     private ShowPlace mergeShowPlace(ShowPlace initShowPlace, ShowPlace newShowPlace){

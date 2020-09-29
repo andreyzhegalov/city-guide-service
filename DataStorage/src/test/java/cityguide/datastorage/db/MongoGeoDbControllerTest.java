@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class MongoGeoDbControllerTest {
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoGeoDbController<ShowPlace> geoController = new MongoGeoDbController<ShowPlace>(MONGO_URL);
+    private final static MongoGeoDbController<ShowPlace> geoController = new MongoGeoDbController<ShowPlace>();
 
     @BeforeEach
     public void setUp() {
@@ -29,9 +30,14 @@ public class MongoGeoDbControllerTest {
         geoController.clearAllData();
     }
 
+    @BeforeAll
+    public static void beforeAll(){
+        geoController.open(MONGO_URL);
+    }
+
     @AfterAll
     public static void afterAll() {
-        geoController.closeDb();
+        geoController.close();
     }
 
     @Test

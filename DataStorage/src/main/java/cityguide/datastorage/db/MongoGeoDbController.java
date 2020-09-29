@@ -15,10 +15,6 @@ public class MongoGeoDbController<T> extends MongoDbController<T> implements Geo
     private static final Logger logger = LoggerFactory.getLogger(MongoGeoDbController.class);
     private static final double EARTH_RADIUS = 6371_000.0;
 
-    public MongoGeoDbController(String mongoUrl) {
-        super(mongoUrl);
-    }
-
     @Override
     public void loadData(String dbName, String collectionName, Class<T> dataClass) {
         super.loadData(dbName, collectionName, dataClass);
