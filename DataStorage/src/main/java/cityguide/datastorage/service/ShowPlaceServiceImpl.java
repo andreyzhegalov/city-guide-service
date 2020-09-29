@@ -1,14 +1,13 @@
 package cityguide.datastorage.service;
 
-import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.exists;
 
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PreDestroy;
 
-import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,27 +27,25 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
 
     @Override
     public void insertUpdateShowplace(ShowPlace showPlace) {
-        final var filter = eq("address_string", showPlace.getAddressString());
-        logger.info(" insertUpdateShowplace {}", showPlace);
-
-        final var showPlaceList = geoController.getData(filter);
-        if (showPlaceList.size() > 1) {
-            throw new ShowPlaceServiceException("More than one show place with adress: " + showPlace.getAddressString());
-        }
-
-        if (showPlaceList.isEmpty()) {
-            logger.info("insert new showPlace {}", showPlace);
+        final var mayBeShowPlace = getShowPlace(showPlace.getAddressString());
+        if (mayBeShowPlace.isEmpty()) {
+            logger.info("insert showPlace {}", showPlace);
             geoController.insertData(showPlace);
             return;
         }
-        final var finalShowPlace =  mergeShowPlace(showPlace, showPlaceList.get(0));
-        logger.info("update showPlace {}", finalShowPlace );
+        final var finalShowPlace = mergeShowPlace(mayBeShowPlace.get(), showPlace);
+        logger.info("update showPlace {}", finalShowPlace);
+        final var filter = eq("address_string", finalShowPlace.getAddressString());
         geoController.updateData(finalShowPlace, filter);
     }
 
     @Override
     public Optional<ShowPlace> getShowPlace(String address) {
         final var showPlaceList = geoController.getData(eq("address_string", address));
+        if (showPlaceList.size() > 1) {
+            logger.error("more than one show place with adress: {}", address);
+            throw new ShowPlaceServiceException("More than one show place with adress: " + address);
+        }
         return (showPlaceList.size() > 0) ? Optional.of(showPlaceList.get(0)) : Optional.empty();
     }
 
@@ -68,12 +65,12 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     }
 
     @PreDestroy
-    private void closeGeoController(){
+    private void closeGeoController() {
         geoController.close();
     }
 
-    private ShowPlace mergeShowPlace(ShowPlace initShowPlace, ShowPlace newShowPlace){
-        if (initShowPlace.hasLocation()){
+    private ShowPlace mergeShowPlace(ShowPlace initShowPlace, ShowPlace newShowPlace) {
+        if (initShowPlace.hasLocation()) {
             return initShowPlace;
         }
         if (newShowPlace.hasLocation()) {

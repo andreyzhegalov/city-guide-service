@@ -11,6 +11,10 @@ public class Location {
         coordinates = Arrays.asList(new Double[2]);
     }
 
+    public Location(Double latitude, Double longitude){
+        this.coordinates = Arrays.asList(latitude, longitude);
+    }
+
     public Location setCoordinates(List<Double> coordinates) {
         this.coordinates = coordinates;
         return this;

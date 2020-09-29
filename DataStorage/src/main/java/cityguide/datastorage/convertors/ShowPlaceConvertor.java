@@ -10,17 +10,15 @@ import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 public class ShowPlaceConvertor {
-    public static ShowPlace toShowPlace(AddressDto addressDto){
+    public static ShowPlace toShowPlace(AddressDto addressDto) {
         final var showPlace = new ShowPlace();
         showPlace.setAddressString(addressDto.getAddress());
-        final var location = new Location();
-        location.setLatitude(addressDto.getLatitude());
-        location.setLongitude(addressDto.getLongitude());
+        final var location = new Location(addressDto.getLatitude(), addressDto.getLongitude());
         showPlace.setLocation(location);
         return showPlace;
     }
 
-    public static ShowPlace toShowPlace(ShowPlaceDto showPlaceDto){
+    public static ShowPlace toShowPlace(ShowPlaceDto showPlaceDto) {
         final var showPlace = new ShowPlace();
         showPlace.setAddressString(showPlaceDto.getAddress());
         final var description = new Description();
@@ -31,4 +29,3 @@ public class ShowPlaceConvertor {
         return showPlace;
     }
 }
-
