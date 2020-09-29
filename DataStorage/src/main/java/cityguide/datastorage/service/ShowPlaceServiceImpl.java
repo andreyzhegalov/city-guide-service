@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 
-import cityguide.datastorage.DataStorageException;
 import cityguide.datastorage.db.GeoDbController;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
@@ -26,7 +25,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
 
         final var showPlaceList = geoController.getData(filter);
         if (showPlaceList.size() > 1) {
-            throw new DataStorageException("More than one show place with adress: " + showPlace.getAddressString());
+            throw new ShowPlaceServiceException("More than one show place with adress: " + showPlace.getAddressString());
         }
 
         if (showPlaceList.isEmpty()) {

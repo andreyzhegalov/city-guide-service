@@ -45,7 +45,7 @@ public class ShowPlaceRestController {
             method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressData newAddressData )
     {
-        logger.info("recive new address data {}", newAddressData);
+        logger.info("receive new address data {}", newAddressData);
         showPlaceService.insertUpdateShowplace(newAddressData.toShowPlace());
     }
 

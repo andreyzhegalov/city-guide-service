@@ -1,6 +1,5 @@
 package cityguide.datastorage.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class GeoPosition {
     }
 
     public double getLatitude() {
-        if (!hasCoordinate()) {
+        if (noCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(0);
@@ -39,7 +38,7 @@ public class GeoPosition {
     }
 
     public double getLongitude() {
-        if (!hasCoordinate()) {
+        if (noCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(1);
@@ -50,8 +49,8 @@ public class GeoPosition {
         return this;
     }
 
-    private boolean hasCoordinate() {
-        return coordinates.size() == 2;
+    private boolean noCoordinate() {
+        return coordinates.size() != 2;
     }
 
     @Override
