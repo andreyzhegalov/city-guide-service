@@ -1,0 +1,16 @@
+cityguide:
+    restserver:
+        url: http://192.168.1.139:8080/DataStorage/
+        showplaces-uri: api/showplaces
+        addresses-uri: api/addresses
+
+    geocoder:
+         url: https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address
+         token: none
+
+
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: DEBUG
+    cityguide: DEBUG

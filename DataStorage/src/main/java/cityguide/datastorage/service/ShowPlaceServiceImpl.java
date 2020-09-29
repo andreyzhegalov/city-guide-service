@@ -1,18 +1,22 @@
 package cityguide.datastorage.service;
 
+import static com.mongodb.client.model.Filters.exists;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import cityguide.datastorage.db.GeoDbController;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
 
-
 @Service
 public class ShowPlaceServiceImpl implements ShowPlaceService {
+    private final static Logger logger = LoggerFactory.getLogger(ShowPlaceServiceImpl.class);
     private final GeoDbController<ShowPlace> geoController;
 
     public ShowPlaceServiceImpl(GeoDbController<ShowPlace> geoController) {
@@ -22,6 +26,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     @Override
     public void insertUpdateShowplace(ShowPlace showPlace) {
         final var filter = new Document("address_string", showPlace.getAddressString());
+        logger.info(" insertUpdateShowplace {}", showPlace);
 
         final var showPlaceList = geoController.getData(filter);
         if (showPlaceList.size() > 1) {
@@ -29,13 +34,13 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
         }
 
         if (showPlaceList.isEmpty()) {
+            logger.info("insert new showPlace {}", showPlace);
             geoController.insertData(showPlace);
             return;
         }
-
-        if (showPlaceList.get(0).getLocation() == null ){
-            geoController.updateData(showPlace, filter);
-        }
+        final var finalShowPlace =  mergeShowPlace(showPlace, showPlaceList.get(0));
+        logger.info("update showPlace {}", finalShowPlace );
+        geoController.updateData(finalShowPlace, filter);
     }
 
     @Override
@@ -55,4 +60,19 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
         return geoController.getAllData();
     }
 
+    @Override
+    public List<ShowPlace> getAllShowPlace(boolean hasCoordinate) {
+        return geoController.getData(exists("location", false));
+    }
+
+    private ShowPlace mergeShowPlace(ShowPlace initShowPlace, ShowPlace newShowPlace){
+        if (initShowPlace.hasLocation()){
+            return initShowPlace;
+        }
+        if (newShowPlace.hasLocation()) {
+            return newShowPlace;
+        }
+        // TODO add merge description logic
+        return initShowPlace;
+    }
 }

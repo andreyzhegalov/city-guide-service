@@ -1,12 +1,6 @@
 mongo.url: mongodb://172.17.0.3
-mongo.db: mongo-db-showplace-test1
+mongo.db: mongo-db-showplace-test
 mongo.collection: showplace
-
-
-mongo:
-    url: mongodb://172.17.0.3
-    db: mongo-db-showplace-test1
-    collection: showplace
 
 logging:
     level:

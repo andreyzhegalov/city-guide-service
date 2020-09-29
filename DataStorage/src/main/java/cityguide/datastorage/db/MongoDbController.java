@@ -19,6 +19,7 @@ import com.mongodb.client.model.ReturnDocument;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,16 +68,18 @@ public class MongoDbController<T> implements DbController<T> {
     public void updateData(T data, Document filter) {
         final FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions()
                 .returnDocument(ReturnDocument.AFTER);
-        final var updatedData = dataCollection.findOneAndReplace(filter, data, returnDocAfterReplace);
-        if (updatedData == null) {
-            throw new MongolControllerException("Error updated data " + data);
-        }
+        dataCollection.findOneAndReplace(filter, data, returnDocAfterReplace);
     }
 
     @Override
     public List<T> getData(Document filter) {
         return toList(dataCollection.find(filter));
     }
+
+	@Override
+	public List<T> getData(Bson filter) {
+        return toList(dataCollection.find(filter));
+	}
 
     @Override
     public List<T> getAllData() {
@@ -90,5 +93,4 @@ public class MongoDbController<T> implements DbController<T> {
         }
         return list;
     }
-
 }
