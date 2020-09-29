@@ -32,7 +32,8 @@ public class CityGuideRestController {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getGetShowplacesUri())
                 .queryParam("lat", latitude)
-                .queryParam("lon", longitude);
+                .queryParam("lon", longitude)
+                .queryParam("radius", searchRadius);
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 

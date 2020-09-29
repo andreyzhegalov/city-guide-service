@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cityguide.datastorage.dto.AddressDto;
+import cityguide.datastorage.convertors.ShowPlaceConvertor;
+import cityguide.datastorage.dto.ShowPlaceDto;
 import cityguide.datastorage.model.Description;
 import cityguide.datastorage.model.GeoPosition;
 import cityguide.datastorage.model.ShowPlace;
@@ -31,19 +32,20 @@ public class ShowPlaceRestController {
     public String getShowplace(@RequestParam(name = "lat") Double latiude, @RequestParam(name = "lon") Double longitude,
             @RequestParam(name = "radius", defaultValue = "100") int searchRadius) {
         logger.info("GET /api/showplaces with  lat = {} lon = {}", latiude, longitude);
+
         final GeoPosition geoPosition = new GeoPosition().setLatitude(latiude).setLongitude(longitude);
         final List<ShowPlace> showPlaces = showPlaceService.getNearest(geoPosition, searchRadius);
         final String responseMessage = makeResponseMessage(showPlaces);
+
         logger.info(" GET /api/showplaces with  lat = {} lon = {}", latiude, longitude);
         return responseMessage;
     }
 
     @RequestMapping(value = { "/api/showplaces" }, params = {
             "address" }, method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public void postShowplace(@RequestParam(name = "address") String address, @RequestBody AddressDto newAddressData) {
-        logger.info("recive new address data {}", newAddressData);
-        // TODO update save logic
-        // showPlaceService.insertUpdateShowplace(newAddressData.toShowPlace());
+    public void postShowplace(@RequestParam(name = "address") String address, @RequestBody ShowPlaceDto newShowPlace) {
+        logger.info("recive new address data {}", newShowPlace);
+        showPlaceService.insertUpdateShowplace(ShowPlaceConvertor.toShowPlace(newShowPlace));
     }
 
     private String makeResponseMessage(List<ShowPlace> showPlaces) {
