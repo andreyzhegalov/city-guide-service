@@ -16,7 +16,6 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -78,8 +77,8 @@ public class MongoDbController<T> implements DbController<T> {
         return list;
     }
 
-    private void checkConnection(){
-        if( this.mongoClient == null){
+    private void checkConnection() {
+        if (this.mongoClient == null) {
             throw new MongolControllerException("No connection with mongoDb");
         }
     }

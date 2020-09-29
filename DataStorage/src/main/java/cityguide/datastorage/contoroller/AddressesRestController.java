@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cityguide.datastorage.dto.AddressDto;
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.service.ShowPlaceService;
 
 @RestController
@@ -42,12 +42,12 @@ public class AddressesRestController {
         {
             return;
         }
-        final var geoPosition = new GeoPosition();
-        geoPosition.setLatitude(newAddressData.getLatitude());
-        geoPosition.setLongitude(newAddressData.getLongitude());
+        final var location = new Location();
+        location.setLatitude(newAddressData.getLatitude());
+        location.setLongitude(newAddressData.getLongitude());
 
         final var showPlace = mayBeShowPlace.get();
-        showPlace.setLocation(geoPosition);
+        showPlace.setLocation(location);
         showPlaceService.insertUpdateShowplace(showPlace);
     }
 }

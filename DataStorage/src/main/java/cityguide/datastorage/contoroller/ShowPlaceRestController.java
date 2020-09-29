@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cityguide.datastorage.convertors.ShowPlaceConvertor;
 import cityguide.datastorage.dto.ShowPlaceDto;
 import cityguide.datastorage.model.Description;
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 import cityguide.datastorage.service.ShowPlaceService;
 
@@ -33,8 +33,8 @@ public class ShowPlaceRestController {
                                @RequestParam(name = "radius", defaultValue = "100") int searchRadius) {
         logger.info("GET /api/showplaces with  lat = {} lon = {}", latitude, longitude);
 
-        final GeoPosition geoPosition = new GeoPosition().setLatitude(latitude).setLongitude(longitude);
-        final List<ShowPlace> showPlaces = showPlaceService.getNearest(geoPosition, searchRadius);
+        final Location location = new Location().setLatitude(latitude).setLongitude(longitude);
+        final List<ShowPlace> showPlaces = showPlaceService.getNearest(location, searchRadius);
         final String responseMessage = makeResponseMessage(showPlaces);
 
         logger.info(" GET /api/showplaces with  lat = {} lon = {}", latitude, longitude);

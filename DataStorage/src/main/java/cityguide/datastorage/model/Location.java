@@ -3,15 +3,15 @@ package cityguide.datastorage.model;
 import java.util.Arrays;
 import java.util.List;
 
-public class GeoPosition {
+public class Location {
     private List<Double> coordinates;
     private String type = "Point";
 
-    public GeoPosition(){
+    public Location(){
         coordinates = Arrays.asList(new Double[2]);
     }
 
-    public GeoPosition setCoordinates(List<Double> coordinates) {
+    public Location setCoordinates(List<Double> coordinates) {
         this.coordinates = coordinates;
         return this;
     }
@@ -20,7 +20,7 @@ public class GeoPosition {
         return coordinates;
     }
 
-    public GeoPosition setType(String type) {
+    public Location setType(String type) {
         this.type = type;
         return this;
     }
@@ -32,7 +32,7 @@ public class GeoPosition {
         return coordinates.get(0);
     }
 
-    public GeoPosition setLatitude(double latitude) {
+    public Location setLatitude(double latitude) {
         coordinates.set(0, latitude);
         return this;
     }
@@ -44,7 +44,7 @@ public class GeoPosition {
         return coordinates.get(1);
     }
 
-    public GeoPosition setLongitude(double longitude) {
+    public Location setLongitude(double longitude) {
         coordinates.set(1, longitude);
         return this;
     }

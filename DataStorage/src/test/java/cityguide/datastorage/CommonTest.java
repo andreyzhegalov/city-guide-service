@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.Description;
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 // https://mongodb.github.io/mongo-java-driver/3.5/driver/getting-started/quick-start-pojo/
@@ -69,13 +69,13 @@ class CommonTest {
         final var showPlace1 = new ShowPlace()
             .setAdress(address1)
             .setAddressString(address1.toString())
-            .setLocation(new GeoPosition().setCoordinates(Arrays.asList(0.0, 0.0)));
+            .setLocation(new Location().setCoordinates(Arrays.asList(0.0, 0.0)));
 
         final var address2 = new Address().setStreet("new street2").setHouse("2").setBlock("2");
         final var showPlace2 = new ShowPlace()
             .setAdress(address2)
             .setAddressString(address2.toString())
-            .setLocation(new GeoPosition().setCoordinates(Arrays.asList(45.0, 45.0)));
+            .setLocation(new Location().setCoordinates(Arrays.asList(45.0, 45.0)));
 
         showPlaceCollection.insertOne(showPlace1);
         showPlaceCollection.insertOne(showPlace2);

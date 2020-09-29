@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import cityguide.datastorage.db.GeoDbController;
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 @Service
@@ -53,8 +53,8 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     }
 
     @Override
-    public List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter) {
-        return geoController.getNearest(geoPosition, radiusInMeter);
+    public List<ShowPlace> getNearest(Location location, double radiusInMeter) {
+        return geoController.getNearest(location, radiusInMeter);
     }
 
     @Override
