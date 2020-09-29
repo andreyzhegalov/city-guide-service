@@ -1,9 +1,10 @@
 package cityguide.datacollector.scheduling;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import cityguide.datacollector.service.DataCollectorService;
@@ -15,8 +16,8 @@ public class ScheduledTasks {
     @Autowired
     DataCollectorService dataCollectorService;
 
-    // @Scheduled(fixedRate = 15000)
-    @Scheduled(fixedDelay = 5_000)
+    // @Scheduled(fixedDelay = 5_000)
+    @PostConstruct
     public void onTimer() {
         logger.info("sheduled task running");
         dataCollectorService.start();

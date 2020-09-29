@@ -68,6 +68,10 @@ public class ShowPlace {
         return location;
     }
 
+    public boolean hasLocation(){
+        return location != null;
+    }
+
     @Override
     public String toString() {
         return "ShowPlace{" + "id = " + getId() + ", address = " + address + ", addressString = " + getAddressString()
