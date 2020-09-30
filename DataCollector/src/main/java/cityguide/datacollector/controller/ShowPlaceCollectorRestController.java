@@ -12,29 +12,29 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import cityguide.datacollector.config.RestServerConfig;
-import cityguide.datacollector.dto.AddressDto;
+import cityguide.datacollector.dto.ShowPlaceDto;
 
 @Controller
-public class DataCollectorRestController {
+public class ShowPlaceCollectorRestController {
     @Autowired
     private RestServerConfig restServerConfig;
 
-    private static final Logger logger = LoggerFactory.getLogger(DataCollectorRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShowPlaceCollectorRestController.class);
     private final RestTemplate restTemplate;
 
-    public DataCollectorRestController() {
+    public ShowPlaceCollectorRestController() {
         this.restTemplate = new RestTemplate();
     }
 
-    public void sendPost(AddressDto addressData) {
-        logger.info("invoked sendPost with {}", addressData);
+    public void sendPost(ShowPlaceDto showPlace) {
+        logger.info("invoked sendPost with {}", showPlace);
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getShowplacesUri())
-                .queryParam("address", addressData.getAddress());
+                .queryParam("address", showPlace.getAddress());
 
-        HttpEntity<?> entity = new HttpEntity<>(addressData, headers);
+        HttpEntity<?> entity = new HttpEntity<>(showPlace, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                 String.class);

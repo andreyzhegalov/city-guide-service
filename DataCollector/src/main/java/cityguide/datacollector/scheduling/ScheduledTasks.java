@@ -16,7 +16,7 @@ public class ScheduledTasks {
     @Autowired
     DataCollectorServiceImpl dataCollectorService;
 
-    // @Scheduled(fixedDelay = 5_000)
+    // @Scheduled(cron ="0 30 1 ? * FRI")
     @PostConstruct
     public void onTimer() {
         logger.info("scheduled task running");

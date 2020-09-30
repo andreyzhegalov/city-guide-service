@@ -14,7 +14,7 @@ public class ScheduledTasks {
         this.geoCoderService = geoCoderService;
     }
 
-    // @Scheduled(fixedDelay = 150_000)
+    // @Scheduled(cron ="0 30 1 ? * MON")
     @PostConstruct
     public void onTimer() {
         geoCoderService.fillAllAddresses();

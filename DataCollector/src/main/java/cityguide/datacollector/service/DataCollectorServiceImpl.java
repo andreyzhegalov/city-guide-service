@@ -1,21 +1,24 @@
 package cityguide.datacollector.service;
 
+import java.net.URL;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import cityguide.datacollector.controller.DataCollectorRestController;
-import cityguide.datacollector.dto.AddressDto;
+import cityguide.datacollector.controller.ShowPlaceCollectorRestController;
+import cityguide.datacollector.dto.ShowPlaceDto;
 import cityguide.datacollector.source.walkspb.ItemExtractor;
 import cityguide.datacollector.source.walkspb.ItemParser;
 import cityguide.datacollector.source.walkspb.PageHandlerImpl;
 
 @Service
-public class DataCollectorServiceImpl implements DataCollectorService {
+public class DataCollectorServiceImpl implements ShowPlaceCollectorService {
     private static final Logger logger = LoggerFactory.getLogger(DataCollectorServiceImpl.class);
-    private final DataCollectorRestController restController;
+    private final ShowPlaceCollectorRestController restController;
 
-    public DataCollectorServiceImpl(DataCollectorRestController restController){
+    public DataCollectorServiceImpl(ShowPlaceCollectorRestController restController) {
         this.restController = restController;
     }
 
@@ -30,16 +33,10 @@ public class DataCollectorServiceImpl implements DataCollectorService {
                 final var itemsUrlList = new ItemExtractor().getItemUrl(curPage);
                 for (final var itemUrl : itemsUrlList) {
                     logger.debug("itemUrl  {}", itemUrl);
-                    final var itemParser = new ItemParser(itemUrl);
-                    if(itemParser.getAddresses().isEmpty()){
-                        logger.warn("No address in item {}", itemParser.getDescription().subSequence(0, 20));
-                        continue;
+                    final var mayBeShowPlace = getShowPlace(itemUrl);
+                    if (mayBeShowPlace.isPresent()) {
+                        send(mayBeShowPlace.get());
                     }
-                    final var result = new AddressDto();
-                    result.setAddress(itemParser.getAddresses().get(0));
-                    result.setInfo(itemParser.getDescription());
-
-                    sendData(result);
                     sleep();
                 }
                 final var mayBeCurPage = pageHandler.getNextPage(curPage);
@@ -61,7 +58,20 @@ public class DataCollectorServiceImpl implements DataCollectorService {
     }
 
     @Override
-    public void sendData(AddressDto addressData){
+    public Optional<ShowPlaceDto> getShowPlace(URL url) {
+        final var itemParser = new ItemParser(url);
+        if (itemParser.getAddresses().isEmpty()) {
+            logger.warn("No address in item {}", itemParser.getDescription().subSequence(0, 20));
+            return Optional.empty();
+        }
+        final var showPlace = new ShowPlaceDto();
+        showPlace.setAddress(itemParser.getAddresses().get(0));
+        showPlace.setInfo(itemParser.getDescription());
+        return Optional.of(showPlace);
+    }
+
+    @Override
+    public void send(ShowPlaceDto addressData) {
         restController.sendPost(addressData);
     }
 
@@ -74,7 +84,8 @@ public class DataCollectorServiceImpl implements DataCollectorService {
         }
     }
 
-    public int getRandomNumber(int min, int max) {
+    private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
+
 }

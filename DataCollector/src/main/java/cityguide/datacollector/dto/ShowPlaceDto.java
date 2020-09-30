@@ -1,10 +1,10 @@
 package cityguide.datacollector.dto;
 
-public class AddressDto {
+public class ShowPlaceDto {
     private String address;
     private String info;
 
-    public AddressDto() {
+    public ShowPlaceDto() {
     }
 
     public void setAddress(String address) {
