@@ -27,12 +27,12 @@ public class ShowPlace {
         return this;
     }
 
-    public Address getAdress() {
+    public Address getAddress() {
         return address;
     }
 
-    public ShowPlace setAdress(Address adress) {
-        this.address = adress;
+    public ShowPlace setAddress(Address address) {
+        this.address = address;
         return this;
     }
 

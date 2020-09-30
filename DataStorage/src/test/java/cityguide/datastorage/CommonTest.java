@@ -67,13 +67,13 @@ class CommonTest {
     public void commonTest() {
         final var address1 = new Address().setStreet("new street1").setHouse("1").setBlock("1");
         final var showPlace1 = new ShowPlace()
-            .setAdress(address1)
+            .setAddress(address1)
             .setAddressString(address1.toString())
             .setLocation(new Location().setCoordinates(Arrays.asList(0.0, 0.0)));
 
         final var address2 = new Address().setStreet("new street2").setHouse("2").setBlock("2");
         final var showPlace2 = new ShowPlace()
-            .setAdress(address2)
+            .setAddress(address2)
             .setAddressString(address2.toString())
             .setLocation(new Location().setCoordinates(Arrays.asList(45.0, 45.0)));
 

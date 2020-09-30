@@ -16,18 +16,16 @@ import cityguide.telegram.bot.TelegramBot;
 public class TelegramBotService {
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     private static final int SEARCH_RADIUS = 100;
-    private final TelegramBot telegramBot;
     private final CityGuideRestController restController;
 
     public TelegramBotService(TelegramBot telegramBot, CityGuideRestController restController) {
-        this.telegramBot = telegramBot;
         this.restController = restController;
-        this.telegramBot.setMessageHandler(this::onMessage);
+        telegramBot.setMessageHandler(this::onMessage);
         Telegram.startBot(telegramBot);
     }
 
     private Optional<String> onMessage(Message message) {
-        logger.info("On new message. Recived new message {}", message);
+        logger.info("On new message. Received new message {}", message);
         if (message.hasText()) {
             // echo for simple message
             return Optional.of(message.getText());

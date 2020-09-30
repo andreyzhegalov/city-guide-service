@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import cityguide.datacollector.config.RestServerConfig;
-import cityguide.datacollector.dto.AddressData;
+import cityguide.datacollector.dto.AddressDto;
 
 @Controller
 public class DataCollectorRestController {
@@ -26,15 +26,15 @@ public class DataCollectorRestController {
         this.restTemplate = new RestTemplate();
     }
 
-    public void sendPost(AddressData adressData) {
-        logger.info("invoked sendPost with {}", adressData);
+    public void sendPost(AddressDto addressData) {
+        logger.info("invoked sendPost with {}", addressData);
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getShowplacesUri())
-                .queryParam("address", adressData.getAddress());
+                .queryParam("address", addressData.getAddress());
 
-        HttpEntity<?> entity = new HttpEntity<>(adressData, headers);
+        HttpEntity<?> entity = new HttpEntity<>(addressData, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                 String.class);

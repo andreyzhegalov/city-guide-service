@@ -9,7 +9,7 @@ import cityguide.datastorage.model.Description;
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
-public class ShowPlaceConvertor {
+public class ShowPlaceConverter {
     public static ShowPlace toShowPlace(AddressDto addressDto) {
         final var showPlace = new ShowPlace();
         showPlace.setAddressString(addressDto.getAddress());

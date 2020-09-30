@@ -54,10 +54,10 @@ public class MongoDbControllerTest {
         final var showPlace = new ShowPlace().setAddressString("address1");
         mongoContoroller.insertData(showPlace);
         assertThat(mongoContoroller.getAllData()).hasSize(1);
-        assertThat(mongoContoroller.getAllData().get(0).getAdress()).isNull();
+        assertThat(mongoContoroller.getAllData().get(0).getAddress()).isNull();
 
         final var address = new Address().setStreet("new street1");
-        showPlace.setAdress(address);
+        showPlace.setAddress(address);
 
         final var filter = new Document("address_string", showPlace.getAddressString());
         assertThatCode(() -> mongoContoroller.updateData(showPlace, filter)).doesNotThrowAnyException();
@@ -65,8 +65,8 @@ public class MongoDbControllerTest {
 
         final var updatedData = mongoContoroller.getAllData();
         assertThat(updatedData).hasSize(1);
-        assertThat(updatedData.get(0).getAdress()).isNotNull();
-        assertThat(updatedData.get(0).getAdress().getStreet()).isEqualTo("new street1");
+        assertThat(updatedData.get(0).getAddress()).isNotNull();
+        assertThat(updatedData.get(0).getAddress().getStreet()).isEqualTo("new street1");
     }
 
     @Test

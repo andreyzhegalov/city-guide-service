@@ -1,5 +1,6 @@
 package cityguide.geocoder.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DataStorageRestController {
     }
 
     public List<AddressDto> getAddresses() {
-        logger.debug("send get adresses");
+        logger.debug("send get addresses");
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
@@ -42,7 +43,8 @@ public class DataStorageRestController {
         ResponseEntity<AddressDto[]> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
                 AddressDto[].class);
         logger.debug("response {}", response);
-        return Arrays.asList(response.getBody());
+
+        return (response.getBody() == null) ? new ArrayList<AddressDto>() : Arrays.asList(response.getBody());
     }
 
     public void sendAddress(AddressDto addressDto) {

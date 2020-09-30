@@ -1,4 +1,4 @@
-package cityguide.datastorage.service;
+package cityguide.datastorage.view;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +9,7 @@ import cityguide.datastorage.model.Description;
 import cityguide.datastorage.model.ShowPlace;
 
 @Service
-public class TelegramMessageServiceImpl implements TelegramMessageService {
+public class TelegramMessageViewImpl implements TelegramMessageView {
 
     @Override
     public String prepareMessage(List<ShowPlace> showPlaces) {

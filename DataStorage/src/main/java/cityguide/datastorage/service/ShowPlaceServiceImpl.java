@@ -43,8 +43,8 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
     public Optional<ShowPlace> getShowPlace(String address) {
         final var showPlaceList = geoController.getData(eq("address_string", address));
         if (showPlaceList.size() > 1) {
-            logger.error("more than one show place with adress: {}", address);
-            throw new ShowPlaceServiceException("More than one show place with adress: " + address);
+            logger.error("more than one show place with address: {}", address);
+            throw new ShowPlaceServiceException("More than one show place with address: " + address);
         }
         return (showPlaceList.size() > 0) ? Optional.of(showPlaceList.get(0)) : Optional.empty();
     }
