@@ -3,7 +3,7 @@ package cityguide.datastorage.service;
 import java.util.List;
 import java.util.Optional;
 
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 public interface ShowPlaceService {
@@ -12,7 +12,7 @@ public interface ShowPlaceService {
 
     Optional<ShowPlace> getShowPlace(String address);
 
-    List<ShowPlace> getNearest(GeoPosition geoPosition, double radiusInMeter);
+    List<ShowPlace> getNearest(Location location, double radiusInMeter);
 
     List<ShowPlace> getAllShowPlace();
 

@@ -2,19 +2,18 @@ package cityguide.datastorage.db;
 
 import java.util.List;
 
-import org.bson.Document;
 import org.bson.conversions.Bson;
 
 public interface DbController<T> {
-    public void insertData(T data);
+    void insertData(T data);
 
-    public void updateData(T data, Document filter);
+    void updateData(T data, Bson filter);
 
-    public List<T> getData(Document filter);
+    List<T> getData(Bson filter);
 
-    public List<T> getData(Bson filter);
+    List<T> getAllData();
 
-    public List<T> getAllData();
+    void open(String url);
 
-    void closeDb();
+    void close();
 }

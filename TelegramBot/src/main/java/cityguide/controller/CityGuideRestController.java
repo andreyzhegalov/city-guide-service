@@ -41,6 +41,6 @@ public class CityGuideRestController {
                 String.class);
 
         logger.info("response {}", response);
-        return Optional.of(response.getBody());
+        return Optional.ofNullable(response.getBody());
     }
 }

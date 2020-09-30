@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class MongoDbControllerTest {
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoDbController<ShowPlace> mongoContoroller = new MongoDbController<ShowPlace>(MONGO_URL);
+    private final static MongoDbController<ShowPlace> mongoContoroller = new MongoDbController<ShowPlace>();
 
     @BeforeEach
     public void setUp(){
@@ -30,9 +31,14 @@ public class MongoDbControllerTest {
         mongoContoroller.clearAllData();
     }
 
+    @BeforeAll
+    public static void beforeAll(){
+        mongoContoroller.open(MONGO_URL);
+    }
+
     @AfterAll
     public static void afterAll(){
-        mongoContoroller.closeDb();
+        mongoContoroller.close();
     }
 
     @Test
@@ -48,10 +54,10 @@ public class MongoDbControllerTest {
         final var showPlace = new ShowPlace().setAddressString("address1");
         mongoContoroller.insertData(showPlace);
         assertThat(mongoContoroller.getAllData()).hasSize(1);
-        assertThat(mongoContoroller.getAllData().get(0).getAdress()).isNull();
+        assertThat(mongoContoroller.getAllData().get(0).getAddress()).isNull();
 
         final var address = new Address().setStreet("new street1");
-        showPlace.setAdress(address);
+        showPlace.setAddress(address);
 
         final var filter = new Document("address_string", showPlace.getAddressString());
         assertThatCode(() -> mongoContoroller.updateData(showPlace, filter)).doesNotThrowAnyException();
@@ -59,8 +65,8 @@ public class MongoDbControllerTest {
 
         final var updatedData = mongoContoroller.getAllData();
         assertThat(updatedData).hasSize(1);
-        assertThat(updatedData.get(0).getAdress()).isNotNull();
-        assertThat(updatedData.get(0).getAdress().getStreet()).isEqualTo("new street1");
+        assertThat(updatedData.get(0).getAddress()).isNotNull();
+        assertThat(updatedData.get(0).getAddress().getStreet()).isEqualTo("new street1");
     }
 
     @Test

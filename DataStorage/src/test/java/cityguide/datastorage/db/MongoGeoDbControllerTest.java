@@ -6,10 +6,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cityguide.datastorage.model.GeoPosition;
+import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 public class MongoGeoDbControllerTest {
@@ -17,7 +18,7 @@ public class MongoGeoDbControllerTest {
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoGeoDbController<ShowPlace> geoController = new MongoGeoDbController<ShowPlace>(MONGO_URL);
+    private final static MongoGeoDbController<ShowPlace> geoController = new MongoGeoDbController<ShowPlace>();
 
     @BeforeEach
     public void setUp() {
@@ -29,23 +30,28 @@ public class MongoGeoDbControllerTest {
         geoController.clearAllData();
     }
 
+    @BeforeAll
+    public static void beforeAll(){
+        geoController.open(MONGO_URL);
+    }
+
     @AfterAll
     public static void afterAll() {
-        geoController.closeDb();
+        geoController.close();
     }
 
     @Test
     public void getNearestTest() {
-        final var position = new GeoPosition().setLongitude(0.0).setLatitude(0.0);
+        final var location = new Location().setLongitude(0.0).setLatitude(0.0);
 
-        final var showPlace = new ShowPlace().setLocation(position);
+        final var showPlace = new ShowPlace().setLocation(location);
         geoController.insertData(showPlace);
 
-        final List<ShowPlace> showPlaceList = geoController.getNearest(position, 100);
+        final List<ShowPlace> showPlaceList = geoController.getNearest(location, 100);
         assertThat(showPlaceList.size()).isEqualTo(1);
 
-        position.setLatitude(30.0).setLongitude(30.0);
-        final List<ShowPlace> showPlaceList1 = geoController.getNearest(position, 100);
+        location.setLatitude(30.0).setLongitude(30.0);
+        final List<ShowPlace> showPlaceList1 = geoController.getNearest(location, 100);
         assertThat(showPlaceList1.size()).isEqualTo(0);
     }
 }

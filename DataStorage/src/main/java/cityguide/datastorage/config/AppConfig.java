@@ -12,8 +12,6 @@ import cityguide.datastorage.model.ShowPlace;
 
 @Configuration
 @ComponentScan("cityguide")
-// @EnableConfigurationProperties
-// @ConfigurationProperties
 @PropertySource("classpath:application.yml")
 public class AppConfig {
 
@@ -21,7 +19,8 @@ public class AppConfig {
 
     @Bean
     MongoGeoDbController<ShowPlace> getMongoGeoDbController(){
-        final var geoController = new MongoGeoDbController<ShowPlace>(env.getProperty("mongo.url"));
+        final var geoController = new MongoGeoDbController<ShowPlace>();
+        geoController.open(env.getProperty("mongo.url"));
         geoController.loadData(env.getProperty("mongo.db"), env.getProperty("mongo.collection"), ShowPlace.class);
         return geoController;
     }

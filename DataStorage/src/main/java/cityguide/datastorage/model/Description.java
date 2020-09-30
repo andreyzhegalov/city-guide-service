@@ -45,7 +45,7 @@ public class Description {
     public String toString() {
         return "Description{" +
             "title = " + getTitle() +
-            ", yearOfConstructon = " + getYearOfConstruction() +
+            ", yearOfConstruction = " + getYearOfConstruction() +
             ", architect = " + getArchitect() +
             ", info = " + getInfo() +
             "}";

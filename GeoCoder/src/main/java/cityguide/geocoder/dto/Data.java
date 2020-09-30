@@ -74,14 +74,13 @@ public class Data {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Data{");
-        sb.append("region = ").append(getRegion());
-        sb.append(", city = ").append(getCity());
-        sb.append(", street = ").append(getStreet());
-        sb.append(", house = ").append(getHouse());
-        sb.append(", block = ").append(getBlock());
-        sb.append(", latitude = ").append(getLatitude());
-        sb.append(", longitude = ").append(getLongitude());
-        return sb.append("}").toString();
+        return "Data{" + "region = " + getRegion() +
+                ", city = " + getCity() +
+                ", street = " + getStreet() +
+                ", house = " + getHouse() +
+                ", block = " + getBlock() +
+                ", latitude = " + getLatitude() +
+                ", longitude = " + getLongitude() +
+                "}";
     }
 }

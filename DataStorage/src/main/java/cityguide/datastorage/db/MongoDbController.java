@@ -16,7 +16,6 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -25,23 +24,11 @@ import org.slf4j.LoggerFactory;
 
 public class MongoDbController<T> implements DbController<T> {
     private final static Logger logger = LoggerFactory.getLogger(MongoDbController.class);
-    private final MongoClient mongoClient;
+    private MongoClient mongoClient;
     private MongoCollection<T> dataCollection;
 
-    public MongoDbController(String mongoUrl) {
-        logger.info("Connect to MongoDb by address {}", mongoUrl);
-
-        final ConnectionString connectionString = new ConnectionString(mongoUrl);
-        final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
-        final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                pojoCodecRegistry);
-        MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
-                .codecRegistry(codecRegistry).build();
-
-        this.mongoClient = MongoClients.create(clientSettings);
-    }
-
     public void loadData(String dbName, String collectionName, Class<T> dataClass) {
+        checkConnection();
         final MongoDatabase database = mongoClient.getDatabase(dbName);
         this.dataCollection = database.getCollection(collectionName, dataClass);
     }
@@ -55,7 +42,8 @@ public class MongoDbController<T> implements DbController<T> {
     }
 
     @Override
-    public void closeDb() {
+    public void close() {
+        checkConnection();
         mongoClient.close();
     }
 
@@ -65,24 +53,16 @@ public class MongoDbController<T> implements DbController<T> {
     }
 
     @Override
-    public void updateData(T data, Document filter) {
+    public void updateData(T data, Bson filter) {
         final FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions()
                 .returnDocument(ReturnDocument.AFTER);
-        final var updatedData = dataCollection.findOneAndReplace(filter, data, returnDocAfterReplace);
-        if (updatedData == null) {
-            throw new MongolControllerException("Error updated data " + data);
-        }
+        dataCollection.findOneAndReplace(filter, data, returnDocAfterReplace);
     }
 
     @Override
-    public List<T> getData(Document filter) {
+    public List<T> getData(Bson filter) {
         return toList(dataCollection.find(filter));
     }
-
-	@Override
-	public List<T> getData(Bson filter) {
-        return toList(dataCollection.find(filter));
-	}
 
     @Override
     public List<T> getAllData() {
@@ -95,5 +75,24 @@ public class MongoDbController<T> implements DbController<T> {
             list.add(place);
         }
         return list;
+    }
+
+    private void checkConnection() {
+        if (this.mongoClient == null) {
+            throw new MongolControllerException("No connection with mongoDb");
+        }
+    }
+
+    @Override
+    public void open(String url) {
+        logger.info("Connect to MongoDb by address {}", url);
+
+        final ConnectionString connectionString = new ConnectionString(url);
+        final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
+                pojoCodecRegistry);
+        MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
+                .codecRegistry(codecRegistry).build();
+        this.mongoClient = MongoClients.create(clientSettings);
     }
 }
