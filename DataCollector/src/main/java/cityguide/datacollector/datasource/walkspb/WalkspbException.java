@@ -1,4 +1,4 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.datasource.walkspb;
 
 public class WalkspbException extends RuntimeException {
 

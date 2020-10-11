@@ -1,4 +1,4 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.datasource.walkspb;
 
 import java.io.IOException;
 import java.net.URL;

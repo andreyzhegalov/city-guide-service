@@ -1,4 +1,4 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.datasource.walkspb;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;

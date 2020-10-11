@@ -1,4 +1,4 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.datasource.walkspb;
 
 public class WalkspbBuilding {
     private final static String BASE_URL = "https://walkspb.ru/istoriya-peterburga/zd";
