@@ -1,7 +1,9 @@
 package cityguide.datacollector.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @ConfigurationProperties(prefix = "cityguide.restserver")
 @Configuration("restServerConfig")
@@ -9,7 +11,9 @@ public class RestServerConfig {
     private String url;
     private String showplacesUri;
 
-    public RestServerConfig() {
+    @Bean
+    public RestTemplate getRestController(){
+        return new RestTemplate();
     }
 
     public void setUrl(String url) {
