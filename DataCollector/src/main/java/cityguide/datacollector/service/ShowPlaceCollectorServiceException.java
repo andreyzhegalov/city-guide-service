@@ -8,6 +8,5 @@ public class ShowPlaceCollectorServiceException extends RuntimeException {
     public ShowPlaceCollectorServiceException(String msg) {
         super(msg);
     }
-
 }
 

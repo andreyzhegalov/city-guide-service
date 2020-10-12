@@ -4,24 +4,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
-public class ItemParser {
-    private final Document document;
+import cityguide.datacollector.datasource.sitesource.ItemParser;
+import cityguide.datacollector.dto.ShowPlaceDto;
 
-    public ItemParser(URL itemUrl) {
-        try {
-            this.document = Jsoup.connect(itemUrl.toString()).get();
-        } catch (IOException e) {
-            throw new WalkspbException(e.toString());
-        }
-    }
+@Component
+public class WalkSpbItemParser implements ItemParser {
+    private Document document;
 
-    public List<String> getAddresses() {
+    private List<String> getAddresses() {
         final var addressList = new ArrayList<String>();
         final Elements addr = document.select("div.addr>div");
         for (Element item : addr) {
@@ -35,7 +33,7 @@ public class ItemParser {
         return addressList;
     }
 
-    public String getDescription() {
+    private String getDescription() {
         final StringBuilder sb = new StringBuilder();
         final var description = document.select("div.fulltext>p, div.quote");
         for (final var p : description) {
@@ -47,5 +45,18 @@ public class ItemParser {
 
     private String addCity(String address) {
         return "г.Санкт-Петербург " + address;
+    }
+
+    @Override
+    public Optional<ShowPlaceDto> getShowPlace(URL url) {
+        try {
+            this.document = Jsoup.connect(url.toString()).get();
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        final var showPlace = new ShowPlaceDto();
+        showPlace.setAddress(getAddresses().get(0));
+        showPlace.setInfo(getDescription());
+        return Optional.of(showPlace);
     }
 }

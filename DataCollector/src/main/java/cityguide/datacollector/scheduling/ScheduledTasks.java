@@ -14,12 +14,12 @@ public class ScheduledTasks {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
-    ShowPlaceCollectorServiceImpl dataCollectorService;
+    private ShowPlaceCollectorServiceImpl showPlaceCollectorService;
 
     // @Scheduled(cron ="0 30 1 ? * FRI")
     @PostConstruct
     public void onTimer() {
         logger.info("scheduled task running");
-        dataCollectorService.start();
+        showPlaceCollectorService.start();
     }
 }

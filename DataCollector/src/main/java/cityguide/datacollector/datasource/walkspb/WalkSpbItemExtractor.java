@@ -10,8 +10,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
-public class ItemExtractor {
+import cityguide.datacollector.datasource.sitesource.ItemExtractor;
+
+@Component
+public class WalkSpbItemExtractor implements ItemExtractor{
+    @Override
     public List<URL> getItemUrl(URL pageWithItem) {
         final Document doc;
         try {

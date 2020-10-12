@@ -4,10 +4,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-public class PageHandlerImpl implements PageHandler {
+import org.springframework.stereotype.Component;
+
+import cityguide.datacollector.datasource.sitesource.PageHandler;
+
+@Component
+public class WalkSpbPageHandler implements PageHandler {
     private final URL baseUrl;
 
-    public PageHandlerImpl() {
+    public WalkSpbPageHandler() {
         try {
             baseUrl = new URL(WalkspbBuilding.getBaseUrl());
         } catch (MalformedURLException e) {
