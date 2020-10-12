@@ -31,8 +31,9 @@ class ShowPlaceCollectorServiceImplTest {
         final var testShowPlace = new ShowPlaceDto();
         testShowPlace.setInfo("info");
         testShowPlace.setAddress("address");
+
         showPlaceService.send(testShowPlace);
 
-        Mockito.verify(restController).sendPost(testShowPlace);
+        Mockito.verify(restController).send(testShowPlace);
     }
 }

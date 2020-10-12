@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cityguide.datacollector.controller.ShowPlaceCollectorRestController;
+import cityguide.datacollector.controller.ShowPlaceSendController;
 import cityguide.datacollector.datasource.ShowPlaceSource;
 import cityguide.datacollector.dto.ShowPlaceDto;
 
 @Service
 public class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService {
-    private final ShowPlaceCollectorRestController restController;
+    private final ShowPlaceSendController restController;
     private final List<ShowPlaceSource> showPlaceSources = new ArrayList<>();
 
-    public ShowPlaceCollectorServiceImpl(ShowPlaceCollectorRestController restController) {
+    public ShowPlaceCollectorServiceImpl(ShowPlaceSendController restController) {
         this.restController = restController;
     }
 
@@ -25,7 +25,7 @@ public class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService 
 
     @Override
     public synchronized void send(ShowPlaceDto addressData) {
-        restController.sendPost(addressData);
+        restController.send(addressData);
         notifyAll();
     }
 

@@ -1,8 +1,5 @@
 package cityguide.datacollector.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,21 +10,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import cityguide.datacollector.config.RestServerConfig;
 import cityguide.datacollector.dto.ShowPlaceDto;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
-public class ShowPlaceCollectorRestController {
-    @Autowired
+@Slf4j
+public class ShowPlaceCollectorRestController implements ShowPlaceSendController {
     private RestServerConfig restServerConfig;
-
-    private static final Logger logger = LoggerFactory.getLogger(ShowPlaceCollectorRestController.class);
     private final RestTemplate restTemplate;
 
-    public ShowPlaceCollectorRestController() {
-        this.restTemplate = new RestTemplate();
+    public ShowPlaceCollectorRestController(RestTemplate restTemplate, RestServerConfig restServerConfig) {
+        this.restTemplate = restTemplate;
+        this.restServerConfig = restServerConfig;
     }
 
-    public void sendPost(ShowPlaceDto showPlace) {
-        logger.info("invoked sendPost with {}", showPlace);
+    @Override
+    public void send(ShowPlaceDto showPlace) {
+        log.info("invoked sendPost with {}", showPlace);
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
@@ -38,7 +36,6 @@ public class ShowPlaceCollectorRestController {
 
         ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                 String.class);
-        logger.info("response {}", response);
+        log.info("response {}", response);
     }
-
 }
