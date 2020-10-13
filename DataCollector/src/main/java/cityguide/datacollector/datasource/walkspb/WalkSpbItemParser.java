@@ -17,9 +17,8 @@ import cityguide.datacollector.dto.ShowPlaceDto;
 
 @Component
 public class WalkSpbItemParser implements ItemParser {
-    private Document document;
 
-    private List<String> getAddresses() {
+    private List<String> getAddresses(Document document) {
         final var addressList = new ArrayList<String>();
         final Elements addr = document.select("div.addr>div");
         for (Element item : addr) {
@@ -33,7 +32,7 @@ public class WalkSpbItemParser implements ItemParser {
         return addressList;
     }
 
-    private String getDescription() {
+    private String getDescription(Document document) {
         final StringBuilder sb = new StringBuilder();
         final var description = document.select("div.fulltext>p, div.quote");
         for (final var p : description) {
@@ -49,14 +48,29 @@ public class WalkSpbItemParser implements ItemParser {
 
     @Override
     public Optional<ShowPlaceDto> getShowPlace(URL url) {
+        Document document;
         try {
-            this.document = Jsoup.connect(url.toString()).get();
+            document = Jsoup.connect(url.toString()).get();
         } catch (IOException e) {
             return Optional.empty();
         }
         final var showPlace = new ShowPlaceDto();
-        showPlace.setAddress(getAddresses().get(0));
-        showPlace.setInfo(getDescription());
+        showPlace.setAddress(getAddresses(document).get(0));
+        showPlace.setInfo(getDescription(document));
         return Optional.of(showPlace);
     }
+
+    @Override
+    public Optional<ShowPlaceDto> getShowPlace(String html) {
+        final Document document = Jsoup.parse(html);
+        final var showPlace = new ShowPlaceDto();
+        final var addresses = getAddresses(document);
+        if (addresses.isEmpty()){
+            return Optional.empty();
+        }
+        showPlace.setAddress(addresses.get(0));
+        showPlace.setInfo(getDescription(document));
+        return Optional.of(showPlace);
+    }
+
 }
