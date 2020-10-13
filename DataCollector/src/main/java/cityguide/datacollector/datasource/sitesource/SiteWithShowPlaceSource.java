@@ -28,10 +28,10 @@ public class SiteWithShowPlaceSource implements ShowPlaceSource {
             return;
         }
         final var thread = new Thread(() -> {
-            var curPage = pageHandler.getFistPage();
+            var currentPage = pageHandler.getFistPage();
             while (true) {
-                log.info("Current page {}", curPage);
-                final var htmlWithItems = pageReciver.getHtml(curPage);
+                log.info("Current page {}", currentPage);
+                final var htmlWithItems = pageReciver.getHtml(currentPage);
                 final var itemsUrlList = itemExtractor.getItemUrl(htmlWithItems);
                 for (final var itemUrl : itemsUrlList) {
                     log.debug("itemUrl  {}", itemUrl);
@@ -42,11 +42,11 @@ public class SiteWithShowPlaceSource implements ShowPlaceSource {
                     }
                     sleep();
                 }
-                final var mayBeCurPage = pageHandler.getNextPage(curPage);
-                if (mayBeCurPage.isEmpty()) {
+                final var mayBeCurrentPage = pageHandler.getNextPage(currentPage);
+                if (mayBeCurrentPage.isEmpty()) {
                     break;
                 }
-                curPage = mayBeCurPage.get();
+                currentPage = mayBeCurrentPage.get();
                 sleep();
             }
         });

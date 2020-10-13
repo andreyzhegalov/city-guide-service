@@ -20,7 +20,7 @@ public class WalkSpbItemExtractor implements ItemExtractor {
         final Elements items = document.select("div.item:has(div.obj_params)");
         final var itemsList = new ArrayList<URL>();
         for (Element item : items) {
-            Element description = item.selectFirst("a[href]");
+            final var description = item.selectFirst("a[href]");
             final URL itemUrl;
             try {
                 itemUrl = new URL(description.absUrl("href"));

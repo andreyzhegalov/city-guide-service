@@ -1,7 +1,5 @@
 package cityguide.datacollector.config;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Component;
 
 import cityguide.datacollector.datasource.sitesource.ItemExtractor;
