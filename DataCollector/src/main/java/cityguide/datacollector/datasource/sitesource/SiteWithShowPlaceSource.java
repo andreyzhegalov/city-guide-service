@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SiteWithShowPlaceSource implements ShowPlaceSource {
     private Consumer<ShowPlaceDto> consumer;
+    private final PageReciver pageReciver;
     private final PageHandler pageHandler;
     private final ItemExtractor itemExtractor;
     private final ItemParser itemParser;
 
-    public SiteWithShowPlaceSource(PageHandler pageHandler, ItemExtractor itemExtractor, ItemParser itemParser) {
+    public SiteWithShowPlaceSource(PageReciver pageReciver, PageHandler pageHandler, ItemExtractor itemExtractor, ItemParser itemParser) {
+        this.pageReciver = pageReciver;
         this.pageHandler = pageHandler;
         this.itemExtractor = itemExtractor;
         this.itemParser = itemParser;
@@ -29,10 +31,12 @@ public class SiteWithShowPlaceSource implements ShowPlaceSource {
             var curPage = pageHandler.getFistPage();
             while (true) {
                 log.info("Current page {}", curPage);
-                final var itemsUrlList = itemExtractor.getItemUrl(curPage);
+                final var htmlWithItems = pageReciver.getHtml(curPage);
+                final var itemsUrlList = itemExtractor.getItemUrl(htmlWithItems);
                 for (final var itemUrl : itemsUrlList) {
                     log.debug("itemUrl  {}", itemUrl);
-                    final var mayBeShowPlace = itemParser.getShowPlace(itemUrl);
+                    final var html = pageReciver.getHtml(itemUrl);
+                    final var mayBeShowPlace = itemParser.getShowPlace(html);
                     if (mayBeShowPlace.isPresent()) {
                         consumer.accept(mayBeShowPlace.get());
                     }

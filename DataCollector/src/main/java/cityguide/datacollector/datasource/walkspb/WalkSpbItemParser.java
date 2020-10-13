@@ -47,20 +47,6 @@ public class WalkSpbItemParser implements ItemParser {
     }
 
     @Override
-    public Optional<ShowPlaceDto> getShowPlace(URL url) {
-        Document document;
-        try {
-            document = Jsoup.connect(url.toString()).get();
-        } catch (IOException e) {
-            return Optional.empty();
-        }
-        final var showPlace = new ShowPlaceDto();
-        showPlace.setAddress(getAddresses(document).get(0));
-        showPlace.setInfo(getDescription(document));
-        return Optional.of(showPlace);
-    }
-
-    @Override
     public Optional<ShowPlaceDto> getShowPlace(String html) {
         final Document document = Jsoup.parse(html);
         final var showPlace = new ShowPlaceDto();
