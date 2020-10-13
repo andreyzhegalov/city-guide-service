@@ -61,4 +61,5 @@ public class WalkSpbPageHandler implements PageHandler {
         final String numString = urlString.substring(index + pageParameter.length());
         return Integer.parseInt(numString) / WalkspbBuilding.getItemOnPage();
     }
+
 }
