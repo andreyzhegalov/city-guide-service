@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import cityguide.datacollector.showplacesource.walkspb.WalkSpbItemExtractor;
 import org.junit.jupiter.api.Test;
 
 public class WalkSpbItemExtractorTest {
@@ -26,14 +27,14 @@ public class WalkSpbItemExtractorTest {
     void getItemsUrlTestForEmptyHtml(){
         final var itemExtractor = new WalkSpbItemExtractor();
         final var html = "";
-        assertThat(itemExtractor.getItemUrl(html)).isEmpty();
+        assertThat(itemExtractor.getItemUrls(html)).isEmpty();
     }
 
     @Test
     void getItemsUrlTest() throws IOException{
         final var itemExtractor = new WalkSpbItemExtractor();
         final var html = getHtml();
-        assertThat(itemExtractor.getItemUrl(html)).hasSize(20);
+        assertThat(itemExtractor.getItemUrls(html)).hasSize(20);
     }
 }
 

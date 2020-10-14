@@ -12,9 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 public class ShowPlaceCollectorApp {
-
     public static void main(String[] args) {
         new SpringApplicationBuilder(ShowPlaceCollectorApp.class).web(WebApplicationType.NONE).run(args);
     }
 }
-

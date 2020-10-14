@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import cityguide.datacollector.controller.ShowPlaceCollectorRestController;
-import cityguide.datacollector.datasource.ShowPlaceSource;
+import cityguide.datacollector.showplacesource.ShowPlaceSource;
 import cityguide.datacollector.dto.ShowPlaceDto;
 
 class ShowPlaceCollectorServiceImplTest {

@@ -1,19 +1,30 @@
 package cityguide.datacollector.datasource.walkspb;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
 import cityguide.datacollector.config.WalkSpbSiteConfig;
+import cityguide.datacollector.showplacesource.walkspb.WalkSpbException;
+import cityguide.datacollector.showplacesource.walkspb.WalkSpbPageHandler;
 
 public class WalkSpbPageHandlerTest {
     private final WalkSpbSiteConfig siteConfig;
 
-    WalkSpbPageHandlerTest(){
+    WalkSpbPageHandlerTest() {
         siteConfig = new WalkSpbSiteConfig();
         siteConfig.setBaseUrl("https://walkspb.ru/istoriya-peterburga/zd");
         siteConfig.setPageCount(35);
         siteConfig.setItemOnPage(20);
+    }
+
+    @Test
+    void ctrForInvalidBaseSiteUrl() {
+        siteConfig.setBaseUrl("");
+        assertThatThrownBy(() -> {
+            new WalkSpbPageHandler(siteConfig);
+        }).isInstanceOf(WalkSpbException.class);
     }
 
     @Test
@@ -37,7 +48,7 @@ public class WalkSpbPageHandlerTest {
     }
 
     @Test
-    public void testIncrement(){
+    public void testIncrement() {
         final var pageHandler = new WalkSpbPageHandler(siteConfig);
         final var currentPage = pageHandler.getFistPage();
         final var nextPage = pageHandler.getNextPage(currentPage).get();

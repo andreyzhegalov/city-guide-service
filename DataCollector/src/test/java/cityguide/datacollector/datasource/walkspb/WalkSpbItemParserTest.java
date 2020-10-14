@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import cityguide.datacollector.showplacesource.walkspb.WalkSpbItemParser;
 import org.junit.jupiter.api.Test;
 
 public class WalkSpbItemParserTest {

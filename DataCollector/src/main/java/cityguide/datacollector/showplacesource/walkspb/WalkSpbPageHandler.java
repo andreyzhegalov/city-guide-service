@@ -1,13 +1,13 @@
-package cityguide.datacollector.datasource.walkspb;
+package cityguide.datacollector.showplacesource.walkspb;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
+import cityguide.datacollector.showplacesource.sitesource.PageHandler;
 import org.springframework.stereotype.Component;
 
 import cityguide.datacollector.config.WalkSpbSiteConfig;
-import cityguide.datacollector.datasource.sitesource.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,7 +23,7 @@ public class WalkSpbPageHandler implements PageHandler {
         try {
             baseUrl = new URL(this.walkSpbSiteConfig.getBaseUrl());
         } catch (MalformedURLException e) {
-            throw new WalkspbException(e.toString());
+            throw new WalkSpbException(e.toString());
         }
     }
 
@@ -54,7 +54,7 @@ public class WalkSpbPageHandler implements PageHandler {
         try {
             return new URL(baseUrl.toString() + "?start=" + walkSpbSiteConfig.getItemOnPage() * pageNumber);
         } catch (Exception e) {
-            throw new WalkspbException(e.toString());
+            throw new WalkSpbException(e.toString());
         }
     }
 

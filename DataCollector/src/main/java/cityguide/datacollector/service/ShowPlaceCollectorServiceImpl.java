@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cityguide.datacollector.controller.ShowPlaceSendController;
-import cityguide.datacollector.datasource.ShowPlaceSource;
 import cityguide.datacollector.dto.ShowPlaceDto;
+import cityguide.datacollector.showplacesource.ShowPlaceSource;
 
 @Service
 public class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService {

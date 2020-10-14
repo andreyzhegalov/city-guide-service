@@ -1,4 +1,4 @@
-package cityguide.datacollector.datasource;
+package cityguide.datacollector.showplacesource;
 
 import java.util.function.Consumer;
 

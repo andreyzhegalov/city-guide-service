@@ -1,4 +1,4 @@
-package cityguide.datacollector.datasource.sitesource;
+package cityguide.datacollector.showplacesource.sitesource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PageReciverImpl implements PageReciver {
-
     @Override
     public String getHtml(URL url) {
         final Document doc;

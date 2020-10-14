@@ -1,4 +1,4 @@
-package cityguide.datacollector.datasource.sitesource;
+package cityguide.datacollector.showplacesource.sitesource;
 
 import java.net.URL;
 
