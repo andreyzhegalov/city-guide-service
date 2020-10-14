@@ -20,5 +20,6 @@ public class WalkSpbSourceConfig {
         final var walkSpbSiteParser = new SiteWithShowPlaceSource(pageReciver, (PageHandler) pageHandler,
                 (ItemExtractor) itemExtractor, (ItemParser) itemParser);
         showPlaceCollectorService.addShowPlaceSource(walkSpbSiteParser);
+        showPlaceCollectorService.start();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,8 +35,12 @@ public class ShowPlaceCollectorRestController implements ShowPlaceSendController
 
         HttpEntity<?> entity = new HttpEntity<>(showPlace, headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
-                String.class);
-        log.info("response {}", response);
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
+                    String.class);
+            log.info("response {}", response);
+        } catch (ResourceAccessException e) {
+            log.error("can't access to data storage server");
+        }
     }
 }
