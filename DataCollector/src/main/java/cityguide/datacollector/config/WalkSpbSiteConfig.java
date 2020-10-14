@@ -5,12 +5,16 @@ import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "cityguide.restserver")
+@ToString
+@ConfigurationProperties(prefix = "cityguide.sources.walkspb")
 @Component
-public class RestServerConfig {
-    private String url;
-    private String showplacesUri;
+public class WalkSpbSiteConfig {
+    private String baseUrl;
+    private int pageCount;
+    private int itemOnPage;
 }
+

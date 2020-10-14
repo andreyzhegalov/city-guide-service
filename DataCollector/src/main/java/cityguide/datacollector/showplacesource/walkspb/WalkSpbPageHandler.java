@@ -1,17 +1,29 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.showplacesource.walkspb;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-public class PageHandlerImpl implements PageHandler {
-    private final URL baseUrl;
+import cityguide.datacollector.showplacesource.sitesource.PageHandler;
+import org.springframework.stereotype.Component;
 
-    public PageHandlerImpl() {
+import cityguide.datacollector.config.WalkSpbSiteConfig;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Component
+public class WalkSpbPageHandler implements PageHandler {
+    private final URL baseUrl;
+    private final WalkSpbSiteConfig walkSpbSiteConfig;
+
+    public WalkSpbPageHandler(WalkSpbSiteConfig siteConfig) {
+        log.info(siteConfig.toString());
+
+        this.walkSpbSiteConfig = siteConfig;
         try {
-            baseUrl = new URL(WalkspbBuilding.getBaseUrl());
+            baseUrl = new URL(this.walkSpbSiteConfig.getBaseUrl());
         } catch (MalformedURLException e) {
-            throw new WalkspbException(e.toString());
+            throw new WalkSpbException(e.toString());
         }
     }
 
@@ -23,7 +35,7 @@ public class PageHandlerImpl implements PageHandler {
     @Override
     public Optional<URL> getNextPage(URL currentPage) {
         final int currentPageNum = getCurrentPageNumber(currentPage);
-        if (currentPageNum >= WalkspbBuilding.getPageCnt() - 1) {
+        if (currentPageNum >= walkSpbSiteConfig.getPageCount() - 1) {
             return Optional.empty();
         }
         return Optional.of(getPageUrl(currentPageNum + 1));
@@ -31,7 +43,7 @@ public class PageHandlerImpl implements PageHandler {
 
     @Override
     public URL getLastPage() {
-        return getPageUrl(WalkspbBuilding.getPageCnt() - 1);
+        return getPageUrl(walkSpbSiteConfig.getPageCount() - 1);
     }
 
     private URL getPageUrl(int pageNumber) {
@@ -40,9 +52,9 @@ public class PageHandlerImpl implements PageHandler {
 
     private URL makeUrl(int pageNumber) {
         try {
-            return new URL(baseUrl.toString() + "?start=" + WalkspbBuilding.getItemOnPage() * pageNumber);
+            return new URL(baseUrl.toString() + "?start=" + walkSpbSiteConfig.getItemOnPage() * pageNumber);
         } catch (Exception e) {
-            throw new WalkspbException(e.toString());
+            throw new WalkSpbException(e.toString());
         }
     }
 
@@ -54,6 +66,6 @@ public class PageHandlerImpl implements PageHandler {
             return 0;
         }
         final String numString = urlString.substring(index + pageParameter.length());
-        return Integer.parseInt(numString) / WalkspbBuilding.getItemOnPage();
+        return Integer.parseInt(numString) / walkSpbSiteConfig.getItemOnPage();
     }
 }

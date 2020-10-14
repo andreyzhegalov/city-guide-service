@@ -1,4 +1,4 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.showplacesource.sitesource;
 
 import java.net.URL;
 import java.util.Optional;

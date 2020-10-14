@@ -3,6 +3,12 @@ cityguide:
      url: http://192.168.1.139:8080/DataStorage/
      showplaces-uri: api/showplaces
 
+ sources:
+   walkspb:
+     base-url: https://walkspb.ru/istoriya-peterburga/zd
+     page-count: 35
+     item-on-page: 20
+
 logging:
     level:
         root: ERROR

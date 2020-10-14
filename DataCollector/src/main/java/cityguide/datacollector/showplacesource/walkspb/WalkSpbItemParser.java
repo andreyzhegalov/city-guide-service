@@ -1,27 +1,36 @@
-package cityguide.datacollector.source.walkspb;
+package cityguide.datacollector.showplacesource.walkspb;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
-public class ItemParser {
-    private final Document document;
+import cityguide.datacollector.dto.ShowPlaceDto;
+import cityguide.datacollector.showplacesource.sitesource.ItemParser;
 
-    public ItemParser(URL itemUrl) {
-        try {
-            this.document = Jsoup.connect(itemUrl.toString()).get();
-        } catch (IOException e) {
-            throw new WalkspbException(e.toString());
+@Component
+public class WalkSpbItemParser implements ItemParser {
+    private static final String city = "г.Санкт-Петербург";
+
+    @Override
+    public Optional<ShowPlaceDto> getShowPlace(String html) {
+        final Document document = Jsoup.parse(html);
+        final var showPlace = new ShowPlaceDto();
+        final var addresses = getAddresses(document);
+        if (addresses.isEmpty()) {
+            return Optional.empty();
         }
+        showPlace.setAddress(addresses.get(0));
+        showPlace.setInfo(getDescription(document));
+        return Optional.of(showPlace);
     }
 
-    public List<String> getAddresses() {
+    private List<String> getAddresses(Document document) {
         final var addressList = new ArrayList<String>();
         final Elements addr = document.select("div.addr>div");
         for (Element item : addr) {
@@ -35,7 +44,7 @@ public class ItemParser {
         return addressList;
     }
 
-    public String getDescription() {
+    private String getDescription(Document document) {
         final StringBuilder sb = new StringBuilder();
         final var description = document.select("div.fulltext>p, div.quote");
         for (final var p : description) {
@@ -46,6 +55,6 @@ public class ItemParser {
     }
 
     private String addCity(String address) {
-        return "г.Санкт-Петербург " + address;
+        return city + address;
     }
 }
