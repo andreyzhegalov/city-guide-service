@@ -1,6 +1,6 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.mongo.db;
 
-public class MongolControllerException extends RuntimeException {
+class MongolControllerException extends RuntimeException {
     public MongolControllerException() {
     }
 

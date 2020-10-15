@@ -9,7 +9,7 @@ import cityguide.datastorage.model.Description;
 import cityguide.datastorage.model.ShowPlace;
 
 @Service
-public class TelegramMessageViewImpl implements TelegramMessageView {
+public class TelegramMessageViewImpl implements ShowPlaceView {
 
     @Override
     public String prepareMessage(List<ShowPlace> showPlaces) {

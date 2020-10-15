@@ -1,4 +1,4 @@
-package cityguide.datastorage.service;
+package cityguide.datastorage.mongo.dao;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.exists;
@@ -12,16 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import cityguide.datastorage.db.GeoDbController;
+import cityguide.datastorage.core.dao.ShowPlaceDao;
+import cityguide.datastorage.core.db.GeoDbController;
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 @Service
-public class ShowPlaceServiceImpl implements ShowPlaceService {
-    private final static Logger logger = LoggerFactory.getLogger(ShowPlaceServiceImpl.class);
+public class ShowPlaceDaoMongo implements ShowPlaceDao {
+    private final static Logger logger = LoggerFactory.getLogger(ShowPlaceDaoMongo.class);
     private final GeoDbController<ShowPlace> geoController;
 
-    public ShowPlaceServiceImpl(GeoDbController<ShowPlace> geoController) {
+    public ShowPlaceDaoMongo(GeoDbController<ShowPlace> geoController) {
         this.geoController = geoController;
     }
 
@@ -44,7 +45,7 @@ public class ShowPlaceServiceImpl implements ShowPlaceService {
         final var showPlaceList = geoController.getData(eq("address_string", address));
         if (showPlaceList.size() > 1) {
             logger.error("more than one show place with address: {}", address);
-            throw new ShowPlaceServiceException("More than one show place with address: " + address);
+            throw new DaoMongoException("More than one show place with address: " + address);
         }
         return (showPlaceList.size() > 0) ? Optional.of(showPlaceList.get(0)) : Optional.empty();
     }

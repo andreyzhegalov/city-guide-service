@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cityguide.datastorage.convertors.ShowPlaceConverter;
+import cityguide.datastorage.core.dao.ShowPlaceDao;
 import cityguide.datastorage.dto.ShowPlaceDto;
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
-import cityguide.datastorage.service.ShowPlaceService;
-import cityguide.datastorage.view.TelegramMessageView;
+import cityguide.datastorage.view.ShowPlaceView;
 
 @RestController
 public class ShowPlaceRestController {
-    private final ShowPlaceService showPlaceService;
-    private final TelegramMessageView telegramMessageService;
+    private final ShowPlaceDao showPlaceService;
+    private final ShowPlaceView telegramMessageService;
 
-    public ShowPlaceRestController(ShowPlaceService showPlaceService, TelegramMessageView telegramMessageService) {
+    public ShowPlaceRestController(ShowPlaceDao showPlaceService, ShowPlaceView telegramMessageService) {
         this.showPlaceService = showPlaceService;
         this.telegramMessageService = telegramMessageService;
     }

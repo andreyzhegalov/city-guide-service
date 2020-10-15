@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-import cityguide.datastorage.db.MongoGeoDbController;
+import cityguide.datastorage.mongo.db.MongoGeoDbController;
 import cityguide.datastorage.model.ShowPlace;
 
 @Configuration

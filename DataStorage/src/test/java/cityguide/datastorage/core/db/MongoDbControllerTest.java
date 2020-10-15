@@ -1,8 +1,9 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.core.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import cityguide.datastorage.mongo.db.MongoDbController;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;

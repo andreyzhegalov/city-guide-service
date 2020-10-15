@@ -1,7 +1,8 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.mongo.db;
 
 import java.util.List;
 
+import cityguide.datastorage.core.db.GeoDbController;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;

@@ -1,9 +1,10 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.core.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import cityguide.datastorage.mongo.db.MongoGeoDbController;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

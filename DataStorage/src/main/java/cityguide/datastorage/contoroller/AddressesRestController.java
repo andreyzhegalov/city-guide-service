@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cityguide.datastorage.dto.AddressDto;
 import cityguide.datastorage.model.Location;
-import cityguide.datastorage.service.ShowPlaceService;
+import cityguide.datastorage.core.dao.ShowPlaceDao;
 
 @RestController
 public class AddressesRestController {
-    private final ShowPlaceService showPlaceService;
+    private final ShowPlaceDao showPlaceService;
 
-    public AddressesRestController(ShowPlaceService showPlaceService) {
+    public AddressesRestController(ShowPlaceDao showPlaceService) {
         this.showPlaceService = showPlaceService;
     }
 

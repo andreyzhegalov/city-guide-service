@@ -1,4 +1,4 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.core.db;
 
 import java.util.List;
 
