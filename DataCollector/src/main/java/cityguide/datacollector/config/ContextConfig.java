@@ -12,6 +12,5 @@ public class ContextConfig {
     public RestTemplate getRestController(){
         return new RestTemplate();
     }
-
 }
 

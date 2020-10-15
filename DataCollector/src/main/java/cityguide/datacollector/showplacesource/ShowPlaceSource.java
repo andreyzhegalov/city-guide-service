@@ -8,6 +8,6 @@ public interface ShowPlaceSource {
 
     void collect();
 
-    void setHandler(Consumer<ShowPlaceDto> newShowPlaceHandler);
+    void setReceiver(Consumer<ShowPlaceDto> newShowPlaceHandler);
 }
 

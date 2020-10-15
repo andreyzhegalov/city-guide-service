@@ -19,27 +19,6 @@ public class SiteSource implements ShowPlaceSource {
         this.siteHandler = siteHandler;
     }
 
-    private class Worker implements Runnable {
-        @Override
-        public void run() {
-            final List<URL> listPageUrl = siteHandler.getAllPageUrl();
-            listPageUrl.forEach((pageUrl) -> {
-                final List<URL> itemsUrl = siteHandler.getAllItemsPageUrl(pageUrl);
-                itemsUrl.forEach(itemUrl -> {
-                    sleep();
-                    final var mayBeShowPlace = siteHandler.getShowPlace(itemUrl);
-                    sendShowPlace(mayBeShowPlace);
-                });
-            });
-        }
-    }
-
-    private void sendShowPlace(Optional<ShowPlaceDto> mayBeShowPlace) {
-        if (mayBeShowPlace.isPresent()) {
-            consumer.accept(mayBeShowPlace.get());
-        }
-    }
-
     @Override
     public void collect() {
         if (consumer == null) {
@@ -55,21 +34,40 @@ public class SiteSource implements ShowPlaceSource {
     }
 
     @Override
-    public void setHandler(Consumer<ShowPlaceDto> newShowPlaceHandler) {
+    public void setReceiver(Consumer<ShowPlaceDto> newShowPlaceHandler) {
         this.consumer = newShowPlaceHandler;
     }
 
     private void sleep() {
         try {
-            Thread.sleep(getRandomNumber(1_000, 3 * 1_000));
+            Thread.sleep(getRandomNumber());
         } catch (InterruptedException e) {
             log.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
     }
 
-    private int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+    private class Worker implements Runnable {
+        @Override
+        public void run() {
+            final List<URL> listPageUrl = siteHandler.getAllPageUrl();
+            listPageUrl.forEach(pageUrl -> {
+                final List<URL> itemsUrl = siteHandler.getAllItemsPageUrl(pageUrl);
+                itemsUrl.forEach(itemUrl -> {
+                    sleep();
+                    final var mayBeShowPlace = siteHandler.getShowPlace(itemUrl);
+                    sendShowPlace(mayBeShowPlace);
+                });
+            });
+        }
+    }
+
+    private void sendShowPlace(Optional<ShowPlaceDto> mayBeShowPlace) {
+        mayBeShowPlace.ifPresent(showPlaceDto -> consumer.accept(showPlaceDto));
+    }
+
+    private int getRandomNumber() {
+        return (int) ((Math.random() * (3000 - 1000)) + 1000);
     }
 
 }

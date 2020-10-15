@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 public class SiteHandlerImplTest {
     @Mock
-    PageReciver pageReciver;
+    PageReceiver pageReciver;
 
     @Mock
     PageHandler pageHandler;

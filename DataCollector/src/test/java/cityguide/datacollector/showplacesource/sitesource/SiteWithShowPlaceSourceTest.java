@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -17,7 +18,7 @@ import cityguide.datacollector.dto.ShowPlaceDto;
 
 class SiteWithShowPlaceSourceTest {
 
-    class TestHandler implements Consumer<ShowPlaceDto> {
+    static class TestHandler implements Consumer<ShowPlaceDto> {
         @Override
         public void accept(ShowPlaceDto t) {
         }
@@ -42,10 +43,10 @@ class SiteWithShowPlaceSourceTest {
         final var siteHandler = Mockito.mock(SiteHandler.class);
         final var siteSource = new SiteSource(siteHandler);
         final var handler = Mockito.mock(TestHandler.class);
-        siteSource.setHandler(handler);
+        siteSource.setReceiver(handler);
 
-        Mockito.when(siteHandler.getAllPageUrl()).thenReturn(Arrays.asList(new URL("https://test.com")));
-        Mockito.when(siteHandler.getAllItemsPageUrl(any())).thenReturn(Arrays.asList(new URL("https://test.com/item")));
+        Mockito.when(siteHandler.getAllPageUrl()).thenReturn(Collections.singletonList(new URL("https://test.com")));
+        Mockito.when(siteHandler.getAllItemsPageUrl(any())).thenReturn(Collections.singletonList(new URL("https://test.com/item")));
         Mockito.when(siteHandler.getShowPlace(any())).thenReturn(Optional.of(new ShowPlaceDto()));
 
         siteSource.collect();

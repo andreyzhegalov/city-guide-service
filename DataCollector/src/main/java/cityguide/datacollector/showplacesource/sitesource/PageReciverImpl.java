@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PageReciverImpl implements PageReciver {
+public class PageReciverImpl implements PageReceiver {
     @Override
     public String getHtml(URL url) {
         final Document doc;

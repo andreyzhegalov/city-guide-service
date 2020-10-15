@@ -2,7 +2,7 @@ package cityguide.datacollector.showplacesource.sitesource;
 
 import java.net.URL;
 
-public interface PageReciver {
+public interface PageReceiver {
     String getHtml(URL url);
 }
 

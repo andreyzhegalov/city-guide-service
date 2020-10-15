@@ -12,12 +12,11 @@ import cityguide.datacollector.showplacesource.walkspb.WalkSpbPageHandler;
 
 @Component
 public class WalkSpbSourceConfig {
-
-    public WalkSpbSourceConfig(PageReciverImpl pageReciver, ShowPlaceCollectorService showPlaceCollectorService, WalkSpbPageHandler pageHandler,
-            WalkSpbItemExtractor itemExtractor, WalkSpbItemParser itemParser) {
-        final var walkSpbSiteHandler = new SiteHandlerImpl(pageReciver, pageHandler, itemExtractor, itemParser);
-        final var walkSpbSiteParser = new SiteSource(walkSpbSiteHandler);
-        showPlaceCollectorService.addShowPlaceSource(walkSpbSiteParser);
+    public WalkSpbSourceConfig(PageReciverImpl pageReceiver, ShowPlaceCollectorService showPlaceCollectorService,
+            WalkSpbPageHandler pageHandler, WalkSpbItemExtractor itemExtractor, WalkSpbItemParser itemParser) {
+        final var siteHandler = new SiteHandlerImpl(pageReceiver, pageHandler, itemExtractor, itemParser);
+        final var siteSource = new SiteSource(siteHandler);
+        showPlaceCollectorService.addShowPlaceSource(siteSource);
         showPlaceCollectorService.start();
     }
 }

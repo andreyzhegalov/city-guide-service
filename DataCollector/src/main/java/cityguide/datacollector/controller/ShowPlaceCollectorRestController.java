@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class ShowPlaceCollectorRestController implements ShowPlaceSendController {
-    private RestServerConfig restServerConfig;
+    private final RestServerConfig restServerConfig;
     private final RestTemplate restTemplate;
 
     public ShowPlaceCollectorRestController(RestTemplate restTemplate, RestServerConfig restServerConfig) {
@@ -26,7 +26,7 @@ public class ShowPlaceCollectorRestController implements ShowPlaceSendController
 
     @Override
     public void send(ShowPlaceDto showPlace) {
-        log.info("invoked sendPost with {}", showPlace);
+        log.debug("invoked sendPost with {}", showPlace);
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
@@ -38,9 +38,9 @@ public class ShowPlaceCollectorRestController implements ShowPlaceSendController
         try {
             ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                     String.class);
-            log.info("response {}", response);
+            log.debug("response {}", response);
         } catch (ResourceAccessException e) {
-            log.error("can't access to data storage server");
+            log.error("can't send showplace to datastorage server");
         }
     }
 }

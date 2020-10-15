@@ -8,10 +8,10 @@ import cityguide.datacollector.dto.ShowPlaceDto;
 
 public interface SiteHandler {
 
-    Optional<ShowPlaceDto> getShowPlace(URL itemUrl);
+    List<URL> getAllPageUrl();
 
     List<URL> getAllItemsPageUrl(URL pageUrl);
 
-    List<URL> getAllPageUrl();
+    Optional<ShowPlaceDto> getShowPlace(URL itemUrl);
 }
 

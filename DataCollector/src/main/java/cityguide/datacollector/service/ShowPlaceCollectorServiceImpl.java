@@ -31,7 +31,7 @@ public class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService 
 
     @Override
     public void addShowPlaceSource(ShowPlaceSource newSource) {
-        newSource.setHandler(this::send);
+        newSource.setReceiver(this::send);
         showPlaceSources.add(newSource);
     }
 }

@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class WalkSpbPageHandler implements PageHandler {
     private final URL baseUrl;
-    private WalkSpbSiteConfig walkSpbSiteConfig;
+    private final WalkSpbSiteConfig walkSpbSiteConfig;
 
     public WalkSpbPageHandler(WalkSpbSiteConfig siteConfig) {
         log.info(siteConfig.toString());
@@ -68,5 +68,4 @@ public class WalkSpbPageHandler implements PageHandler {
         final String numString = urlString.substring(index + pageParameter.length());
         return Integer.parseInt(numString) / walkSpbSiteConfig.getItemOnPage();
     }
-
 }

@@ -8,12 +8,12 @@ import java.util.Optional;
 import cityguide.datacollector.dto.ShowPlaceDto;
 
 public class SiteHandlerImpl implements SiteHandler{
-    private final PageReciver pageReciver;
+    private final PageReceiver pageReciver;
     private final PageHandler pageHandler;
     private final ItemExtractor itemExtractor;
     private final ItemParser itemParser;
 
-    public SiteHandlerImpl(PageReciver pageReciver, PageHandler pageHandler, ItemExtractor itemExtractor, ItemParser itemParser) {
+    public SiteHandlerImpl(PageReceiver pageReciver, PageHandler pageHandler, ItemExtractor itemExtractor, ItemParser itemParser) {
         this.pageReciver = pageReciver;
         this.pageHandler = pageHandler;
         this.itemExtractor = itemExtractor;
