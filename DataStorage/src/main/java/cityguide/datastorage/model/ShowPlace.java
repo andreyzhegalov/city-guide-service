@@ -6,6 +6,9 @@ import java.util.List;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class ShowPlace {
     private ObjectId id;
     private Address address;

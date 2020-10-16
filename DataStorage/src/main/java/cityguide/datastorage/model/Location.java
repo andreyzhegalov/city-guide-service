@@ -3,6 +3,9 @@ package cityguide.datastorage.model;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Location {
     private List<Double> coordinates;
     private String type = "Point";

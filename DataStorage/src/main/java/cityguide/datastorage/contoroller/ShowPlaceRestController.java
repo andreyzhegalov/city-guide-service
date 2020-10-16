@@ -18,11 +18,11 @@ import cityguide.datastorage.view.ShowPlaceView;
 @RestController
 public class ShowPlaceRestController {
     private final ShowPlaceDao showPlaceService;
-    private final ShowPlaceView telegramMessageService;
+    private final ShowPlaceView showPlaceView;
 
-    public ShowPlaceRestController(ShowPlaceDao showPlaceService, ShowPlaceView telegramMessageService) {
+    public ShowPlaceRestController(ShowPlaceDao showPlaceService, ShowPlaceView showPlaceView) {
         this.showPlaceService = showPlaceService;
-        this.telegramMessageService = telegramMessageService;
+        this.showPlaceView = showPlaceView;
     }
 
     @RequestMapping(
@@ -36,7 +36,7 @@ public class ShowPlaceRestController {
             @RequestParam(name = "radius", defaultValue = "100") int searchRadius) {
         final Location location = new Location(latitude, longitude);
         final List<ShowPlace> showPlaces = showPlaceService.getNearest(location, searchRadius);
-        return telegramMessageService.prepareMessage(showPlaces);
+        return showPlaceView.prepareMessage(showPlaces);
     }
 
     @RequestMapping(

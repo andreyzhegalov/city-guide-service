@@ -1,5 +1,8 @@
 package cityguide.datastorage.model;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Description {
     private String title;
     private String yearOfConstruction;
