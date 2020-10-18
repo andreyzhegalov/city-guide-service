@@ -40,6 +40,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation group: 'org.assertj', name: 'assertj-core'
+    testImplementation("org.mockito:mockito-junit-jupiter")
+
+    testCompile ("org.hamcrest:hamcrest-core")
+    testCompile ("org.springframework:spring-test")
 }
 
 jacocoTestReport {
