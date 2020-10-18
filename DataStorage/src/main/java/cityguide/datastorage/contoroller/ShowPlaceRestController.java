@@ -20,8 +20,8 @@ public class ShowPlaceRestController {
     private final ShowPlaceDao showPlaceService;
     private final ShowPlaceView showPlaceView;
 
-    public ShowPlaceRestController(ShowPlaceDao showPlaceService, ShowPlaceView showPlaceView) {
-        this.showPlaceService = showPlaceService;
+    public ShowPlaceRestController(ShowPlaceDao showPlaceDao, ShowPlaceView showPlaceView) {
+        this.showPlaceService = showPlaceDao;
         this.showPlaceView = showPlaceView;
     }
 
