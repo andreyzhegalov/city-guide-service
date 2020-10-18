@@ -15,7 +15,7 @@ public class TelegramMessageViewImpl implements ShowPlaceView {
     public String prepareMessage(List<ShowPlace> showPlaces) {
         // NOTE only first description at this time
         return (showPlaces.isEmpty()) ? "Ничего не найдено"
-                : showPlaces.get(0).getDescriptionList().stream().map(Description::getInfo).collect(Collectors.toList())
-                        .toString();
+                : showPlaces.get(0).getDescriptionList().stream().map(Description::getInfo)
+                        .collect(Collectors.joining(System.lineSeparator())).toString();
     }
 }
