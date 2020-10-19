@@ -2,6 +2,7 @@ package cityguide.datastorage.mongo.db;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -21,11 +22,11 @@ public class MongoDbController<T> implements DbController<T> {
     private MongoCollection<T> dataCollection;
 
     public MongoDbController(MongoClient mongoClient){
+        Objects.requireNonNull(mongoClient);
         this.mongoClient = mongoClient;
     }
 
     public void loadData(String dbName, String collectionName, Class<T> dataClass) {
-        checkConnection();
         final MongoDatabase database = mongoClient.getDatabase(dbName);
         this.dataCollection = database.getCollection(collectionName, dataClass);
     }
@@ -66,11 +67,5 @@ public class MongoDbController<T> implements DbController<T> {
             list.add(place);
         }
         return list;
-    }
-
-    private void checkConnection() {
-        if (this.mongoClient == null) {
-            throw new MongolControllerException("No connection with mongoDb");
-        }
     }
 }

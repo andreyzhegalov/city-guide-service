@@ -1,4 +1,4 @@
-package cityguide.datastorage.core.db;
+package cityguide.datastorage.mongo.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 
 import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.ShowPlace;
-import cityguide.datastorage.mongo.db.MongoDbController;
 
 public class MongoDbControllerTest {
 
@@ -57,6 +56,11 @@ public class MongoDbControllerTest {
     @AfterEach
     public void tearDown() {
         mongoContoroller.clearAllData();
+    }
+
+    @Test
+    void checkConnectionToMongoClient(){
+        assertThatCode(()->new MongoDbController<ShowPlace>(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test

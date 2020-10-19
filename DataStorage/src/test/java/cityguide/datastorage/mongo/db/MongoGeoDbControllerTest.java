@@ -1,4 +1,4 @@
-package cityguide.datastorage.core.db;
+package cityguide.datastorage.mongo.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
-import cityguide.datastorage.mongo.db.MongoGeoDbController;
 
 public class MongoGeoDbControllerTest {
     private final static String MONGO_URL = "mongodb://172.17.0.3";
