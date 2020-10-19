@@ -1,10 +1,18 @@
 package cityguide.datastorage.core.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 import java.util.List;
 
-import cityguide.datastorage.mongo.db.MongoGeoDbController;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,13 +21,32 @@ import org.junit.jupiter.api.Test;
 
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
+import cityguide.datastorage.mongo.db.MongoGeoDbController;
 
 public class MongoGeoDbControllerTest {
     private final static String MONGO_URL = "mongodb://172.17.0.3";
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoGeoDbController<ShowPlace> geoController = new MongoGeoDbController<ShowPlace>();
+    private static MongoClient mongoClient;
+    private static MongoGeoDbController<ShowPlace> geoController;
+
+    @BeforeAll
+    public static void beforeAll() {
+        final ConnectionString connectionString = new ConnectionString(MONGO_URL);
+        final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
+                pojoCodecRegistry);
+        MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
+                .codecRegistry(codecRegistry).build();
+        mongoClient = MongoClients.create(clientSettings);
+        geoController = new MongoGeoDbController<>(mongoClient);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        mongoClient.close();
+    }
 
     @BeforeEach
     public void setUp() {
@@ -29,16 +56,6 @@ public class MongoGeoDbControllerTest {
     @AfterEach
     public void tearDown() {
         geoController.clearAllData();
-    }
-
-    @BeforeAll
-    public static void beforeAll(){
-        geoController.open(MONGO_URL);
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        geoController.close();
     }
 
     @Test

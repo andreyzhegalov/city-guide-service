@@ -4,6 +4,7 @@ import java.util.List;
 
 import cityguide.datastorage.core.db.GeoDbController;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Indexes;
 
@@ -13,7 +14,11 @@ import org.slf4j.LoggerFactory;
 import cityguide.datastorage.model.Location;
 
 public class MongoGeoDbController<T> extends MongoDbController<T> implements GeoDbController<T> {
-    private static final Logger logger = LoggerFactory.getLogger(MongoGeoDbController.class);
+    public MongoGeoDbController(MongoClient mongoClient) {
+		super(mongoClient);
+	}
+
+	private static final Logger logger = LoggerFactory.getLogger(MongoGeoDbController.class);
     private static final double EARTH_RADIUS = 6371_000.0;
 
     @Override

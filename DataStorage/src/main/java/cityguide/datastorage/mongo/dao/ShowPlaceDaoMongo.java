@@ -6,8 +6,6 @@ import static com.mongodb.client.model.Filters.exists;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,11 +61,6 @@ public class ShowPlaceDaoMongo implements ShowPlaceDao {
     @Override
     public List<ShowPlace> getAllShowPlace(boolean hasCoordinate) {
         return geoController.getData(exists("location", false));
-    }
-
-    @PreDestroy
-    private void closeGeoController() {
-        geoController.close();
     }
 
     private ShowPlace mergeShowPlace(ShowPlace initShowPlace, ShowPlace newShowPlace) {

@@ -2,9 +2,17 @@ package cityguide.datastorage.core.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
-import cityguide.datastorage.mongo.db.MongoDbController;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import cityguide.datastorage.model.Address;
 import cityguide.datastorage.model.ShowPlace;
+import cityguide.datastorage.mongo.db.MongoDbController;
 
 public class MongoDbControllerTest {
 
@@ -20,26 +29,34 @@ public class MongoDbControllerTest {
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
-    private final static MongoDbController<ShowPlace> mongoContoroller = new MongoDbController<ShowPlace>();
+    private static MongoClient mongoClient;
+    private static MongoDbController<ShowPlace> mongoContoroller;
+
+    @BeforeAll
+    public static void beforeAll() {
+        final ConnectionString connectionString = new ConnectionString(MONGO_URL);
+        final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
+                pojoCodecRegistry);
+        MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
+                .codecRegistry(codecRegistry).build();
+        mongoClient = MongoClients.create(clientSettings);
+        mongoContoroller = new MongoDbController<>(mongoClient);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        mongoClient.close();
+    }
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         mongoContoroller.loadData(DB_NAME, DB_COLLECTION, ShowPlace.class);
     }
 
     @AfterEach
     public void tearDown() {
         mongoContoroller.clearAllData();
-    }
-
-    @BeforeAll
-    public static void beforeAll(){
-        mongoContoroller.open(MONGO_URL);
-    }
-
-    @AfterAll
-    public static void afterAll(){
-        mongoContoroller.close();
     }
 
     @Test
@@ -51,7 +68,7 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void testUpdateData(){
+    public void testUpdateData() {
         final var showPlace = new ShowPlace().setAddressString("address1");
         mongoContoroller.insertData(showPlace);
         assertThat(mongoContoroller.getAllData()).hasSize(1);
@@ -71,7 +88,7 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void getDataTest(){
+    public void getDataTest() {
         final var showPlace = new ShowPlace().setAddressString("address1");
         final var filter = new Document("address_string", showPlace.getAddressString());
 
@@ -97,4 +114,3 @@ public class MongoDbControllerTest {
         assertThat(mongoContoroller.getAllData()).hasSize(2);
     }
 }
-

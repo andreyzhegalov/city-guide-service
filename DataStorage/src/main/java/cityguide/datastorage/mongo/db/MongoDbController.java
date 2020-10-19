@@ -1,32 +1,28 @@
 package cityguide.datastorage.mongo.db;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import cityguide.datastorage.core.db.DbController;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
 
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
+import cityguide.datastorage.core.db.DbController;
+
+@Repository
 public class MongoDbController<T> implements DbController<T> {
-    private final static Logger logger = LoggerFactory.getLogger(MongoDbController.class);
-    private MongoClient mongoClient;
+    private final MongoClient mongoClient;
     private MongoCollection<T> dataCollection;
+
+    public MongoDbController(MongoClient mongoClient){
+        this.mongoClient = mongoClient;
+    }
 
     public void loadData(String dbName, String collectionName, Class<T> dataClass) {
         checkConnection();
@@ -40,12 +36,6 @@ public class MongoDbController<T> implements DbController<T> {
 
     public MongoCollection<T> getDataCollection() {
         return dataCollection;
-    }
-
-    @Override
-    public void close() {
-        checkConnection();
-        mongoClient.close();
     }
 
     @Override
@@ -82,18 +72,5 @@ public class MongoDbController<T> implements DbController<T> {
         if (this.mongoClient == null) {
             throw new MongolControllerException("No connection with mongoDb");
         }
-    }
-
-    @Override
-    public void open(String url) {
-        logger.info("Connect to MongoDb by address {}", url);
-
-        final ConnectionString connectionString = new ConnectionString(url);
-        final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
-        final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                pojoCodecRegistry);
-        MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
-                .codecRegistry(codecRegistry).build();
-        this.mongoClient = MongoClients.create(clientSettings);
     }
 }
