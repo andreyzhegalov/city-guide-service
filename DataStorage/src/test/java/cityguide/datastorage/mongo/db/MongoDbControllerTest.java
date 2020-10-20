@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+import static org.junit.Assert.assertThat;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -24,28 +25,40 @@ import cityguide.datastorage.model.ShowPlace;
 
 public class MongoDbControllerTest {
 
-    private final static String MONGO_URL = "mongodb://172.17.0.3";
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
     private static MongoClient mongoClient;
     private static MongoDbController<ShowPlace> mongoContoroller;
 
+    private static MongoDbContainer mongoDbContainer;
+
     @BeforeAll
     public static void beforeAll() {
-        final ConnectionString connectionString = new ConnectionString(MONGO_URL);
+
+        mongoDbContainer = new MongoDbContainer();
+        mongoDbContainer.start();
+        final var host = mongoDbContainer.getHost();
+        final var port = mongoDbContainer.getPort();
+
+        final ConnectionString connectionString = new ConnectionString("mongodb://" + host + ":" + port);
+
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 pojoCodecRegistry);
+
         MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
                 .codecRegistry(codecRegistry).build();
+
         mongoClient = MongoClients.create(clientSettings);
+
         mongoContoroller = new MongoDbController<>(mongoClient);
     }
 
     @AfterAll
     public static void afterAll() {
         mongoClient.close();
+        mongoDbContainer.stop();
     }
 
     @BeforeEach
@@ -59,8 +72,8 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    void checkConnectionToMongoClient(){
-        assertThatCode(()->new MongoDbController<ShowPlace>(null)).isInstanceOf(NullPointerException.class);
+    void checkConnectionToMongoClient() {
+        assertThatCode(() -> new MongoDbController<ShowPlace>(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test
