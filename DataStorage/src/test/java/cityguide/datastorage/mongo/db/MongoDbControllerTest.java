@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-import static org.junit.Assert.assertThat;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -34,7 +33,7 @@ public class MongoDbControllerTest {
     private static MongoDbContainer mongoDbContainer;
 
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
 
         mongoDbContainer = new MongoDbContainer();
         mongoDbContainer.start();
@@ -56,13 +55,13 @@ public class MongoDbControllerTest {
     }
 
     @AfterAll
-    public static void afterAll() {
+    static void afterAll() {
         mongoClient.close();
         mongoDbContainer.stop();
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mongoContoroller.loadData(DB_NAME, DB_COLLECTION, ShowPlace.class);
     }
 
@@ -77,7 +76,7 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void testInsertData() {
+    void testInsertData() {
         final var showPlace = new ShowPlace().setAddressString("address1");
         assertThat(mongoContoroller.getAllData()).isEmpty();
         assertThatCode(() -> mongoContoroller.insertData(showPlace)).doesNotThrowAnyException();
@@ -85,7 +84,7 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void testUpdateData() {
+    void testUpdateData() {
         final var showPlace = new ShowPlace().setAddressString("address1");
         mongoContoroller.insertData(showPlace);
         assertThat(mongoContoroller.getAllData()).hasSize(1);
@@ -105,7 +104,7 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void getDataTest() {
+    void getDataTest() {
         final var showPlace = new ShowPlace().setAddressString("address1");
         final var filter = new Document("address_string", showPlace.getAddressString());
 
@@ -115,12 +114,12 @@ public class MongoDbControllerTest {
     }
 
     @Test
-    public void testClearData() {
+    void testClearData() {
         assertThatCode(() -> mongoContoroller.clearAllData()).doesNotThrowAnyException();
     }
 
     @Test
-    public void testGetAllData() {
+    void testGetAllData() {
         final var showPlace1 = new ShowPlace().setAddressString("address1");
         final var showPlace2 = new ShowPlace().setAddressString("address2");
 
