@@ -75,7 +75,8 @@ public class MongoDbControllerTest {
 
     @Test
     void testInsertData() {
-        final var showPlace = new ShowPlace().setAddressString("address1");
+        final var showPlace = new ShowPlace();
+        showPlace.setAddressString("address1");
         assertThat(mongoContoroller.getAllData()).isEmpty();
         assertThatCode(() -> mongoContoroller.insertData(showPlace)).doesNotThrowAnyException();
         assertThat(mongoContoroller.getAllData()).hasSize(1);
@@ -83,12 +84,14 @@ public class MongoDbControllerTest {
 
     @Test
     void testUpdateData() {
-        final var showPlace = new ShowPlace().setAddressString("address1");
+        final var showPlace = new ShowPlace();
+        showPlace.setAddressString("address1");
         mongoContoroller.insertData(showPlace);
         assertThat(mongoContoroller.getAllData()).hasSize(1);
         assertThat(mongoContoroller.getAllData().get(0).getAddress()).isNull();
 
-        final var address = new Address().setStreet("new street1");
+        final var address = new Address();
+        address.setStreet("new street1");
         showPlace.setAddress(address);
 
         final var filter = new Document("address_string", showPlace.getAddressString());
@@ -103,7 +106,8 @@ public class MongoDbControllerTest {
 
     @Test
     void getDataTest() {
-        final var showPlace = new ShowPlace().setAddressString("address1");
+        final var showPlace = new ShowPlace();
+        showPlace.setAddressString("address1");
         final var filter = new Document("address_string", showPlace.getAddressString());
 
         assertThat(mongoContoroller.getData(filter)).hasSize(0);
@@ -118,8 +122,10 @@ public class MongoDbControllerTest {
 
     @Test
     void testGetAllData() {
-        final var showPlace1 = new ShowPlace().setAddressString("address1");
-        final var showPlace2 = new ShowPlace().setAddressString("address2");
+        final var showPlace1 = new ShowPlace();
+        showPlace1.setAddressString("address1");
+        final var showPlace2 = new ShowPlace();
+        showPlace2.setAddressString("address2");
 
         assertThat(mongoContoroller.getAllData()).isEmpty();
         mongoContoroller.insertData(showPlace1);

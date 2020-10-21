@@ -4,7 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode
 public class Location {
     private List<Double> coordinates;
@@ -18,22 +24,8 @@ public class Location {
         this.coordinates = Arrays.asList(latitude, longitude);
     }
 
-    public Location setCoordinates(List<Double> coordinates) {
-        this.coordinates = coordinates;
-        return this;
-    }
-
-    public List<Double> getCoordinates() {
-        return coordinates;
-    }
-
-    public Location setType(String type) {
-        this.type = type;
-        return this;
-    }
-
     public double getLatitude() {
-        if (noCoordinate()) {
+        if (!hasCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(0);
@@ -45,7 +37,7 @@ public class Location {
     }
 
     public double getLongitude() {
-        if (noCoordinate()) {
+        if (!hasCoordinate()) {
             throw new ModelException("coordinates not defined");
         }
         return coordinates.get(1);
@@ -56,16 +48,7 @@ public class Location {
         return this;
     }
 
-    private boolean noCoordinate() {
-        return coordinates.size() != 2;
-    }
-
-    @Override
-    public String toString() {
-        return "GeoPosition{" + "coordinates = " + getCoordinates() + "}";
-    }
-
-    public String getType() {
-        return type;
+    private boolean hasCoordinate() {
+        return coordinates.size() == 2;
     }
 }

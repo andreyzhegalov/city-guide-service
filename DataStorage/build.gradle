@@ -34,7 +34,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation 'org.testcontainers:testcontainers:1.14.3'
+    testImplementation("org.testcontainers:testcontainers:${Versions.testcontainers}")
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

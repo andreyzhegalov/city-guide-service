@@ -67,7 +67,8 @@ public class MongoGeoDbControllerTest {
     public void getNearestTest() {
         final var location = new Location().setLongitude(0.0).setLatitude(0.0);
 
-        final var showPlace = new ShowPlace().setLocation(location);
+        final var showPlace = new ShowPlace();
+        showPlace.setLocation(location);
         geoController.insertData(showPlace);
 
         final List<ShowPlace> showPlaceList = geoController.getNearest(location, 100);

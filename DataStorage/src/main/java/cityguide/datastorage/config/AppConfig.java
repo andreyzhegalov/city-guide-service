@@ -22,6 +22,8 @@ import org.springframework.core.env.Environment;
 import cityguide.datastorage.model.ShowPlace;
 import cityguide.datastorage.mongo.db.MongoGeoDbController;
 
+import java.util.Objects;
+
 @Configuration
 @ComponentScan("cityguide")
 @PropertySource("classpath:application.yml")
@@ -39,7 +41,7 @@ public class AppConfig {
 
     @Bean
     MongoClient getMongoClient(){
-        final ConnectionString connectionString = new ConnectionString(env.getProperty("mongo.url"));
+        final ConnectionString connectionString = new ConnectionString(Objects.requireNonNull(env.getProperty("mongo.url")));
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 pojoCodecRegistry);

@@ -31,7 +31,9 @@ public class AddressesRestController {
         final var showPlaceList = showPlaceService.getAllShowPlace(false);
 
         return showPlaceList.stream().map(showPlace -> {
-            return new AddressDto().setAddress(showPlace.getAddressString());
+            final var addressDto = new AddressDto();
+            addressDto.setAddress(showPlace.getAddressString());
+            return addressDto;
         }).collect(Collectors.toList());
     }
 
