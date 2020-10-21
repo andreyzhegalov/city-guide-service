@@ -34,12 +34,10 @@ public class MongoDbControllerTest {
 
     @BeforeAll
     static void beforeAll() {
-
         mongoDbContainer = new MongoDbContainer();
         mongoDbContainer.start();
         final var host = mongoDbContainer.getHost();
         final var port = mongoDbContainer.getPort();
-
         final ConnectionString connectionString = new ConnectionString("mongodb://" + host + ":" + port);
 
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());

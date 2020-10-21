@@ -23,16 +23,21 @@ import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
 public class MongoGeoDbControllerTest {
-    private final static String MONGO_URL = "mongodb://172.17.0.3";
     private final static String DB_NAME = "cityguide-db-test";
     private final static String DB_COLLECTION = "cityguide-test";
 
+    private static MongoDbContainer mongoDbContainer;
     private static MongoClient mongoClient;
     private static MongoGeoDbController<ShowPlace> geoController;
 
     @BeforeAll
     public static void beforeAll() {
-        final ConnectionString connectionString = new ConnectionString(MONGO_URL);
+        mongoDbContainer = new MongoDbContainer();
+        mongoDbContainer.start();
+        final var host = mongoDbContainer.getHost();
+        final var port = mongoDbContainer.getPort();
+        final ConnectionString connectionString = new ConnectionString("mongodb://" + host + ":" + port);
+
         final CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         final CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 pojoCodecRegistry);
@@ -45,6 +50,7 @@ public class MongoGeoDbControllerTest {
     @AfterAll
     public static void afterAll() {
         mongoClient.close();
+        mongoDbContainer.close();
     }
 
     @BeforeEach
