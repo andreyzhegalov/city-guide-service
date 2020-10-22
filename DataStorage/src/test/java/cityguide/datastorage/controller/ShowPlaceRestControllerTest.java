@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Collections;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import cityguide.datastorage.contoroller.ShowPlaceRestController;
 import cityguide.datastorage.core.dao.ShowPlaceDao;
+import cityguide.datastorage.core.service.ShowPlaceService;
 import cityguide.datastorage.dto.ShowPlaceDto;
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.view.ShowPlaceView;
@@ -32,6 +31,9 @@ public class ShowPlaceRestControllerTest {
     private MockMvc mvc;
 
     @Mock
+    private ShowPlaceService showPlaceService;
+
+    @Mock
     private ShowPlaceDao showPlaceDao;
 
     @Mock
@@ -39,14 +41,13 @@ public class ShowPlaceRestControllerTest {
 
     @BeforeEach
     public void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(new ShowPlaceRestController(showPlaceDao, showPlaceView)).build();
+        mvc = MockMvcBuilders.standaloneSetup(new ShowPlaceRestController(showPlaceService)).build();
     }
 
     @Test
     void getShowplaceTest() throws Exception {
         final String description = "description";
-        Mockito.when(showPlaceDao.getNearest(new Location(0.0, 0.0), 100)).thenReturn(Collections.emptyList());
-        Mockito.when(showPlaceView.prepareMessage(any())).thenReturn(description);
+        Mockito.when(showPlaceService.getDescription(new Location(0.0, 0.0), 100)).thenReturn(description);
         mvc.perform(get("/api/showplaces").param("lat", "0.0").param("lon", "0.0").param("radius", "100"))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(description));
     }
@@ -61,6 +62,6 @@ public class ShowPlaceRestControllerTest {
         mvc.perform(post("/api/showplaces").param("address", "street1").contentType(MediaType.APPLICATION_JSON)
                 .content(jsonShowPlace)).andDo(print()).andExpect(status().isOk());
 
-        Mockito.verify(showPlaceDao).insertUpdateShowplace(any());
+        Mockito.verify(showPlaceService).insertUpdateShowplace(any());
     }
 }
