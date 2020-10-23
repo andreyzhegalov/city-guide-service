@@ -1,4 +1,4 @@
-package cityguide.datastorage.db;
+package cityguide.datastorage.core.db;
 
 import java.util.List;
 
@@ -12,8 +12,4 @@ public interface DbController<T> {
     List<T> getData(Bson filter);
 
     List<T> getAllData();
-
-    void open(String url);
-
-    void close();
 }

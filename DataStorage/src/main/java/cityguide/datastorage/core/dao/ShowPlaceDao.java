@@ -1,4 +1,4 @@
-package cityguide.datastorage.service;
+package cityguide.datastorage.core.dao;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import cityguide.datastorage.model.Location;
 import cityguide.datastorage.model.ShowPlace;
 
-public interface ShowPlaceService {
+public interface ShowPlaceDao {
 
     void insertUpdateShowplace(ShowPlace showPlace);
 
