@@ -12,16 +12,16 @@ import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.ReturnDocument;
 
 import org.bson.conversions.Bson;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Controller;
 
 import cityguide.datastorage.core.db.DbController;
 
-@Repository
+@Controller
 public class MongoDbController<T> implements DbController<T> {
     private final MongoClient mongoClient;
     private MongoCollection<T> dataCollection;
 
-    public MongoDbController(MongoClient mongoClient){
+    public MongoDbController(MongoClient mongoClient) {
         Objects.requireNonNull(mongoClient);
         this.mongoClient = mongoClient;
     }
