@@ -4,9 +4,9 @@ import java.util.List;
 
 import cityguide.geocoder.dto.AddressDto;
 
-public interface GeoCoderService {
+public interface GeoCoderService<T> {
 
-    List<AddressDto> getAllAddresses();
+    List<T> getAllAddresses();
 
     void fillCoordinate(AddressDto address);
 

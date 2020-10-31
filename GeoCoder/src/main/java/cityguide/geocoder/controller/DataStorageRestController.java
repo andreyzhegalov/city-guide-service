@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,21 +14,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import cityguide.geocoder.config.RestServerConfig;
 import cityguide.geocoder.dto.AddressDto;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class DataStorageRestController {
-    @Autowired
-    private RestServerConfig restServerConfig;
-
-    private static final Logger logger = LoggerFactory.getLogger(DataStorageRestController.class);
+    private final RestServerConfig restServerConfig;
     private final RestTemplate restTemplate;
 
-    public DataStorageRestController() {
-        this.restTemplate = new RestTemplate();
+    public DataStorageRestController(RestTemplate restTemplate, RestServerConfig restServerConfig) {
+        this.restTemplate = restTemplate;
+        this.restServerConfig = restServerConfig;
     }
 
     public List<AddressDto> getAddresses() {
-        logger.debug("send get addresses");
+        log.debug("send get addresses");
         HttpHeaders headers = new HttpHeaders();
 
         UriComponentsBuilder builder = UriComponentsBuilder
@@ -42,23 +39,22 @@ public class DataStorageRestController {
 
         ResponseEntity<AddressDto[]> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
                 AddressDto[].class);
-        logger.debug("response {}", response);
+        log.debug("response {}", response);
 
         return (response.getBody() == null) ? new ArrayList<AddressDto>() : Arrays.asList(response.getBody());
     }
 
     public void sendAddress(AddressDto addressDto) {
-        logger.debug("send address with {}", addressDto);
-        HttpHeaders headers = new HttpHeaders();
+        log.debug("send address with {}", addressDto);
 
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getAddressesUri());
 
-        HttpEntity<?> entity = new HttpEntity<>(addressDto, headers);
+        HttpEntity<?> entity = new HttpEntity<>(addressDto);
 
         ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                 String.class);
-        logger.debug("response {}", response);
+        log.debug("response {}", response);
     }
 
 }
