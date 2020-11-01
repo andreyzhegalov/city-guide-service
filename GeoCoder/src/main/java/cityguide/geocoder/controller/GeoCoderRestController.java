@@ -3,7 +3,6 @@ package cityguide.geocoder.controller;
 import java.util.Collections;
 
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,12 +15,11 @@ import cityguide.geocoder.dto.SuggestionsList;
 @Controller
 public class GeoCoderRestController {
     private final RestTemplate restTemplate;
+    private final GeoCoderConfig geoCoderConfig;
 
-    @Autowired
-    private GeoCoderConfig geoCoderConfig;
-
-    public GeoCoderRestController() {
-        this.restTemplate = new RestTemplate();
+    public GeoCoderRestController(RestTemplate restTemplate, GeoCoderConfig geoCoderConfig) {
+        this.restTemplate = restTemplate;
+        this.geoCoderConfig = geoCoderConfig;
     }
 
     public SuggestionsList getSuggestions(String objectAddress) {
