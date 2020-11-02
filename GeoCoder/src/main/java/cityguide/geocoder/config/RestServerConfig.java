@@ -3,8 +3,13 @@ package cityguide.geocoder.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @ConfigurationProperties(prefix = "cityguide.restserver")
 @Configuration("restServerConfig")
+@Setter
+@Getter
 public class RestServerConfig {
     private String url;
     private String showplacesUri;

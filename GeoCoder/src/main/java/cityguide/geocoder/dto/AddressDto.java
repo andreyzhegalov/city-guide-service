@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
-@EqualsAndHashCode
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class AddressDto {
     private String address;
     private Double latitude;
