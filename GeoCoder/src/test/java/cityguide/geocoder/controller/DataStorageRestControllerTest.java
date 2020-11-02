@@ -42,7 +42,7 @@ class DataStorageRestControllerTest {
         Mockito.when(
                 restTemplate.exchange(anyString(), Mockito.eq(HttpMethod.GET), any(), Mockito.eq(AddressDto[].class)))
                 .thenReturn(response);
-        final var restController = new DataStorageRestController(restTemplate, restServerConfig);
+        final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressList = restController.getAddresses();
         assertThat(addressList.toArray()).isEqualTo(result);
     }
@@ -55,14 +55,14 @@ class DataStorageRestControllerTest {
         Mockito.when(
                 restTemplate.exchange(anyString(), Mockito.eq(HttpMethod.GET), any(), Mockito.eq(AddressDto[].class)))
                 .thenReturn(response);
-        final var restController = new DataStorageRestController(restTemplate, restServerConfig);
+        final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressList = restController.getAddresses();
         assertThat(addressList.toArray()).isEmpty();
     }
 
     @Test
     void testSendAddresses() {
-        final var restController = new DataStorageRestController(restTemplate, restServerConfig);
+        final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressDto = new AddressDto();
 
         restController.sendAddress(addressDto);

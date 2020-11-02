@@ -6,18 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import cityguide.geocoder.controller.DataStorageRestController;
-import cityguide.geocoder.controller.GeoCoderRestController;
+import cityguide.geocoder.controller.DataStorageRestControllerImpl;
+import cityguide.geocoder.controller.GeoCoderRestControllerImpl;
 import cityguide.geocoder.dto.AddressDto;
 
 @Service
 public class GeoCoderServiceImpl implements GeoCoderService {
     private final static Logger logger = LoggerFactory.getLogger(GeoCoderServiceImpl.class);
-    private final GeoCoderRestController geoCoderRestController;
-    private final DataStorageRestController dataStorageRestController;
+    private final GeoCoderRestControllerImpl geoCoderRestController;
+    private final DataStorageRestControllerImpl dataStorageRestController;
 
-    public GeoCoderServiceImpl(GeoCoderRestController geoCoderRestController,
-            DataStorageRestController dataStorageRestController) {
+    public GeoCoderServiceImpl(GeoCoderRestControllerImpl geoCoderRestController,
+            DataStorageRestControllerImpl dataStorageRestController) {
         this.geoCoderRestController = geoCoderRestController;
         this.dataStorageRestController = dataStorageRestController;
     }

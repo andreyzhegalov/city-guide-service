@@ -38,11 +38,11 @@ class GeoCoderRestControllerTest {
 
     @Test
     void testSettingTokenToTheRequestHeader() {
-        final var geoCoderRestController = new GeoCoderRestController(restTemplate, geoCoderConfig);
+        final var geoCoderRestController = new GeoCoderRestControllerImpl(restTemplate, geoCoderConfig);
 
         geoCoderRestController.getSuggestions(ADDRESS);
 
-        ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        final ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         Mockito.verify(restTemplate).postForObject(anyString(), requestCaptor.capture(), eq(SuggestionsList.class));
 
         final HttpEntity<?> request = requestCaptor.getValue();
@@ -51,16 +51,16 @@ class GeoCoderRestControllerTest {
 
     @Test
     void testThatUrlFromConfig() {
-        final var geoCoderRestController = new GeoCoderRestController(restTemplate, geoCoderConfig);
+        final var geoCoderRestController = new GeoCoderRestControllerImpl(restTemplate, geoCoderConfig);
         geoCoderRestController.getSuggestions(ADDRESS);
         Mockito.verify(restTemplate).postForObject(eq(URL), any(), eq(SuggestionsList.class));
     }
 
     @Test
     void testThatSetCorrectAddressInTheRequest() {
-        final var geoCoderRestController = new GeoCoderRestController(restTemplate, geoCoderConfig);
+        final var geoCoderRestController = new GeoCoderRestControllerImpl(restTemplate, geoCoderConfig);
         geoCoderRestController.getSuggestions(ADDRESS);
-        ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        final ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         Mockito.verify(restTemplate).postForObject(anyString(), requestCaptor.capture(), eq(SuggestionsList.class));
 
         final HttpEntity<?> request = requestCaptor.getValue();
