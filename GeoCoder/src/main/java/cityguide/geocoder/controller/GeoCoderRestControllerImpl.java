@@ -1,6 +1,7 @@
 package cityguide.geocoder.controller;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import cityguide.geocoder.config.GeoCoderConfig;
+import cityguide.geocoder.dto.Suggestion;
 import cityguide.geocoder.dto.SuggestionsList;
 
 @Controller
@@ -22,12 +24,13 @@ public final class GeoCoderRestControllerImpl implements GeoCoderRestController 
         this.geoCoderConfig = geoCoderConfig;
     }
 
-    public SuggestionsList getSuggestions(String objectAddress) {
+    public List<Suggestion> getSuggestions(String objectAddress) {
         final var personJsonObject = new JSONObject();
         personJsonObject.put("query", objectAddress);
 
         final HttpEntity<String> request = new HttpEntity<>(makeRequestBody(objectAddress), makeHeader());
-        return restTemplate.postForObject(geoCoderConfig.getUrl(), request, SuggestionsList.class);
+        final SuggestionsList suggestions = restTemplate.postForObject(geoCoderConfig.getUrl(), request, SuggestionsList.class);
+        return suggestions.getSuggestions();
     }
 
     private HttpHeaders makeHeader() {

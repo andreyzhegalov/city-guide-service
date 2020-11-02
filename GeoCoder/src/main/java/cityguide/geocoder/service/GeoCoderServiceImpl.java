@@ -11,7 +11,7 @@ import cityguide.geocoder.controller.GeoCoderRestControllerImpl;
 import cityguide.geocoder.dto.AddressDto;
 
 @Service
-public class GeoCoderServiceImpl implements GeoCoderService {
+public class GeoCoderServiceImpl implements GeoCoderService<AddressDto> {
     private final static Logger logger = LoggerFactory.getLogger(GeoCoderServiceImpl.class);
     private final GeoCoderRestControllerImpl geoCoderRestController;
     private final DataStorageRestControllerImpl dataStorageRestController;
@@ -30,11 +30,11 @@ public class GeoCoderServiceImpl implements GeoCoderService {
     @Override
     public void fillCoordinate(AddressDto address) {
         final var suggestionList = geoCoderRestController.getSuggestions(address.getAddress());
-        if (suggestionList.getSuggestions().isEmpty()) {
+        if (suggestionList.isEmpty()) {
             return;
         }
 
-        final var suggestion = suggestionList.getSuggestions().get(0);
+        final var suggestion = suggestionList.get(0);
         address.setLatitude(suggestion.getData().getLatitude());
         address.setLongitude(suggestion.getData().getLongitude());
     }

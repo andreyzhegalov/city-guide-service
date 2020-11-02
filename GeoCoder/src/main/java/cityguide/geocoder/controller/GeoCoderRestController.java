@@ -1,8 +1,10 @@
 package cityguide.geocoder.controller;
 
-import cityguide.geocoder.dto.SuggestionsList;
+import java.util.List;
+
+import cityguide.geocoder.dto.Suggestion;
 
 public interface GeoCoderRestController {
 
-    public SuggestionsList getSuggestions(String objectAddress);
+    public List<Suggestion> getSuggestions(String objectAddress);
 }
