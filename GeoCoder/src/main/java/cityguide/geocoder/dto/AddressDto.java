@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class AddressDto {
     private String address;
-    private Double latitude;
-    private Double longitude;
+    private double latitude;
+    private double longitude;
 }
 
