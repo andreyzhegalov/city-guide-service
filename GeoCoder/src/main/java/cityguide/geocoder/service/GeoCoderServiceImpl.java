@@ -1,6 +1,7 @@
 package cityguide.geocoder.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public final class GeoCoderServiceImpl implements GeoCoderService<AddressDto> {
 
     public GeoCoderServiceImpl(GeoCoderRestController geoCoderRestController,
             DataStorageRestController<AddressDto> dataStorageRestController) {
-        this.geoCoderRestController = geoCoderRestController;
-        this.dataStorageRestController = dataStorageRestController;
+        this.geoCoderRestController = Objects.requireNonNull(geoCoderRestController);
+        this.dataStorageRestController = Objects.requireNonNull(dataStorageRestController);
     }
 
     @Override
@@ -27,7 +28,6 @@ public final class GeoCoderServiceImpl implements GeoCoderService<AddressDto> {
         if (suggestionList.isEmpty()) {
             return;
         }
-
         final var suggestion = suggestionList.get(0);
         address.setLatitude(suggestion.getData().getLatitude());
         address.setLongitude(suggestion.getData().getLongitude());

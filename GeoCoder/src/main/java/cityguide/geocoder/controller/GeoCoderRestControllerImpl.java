@@ -2,6 +2,7 @@ package cityguide.geocoder.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -20,8 +21,8 @@ public final class GeoCoderRestControllerImpl implements GeoCoderRestController 
     private final GeoCoderConfig geoCoderConfig;
 
     public GeoCoderRestControllerImpl(RestTemplate restTemplate, GeoCoderConfig geoCoderConfig) {
-        this.restTemplate = restTemplate;
-        this.geoCoderConfig = geoCoderConfig;
+        this.restTemplate = Objects.requireNonNull(restTemplate);
+        this.geoCoderConfig = Objects.requireNonNull(geoCoderConfig);
     }
 
     public List<Suggestion> getSuggestions(String objectAddress) {

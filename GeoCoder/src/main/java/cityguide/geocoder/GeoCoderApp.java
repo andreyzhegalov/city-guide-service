@@ -16,4 +16,3 @@ public class GeoCoderApp {
         new SpringApplicationBuilder(GeoCoderApp.class).web(WebApplicationType.NONE).run(args);
     }
 }
-

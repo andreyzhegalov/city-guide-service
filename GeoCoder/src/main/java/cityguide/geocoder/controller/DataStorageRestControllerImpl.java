@@ -31,14 +31,15 @@ public final class DataStorageRestControllerImpl implements DataStorageRestContr
 
     public List<AddressDto> getAddresses() {
         log.debug("send get addresses");
-        final HttpHeaders headers = new HttpHeaders();
-        final HttpEntity<?> entity = new HttpEntity<>(headers);
 
         final UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getAddressesUri())
                 .queryParam("hascoord", false);
 
         final ResponseEntity<AddressDto[]> response;
+
+        final HttpHeaders headers = new HttpHeaders();
+        final HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
             response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET,
                     entity, AddressDto[].class);
@@ -47,7 +48,7 @@ public final class DataStorageRestControllerImpl implements DataStorageRestContr
             throw new GeoCoderRestControllerException("can't get addresses from data storage. Error " + e);
         }
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new GeoCoderRestControllerException("error response from data storage server " + response);
+            throw new GeoCoderRestControllerException("response with error from data storage server " + response);
         }
 
         return (response.getBody() == null) ? new ArrayList<AddressDto>() : Arrays.asList(response.getBody());
@@ -65,12 +66,12 @@ public final class DataStorageRestControllerImpl implements DataStorageRestContr
         try {
             response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
                     String.class);
+            log.debug("response {}", response);
         } catch (RestClientException e) {
             throw new GeoCoderRestControllerException("can't send address to data storage. Error " + e);
         }
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new GeoCoderRestControllerException("error response from data storage server " + response);
+            throw new GeoCoderRestControllerException("response with error from data storage server " + response);
         }
-        log.debug("response {}", response);
     }
 }

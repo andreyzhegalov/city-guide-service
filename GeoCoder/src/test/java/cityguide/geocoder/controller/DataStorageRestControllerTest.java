@@ -35,50 +35,47 @@ class DataStorageRestControllerTest {
         restServerConfig.setShowplacesUri("showplaces");
     }
 
-
     @Test
-    void shouldThrowExceptionThenResponseNotOkForGetAllAddresses(){
+    void shouldThrowExceptionThenResponseNotOkForGetAllAddresses() {
         final AddressDto[] result = null;
         ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.BAD_REQUEST);
-        Mockito.when(
-                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
-
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
-        assertThatThrownBy(()->restController.getAddresses()).isInstanceOf(GeoCoderRestControllerException.class);
+
+        assertThatThrownBy(() -> restController.getAddresses()).isInstanceOf(GeoCoderRestControllerException.class);
     }
 
     @Test
-    void whenGetAddressesReturnAddressesList() {
+    void whenGetAddressesShouldReturnAddressesList() {
         final var result = new AddressDto[] { new AddressDto(), new AddressDto() };
-        ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
-
-        Mockito.when(
-                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
+        final var response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
+
         final var addressList = restController.getAddresses();
+
         assertThat(addressList.toArray()).isEqualTo(result);
     }
 
     @Test
-    void whenGetAddressesReturnNull() {
+    void whenGetAddressesShouldReturnEmptySize() {
         final AddressDto[] result = null;
-        ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
-
-        Mockito.when(
-                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
+        final var response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
+
         final var addressList = restController.getAddresses();
+
         assertThat(addressList.toArray()).isEmpty();
     }
 
     @Test
     void testSendAddresses() {
         final ResponseEntity<String> response = new ResponseEntity<>("", HttpStatus.OK);
-        Mockito.when(
-                restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
                 .thenReturn(response);
 
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
@@ -91,13 +88,13 @@ class DataStorageRestControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionThenResponseNotOkForSendData(){
+    void shouldThrowExceptionThenResponseNotOkForSendData() {
         final ResponseEntity<String> response = new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
-        Mockito.when(
-                restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
+        Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
                 .thenReturn(response);
-
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
-        assertThatThrownBy(()->restController.sendAddress(new AddressDto())).isInstanceOf(GeoCoderRestControllerException.class);
+
+        assertThatThrownBy(() -> restController.sendAddress(new AddressDto()))
+                .isInstanceOf(GeoCoderRestControllerException.class);
     }
 }

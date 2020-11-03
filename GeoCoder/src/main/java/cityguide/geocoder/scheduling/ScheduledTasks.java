@@ -1,7 +1,6 @@
 package cityguide.geocoder.scheduling;
 
-import javax.annotation.PostConstruct;
-
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import cityguide.geocoder.dto.AddressDto;
@@ -15,8 +14,7 @@ public class ScheduledTasks {
         this.geoCoderService = geoCoderService;
     }
 
-    // @Scheduled(cron ="0 30 1 ? * MON")
-    @PostConstruct
+    @Scheduled(cron ="0 30 1 ? * MON")
     public void onTimer() {
         geoCoderService.fillAllAddresses();
     }
