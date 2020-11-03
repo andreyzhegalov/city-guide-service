@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,17 +31,24 @@ public final class DataStorageRestControllerImpl implements DataStorageRestContr
 
     public List<AddressDto> getAddresses() {
         log.debug("send get addresses");
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
+        final HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        UriComponentsBuilder builder = UriComponentsBuilder
+        final UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getAddressesUri())
                 .queryParam("hascoord", false);
 
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<AddressDto[]> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
-                AddressDto[].class);
-        log.debug("response {}", response);
+        final ResponseEntity<AddressDto[]> response;
+        try {
+            response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET,
+                    entity, AddressDto[].class);
+            log.debug("response {}", response);
+        } catch (RestClientException e) {
+            throw new GeoCoderRestControllerException("can't get addresses from data storage. Error " + e);
+        }
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new GeoCoderRestControllerException("error response from data storage server " + response);
+        }
 
         return (response.getBody() == null) ? new ArrayList<AddressDto>() : Arrays.asList(response.getBody());
     }
@@ -47,14 +56,21 @@ public final class DataStorageRestControllerImpl implements DataStorageRestContr
     public void sendAddress(AddressDto addressDto) {
         log.debug("send address with {}", addressDto);
 
-        UriComponentsBuilder builder = UriComponentsBuilder
+        final UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getAddressesUri());
 
-        HttpEntity<?> entity = new HttpEntity<>(addressDto);
+        final HttpEntity<?> entity = new HttpEntity<>(addressDto);
 
-        ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
-                String.class);
+        final ResponseEntity<String> response;
+        try {
+            response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
+                    String.class);
+        } catch (RestClientException e) {
+            throw new GeoCoderRestControllerException("can't send address to data storage. Error " + e);
+        }
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new GeoCoderRestControllerException("error response from data storage server " + response);
+        }
         log.debug("response {}", response);
     }
-
 }

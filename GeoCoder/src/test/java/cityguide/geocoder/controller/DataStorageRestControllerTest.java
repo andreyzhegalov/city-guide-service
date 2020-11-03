@@ -1,6 +1,7 @@
 package cityguide.geocoder.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -34,13 +35,26 @@ class DataStorageRestControllerTest {
         restServerConfig.setShowplacesUri("showplaces");
     }
 
+
+    @Test
+    void shouldThrowExceptionThenResponseNotOkForGetAllAddresses(){
+        final AddressDto[] result = null;
+        ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.BAD_REQUEST);
+        Mockito.when(
+                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
+                .thenReturn(response);
+
+        final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
+        assertThatThrownBy(()->restController.getAddresses()).isInstanceOf(GeoCoderRestControllerException.class);
+    }
+
     @Test
     void whenGetAddressesReturnAddressesList() {
         final var result = new AddressDto[] { new AddressDto(), new AddressDto() };
         ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
 
         Mockito.when(
-                restTemplate.exchange(anyString(), Mockito.eq(HttpMethod.GET), any(), Mockito.eq(AddressDto[].class)))
+                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressList = restController.getAddresses();
@@ -53,7 +67,7 @@ class DataStorageRestControllerTest {
         ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
 
         Mockito.when(
-                restTemplate.exchange(anyString(), Mockito.eq(HttpMethod.GET), any(), Mockito.eq(AddressDto[].class)))
+                restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressList = restController.getAddresses();
@@ -62,6 +76,11 @@ class DataStorageRestControllerTest {
 
     @Test
     void testSendAddresses() {
+        final ResponseEntity<String> response = new ResponseEntity<>("", HttpStatus.OK);
+        Mockito.when(
+                restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
+                .thenReturn(response);
+
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
         final var addressDto = new AddressDto();
 
@@ -69,5 +88,16 @@ class DataStorageRestControllerTest {
 
         HttpEntity<?> entity = new HttpEntity<>(addressDto);
         Mockito.verify(restTemplate).exchange(anyString(), eq(HttpMethod.POST), eq(entity), eq(String.class));
+    }
+
+    @Test
+    void shouldThrowExceptionThenResponseNotOkForSendData(){
+        final ResponseEntity<String> response = new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+        Mockito.when(
+                restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class)))
+                .thenReturn(response);
+
+        final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
+        assertThatThrownBy(()->restController.sendAddress(new AddressDto())).isInstanceOf(GeoCoderRestControllerException.class);
     }
 }
