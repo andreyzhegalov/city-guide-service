@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import cityguide.telegrambot.controller.CityGuideRestController;
+import cityguide.telegrambot.controller.DataStorageRestControllerImpl;
 import cityguide.telegrambot.telegram.Telegram;
 import cityguide.telegrambot.telegram.bot.TelegramBot;
 
@@ -16,9 +16,9 @@ import cityguide.telegrambot.telegram.bot.TelegramBot;
 public class TelegramBotService {
     private static final Logger logger = LoggerFactory.getLogger(TelegramBotService.class);
     private static final int SEARCH_RADIUS = 100;
-    private final CityGuideRestController restController;
+    private final DataStorageRestControllerImpl restController;
 
-    public TelegramBotService(TelegramBot telegramBot, CityGuideRestController restController) {
+    public TelegramBotService(TelegramBot telegramBot, DataStorageRestControllerImpl restController) {
         this.restController = restController;
         telegramBot.setMessageHandler(this::onMessage);
         Telegram.startBot(telegramBot);
@@ -32,7 +32,7 @@ public class TelegramBotService {
         }
         if (message.hasLocation()) {
             final Location location = message.getLocation();
-            return restController.sendGet(location.getLatitude(), location.getLongitude(), SEARCH_RADIUS);
+            return restController.getShowPlaceDescription(location.getLatitude(), location.getLongitude(), SEARCH_RADIUS);
         }
         return Optional.empty();
     }
