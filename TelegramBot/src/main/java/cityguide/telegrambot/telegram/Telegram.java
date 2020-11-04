@@ -1,4 +1,4 @@
-package cityguide.telegram;
+package cityguide.telegrambot.telegram;
 
 import org.jvnet.hk2.annotations.Service;
 import org.telegram.telegrambots.ApiContextInitializer;

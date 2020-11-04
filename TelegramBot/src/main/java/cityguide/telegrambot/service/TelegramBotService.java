@@ -1,4 +1,4 @@
-package cityguide.service;
+package cityguide.telegrambot.service;
 
 import java.util.Optional;
 
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import cityguide.controller.CityGuideRestController;
-import cityguide.telegram.Telegram;
-import cityguide.telegram.bot.TelegramBot;
+import cityguide.telegrambot.controller.CityGuideRestController;
+import cityguide.telegrambot.telegram.Telegram;
+import cityguide.telegrambot.telegram.bot.TelegramBot;
 
 @Service
 public class TelegramBotService {

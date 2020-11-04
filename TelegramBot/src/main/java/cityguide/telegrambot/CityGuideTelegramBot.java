@@ -1,4 +1,4 @@
-package cityguide;
+package cityguide.telegrambot;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
