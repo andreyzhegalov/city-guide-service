@@ -3,28 +3,13 @@ package cityguide.geocoder.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class SuggestionsList {
-    private List<Suggestion> suggestions;
-
-    public SuggestionsList() {
-        suggestions = new ArrayList<>();
-    }
-
-    public SuggestionsList(List<Suggestion> suggestionsList) {
-        this.suggestions = suggestionsList;
-    }
-
-    public List<Suggestion> getSuggestions() {
-        return suggestions;
-    }
-
-    public void setSuggestions(List<Suggestion> suggestions) {
-        this.suggestions = suggestions;
-    }
-
-    @Override
-    public String toString() {
-        return "SuggestionsList{" + "suggestions = " + getSuggestions() + "}";
-    }
+    private List<Suggestion> suggestions = new ArrayList<>();
 }
-

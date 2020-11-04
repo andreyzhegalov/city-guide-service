@@ -17,7 +17,7 @@ class ShowPlaceCollectorRestControllerTest {
         restServerConfig.setUrl("http://test.com/");
         restServerConfig.setShowplacesUri("showplaces");
 
-        final ShowPlaceCollectorRestController restController = new ShowPlaceCollectorRestController(restTemplate,
+        final ShowPlaceSendController restController = new ShowPlaceCollectorRestController(restTemplate,
                 restServerConfig);
 
         final var testShowPlace = new ShowPlaceDto();
