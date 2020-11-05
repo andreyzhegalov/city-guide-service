@@ -14,6 +14,6 @@ import lombok.ToString;
 @Configuration("restServerConfig")
 public class RestServerConfig {
     private String url;
-    private String getShowplacesUri;
+    private String showplacesUri;
 }
 
