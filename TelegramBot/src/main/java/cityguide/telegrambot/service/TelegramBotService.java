@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.Location;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import cityguide.telegrambot.controller.DataStorageRestController;
-import cityguide.telegrambot.telegram.Telegram;
 import cityguide.telegrambot.telegram.bot.TelegramBot;
 
 @Service
@@ -21,10 +20,9 @@ public class TelegramBotService {
     public TelegramBotService(TelegramBot telegramBot, DataStorageRestController restController) {
         this.restController = restController;
         telegramBot.setMessageHandler(this::onMessage);
-        Telegram.startBot(telegramBot);
     }
 
-    private Optional<String> onMessage(Message message) {
+    public Optional<String> onMessage(Message message) {
         logger.info("On new message. Received new message {}", message);
         if (message.hasText()) {
             // echo for simple message

@@ -14,7 +14,9 @@ public class ContextConfig {
     @Bean
     public TelegramBot cityGuideBot(TelegramBotConfig telegramBotConfig) {
         Telegram.initContext();
-        return new TelegramBot(telegramBotConfig.getName(), telegramBotConfig.getToken());
+        final var telegramBot = new TelegramBot(telegramBotConfig.getName(), telegramBotConfig.getToken());
+        Telegram.startBot(telegramBot);
+        return telegramBot;
     }
 
     @Bean
