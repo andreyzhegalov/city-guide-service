@@ -35,28 +35,34 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage()) {
-            Message message = update.getMessage();
-            if (messageHandler == null) {
-                return;
-            }
-            final var mayBeResponse = messageHandler.apply(message);
-            if (mayBeResponse.isEmpty()) {
-                return;
-            }
-            final var messageList = splitMessage(mayBeResponse.get());
-            final var chatId = message.getChatId().toString();
-            for (final var partOfMessage : messageList) {
-                sendMessage(chatId, partOfMessage);
-            }
+        if (!update.hasMessage()) {
+            return;
+        }
+        if (messageHandler == null) {
+            return;
+        }
+        final Message message = update.getMessage();
+        final var mayBeResponse = messageHandler.apply(message);
+        if (mayBeResponse.isEmpty()) {
+            return;
+        }
+        final var messageList = splitMessage(mayBeResponse.get());
+        final var chatId = message.getChatId().toString();
+        for (final var partOfMessage : messageList) {
+            final var messageForSend = prepareSendMessage(chatId, partOfMessage);
+            sendMessage(messageForSend);
         }
     }
 
-    public void sendMessage(String chatId, String s) {
-        SendMessage sendMessage = new SendMessage();
+    public SendMessage prepareSendMessage(String chatId, String s) {
+        final SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         sendMessage.setText(s);
+        return sendMessage;
+    }
+
+    public void sendMessage(SendMessage sendMessage){
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {

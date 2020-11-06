@@ -44,7 +44,7 @@ class TelegramBotServiceTest {
     }
 
     @Test
-    void onMessageWithOutLocation() {
+    void onMessageWithoutLocation() {
         final var telegramBotService = new TelegramBotService(telegramBot, restController);
         final var message = Mockito.mock(Message.class);
 
