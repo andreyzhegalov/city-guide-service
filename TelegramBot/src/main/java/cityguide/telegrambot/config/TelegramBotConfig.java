@@ -14,4 +14,3 @@ public class TelegramBotConfig {
     private String name;
     private String token;
 }
-

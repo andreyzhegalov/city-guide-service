@@ -29,7 +29,7 @@ class TelegramBotTest {
     }
 
     @Test
-    void shouldNotSendResponceIfMessageHandlerNotPresent() {
+    void shouldNotSendResponseIfMessageHandlerNotPresent() {
         final var telegrambot = Mockito.spy(new TelegramBot("name", "token"));
 
         final var newUpdate = Mockito.mock(Update.class);

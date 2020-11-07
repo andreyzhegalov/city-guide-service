@@ -20,8 +20,7 @@ public class ContextConfig {
     }
 
     @Bean
-    public RestTemplate getRestController(){
+    public RestTemplate getRestController() {
         return new RestTemplate();
     }
 }
-

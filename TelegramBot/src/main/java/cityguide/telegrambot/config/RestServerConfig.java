@@ -16,4 +16,3 @@ public class RestServerConfig {
     private String url;
     private String showplacesUri;
 }
-

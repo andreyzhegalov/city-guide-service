@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class DataStorageRestControllerImpl implements DataStorageRestController {
+public final class DataStorageRestControllerImpl implements DataStorageRestController {
     private final RestServerConfig restServerConfig;
     private final RestTemplate restTemplate;
 
