@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +45,7 @@ class GeoCoderServiceImplTest {
         data.setLongitude(LONGITUDE);
         suggestion.setData(data);
 
-        Mockito.when(geoCoderRestController.getSuggestions(null)).thenReturn(Arrays.asList(suggestion));
+        Mockito.when(geoCoderRestController.getSuggestions(null)).thenReturn(Collections.singletonList(suggestion));
 
         geoCoderService.fillCoordinate(address);
 

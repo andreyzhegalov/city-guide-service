@@ -43,17 +43,23 @@ public class WalkSpbPageHandlerTest {
     public void getNextPageWhenExist() {
         final var pageHandler = new WalkSpbPageHandler(siteConfig);
         final var currentPage = pageHandler.getFistPage();
-        assertThat(pageHandler.getNextPage(currentPage).get().toString())
-                .isEqualTo("https://walkspb.ru/istoriya-peterburga/zd?start=20");
+        final var mayBeNextPage = pageHandler.getNextPage(currentPage);
+        assertThat(mayBeNextPage).isPresent();
+        assertThat(mayBeNextPage.get().toString()).isEqualTo("https://walkspb.ru/istoriya-peterburga/zd?start=20");
     }
 
     @Test
     public void testIncrement() {
         final var pageHandler = new WalkSpbPageHandler(siteConfig);
         final var currentPage = pageHandler.getFistPage();
-        final var nextPage = pageHandler.getNextPage(currentPage).get();
-        assertThat(pageHandler.getNextPage(nextPage).get().toString())
-                .isEqualTo("https://walkspb.ru/istoriya-peterburga/zd?start=40");
+
+        var mayBeNextPage = pageHandler.getNextPage(currentPage);
+
+        assertThat(mayBeNextPage).isPresent();
+
+        mayBeNextPage = pageHandler.getNextPage(mayBeNextPage.get());
+        assertThat(mayBeNextPage).isPresent();
+        assertThat(mayBeNextPage.get().toString()).isEqualTo("https://walkspb.ru/istoriya-peterburga/zd?start=40");
     }
 
     @Test
