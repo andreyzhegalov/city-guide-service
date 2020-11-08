@@ -31,6 +31,7 @@ public final class GeoCoderRestControllerImpl implements GeoCoderRestController 
 
         final HttpEntity<String> request = new HttpEntity<>(makeRequestBody(objectAddress), makeHeader());
         final SuggestionsList suggestions = restTemplate.postForObject(geoCoderConfig.getUrl(), request, SuggestionsList.class);
+        assert suggestions != null;
         return suggestions.getSuggestions();
     }
 

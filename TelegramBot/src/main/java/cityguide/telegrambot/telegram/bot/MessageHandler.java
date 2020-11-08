@@ -1,4 +1,4 @@
-package cityguide.telegram.bot;
+package cityguide.telegrambot.telegram.bot;
 
 import java.util.Optional;
 import java.util.function.Function;
