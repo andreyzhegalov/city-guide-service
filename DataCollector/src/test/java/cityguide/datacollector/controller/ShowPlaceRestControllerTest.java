@@ -1,5 +1,9 @@
 package cityguide.datacollector.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpMethod;
@@ -26,6 +30,6 @@ class ShowPlaceCollectorRestControllerTest {
 
         restController.send(testShowPlace);
 
-        Mockito.verify(restTemplate).exchange(Mockito.anyString(), Mockito.eq(HttpMethod.POST), Mockito.any(), Mockito.eq(String.class));
+        Mockito.verify(restTemplate).exchange(anyString(), eq(HttpMethod.POST), any(), eq(String.class));
     }
 }
