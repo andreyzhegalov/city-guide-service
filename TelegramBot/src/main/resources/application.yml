@@ -1,14 +1,8 @@
 cityguide:
- telegram:
-     name: CityGuide2020Bot
-     token: none
- restserver:
-     url: http://192.168.1.139:8080/DataStorage/
-     get-showplaces-uri: api/showplaces
+  telegram:
+    name: CityGuide2020Bot
+    token: none
+  restserver:
+    url: http://192.168.1.139:8080/DataStorage/
+    get-showplaces-uri: api/showplaces
 
-logging:
-    level:
-        root: ERROR
-        cityguide: DEBUG
-        org.springframework.web: DEBUG
-        org.telegram.telegrambots: DEBUG
