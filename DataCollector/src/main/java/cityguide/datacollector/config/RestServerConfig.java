@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "cityguide.restserver")
+@ConfigurationProperties(prefix = "cityguide.restserver", ignoreUnknownFields = false)
 @Component
 public class RestServerConfig {
     private String url;

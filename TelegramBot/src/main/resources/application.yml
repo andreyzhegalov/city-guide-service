@@ -4,5 +4,5 @@ cityguide:
     token: none
   restserver:
     url: http://192.168.1.139:8080/DataStorage/
-    get-showplaces-uri: api/showplaces
+    showplaces-uri: api/showplaces
 

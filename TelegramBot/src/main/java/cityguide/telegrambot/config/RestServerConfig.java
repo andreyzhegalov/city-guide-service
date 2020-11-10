@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties(prefix = "cityguide.restserver")
+@ConfigurationProperties(prefix = "cityguide.restserver", ignoreUnknownFields = false)
 @Configuration("restServerConfig")
 public class RestServerConfig {
     private String url;
