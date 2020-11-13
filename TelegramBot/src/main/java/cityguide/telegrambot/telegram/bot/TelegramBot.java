@@ -5,21 +5,24 @@ import java.util.List;
 
 import com.google.common.base.Splitter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
-    private static final Logger LOG = LogManager.getLogger(TelegramBot.class);
     private final String botToken;
     private final String botName;
     private MessageHandler messageHandler;
 
     public TelegramBot(String botName, String token) {
+        log.trace("TRACE Construct telegram bot " + botName);
+        log.debug("DEBUG Construct telegram bot " + botName);
+        log.info("INFO Construct telegram bot " + botName);
         this.botToken = token;
         this.botName = botName;
     }
@@ -67,7 +70,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-            LOG.error("Exception: {}", e.toString());
+            log.error("Exception: {}", e.toString());
         }
     }
 

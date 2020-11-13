@@ -20,11 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import cityguide.datastorage.contoroller.ShowPlaceRestController;
-import cityguide.datastorage.core.dao.ShowPlaceDao;
 import cityguide.datastorage.core.service.ShowPlaceService;
 import cityguide.datastorage.dto.ShowPlaceDto;
 import cityguide.datastorage.model.Location;
-import cityguide.datastorage.view.ShowPlaceView;
 
 @ExtendWith(MockitoExtension.class)
 public class ShowPlaceRestControllerTest {
@@ -32,12 +30,6 @@ public class ShowPlaceRestControllerTest {
 
     @Mock
     private ShowPlaceService showPlaceService;
-
-    @Mock
-    private ShowPlaceDao showPlaceDao;
-
-    @Mock
-    private ShowPlaceView showPlaceView;
 
     @BeforeEach
     public void setUp() {

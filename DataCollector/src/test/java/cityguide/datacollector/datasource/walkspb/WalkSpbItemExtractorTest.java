@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import cityguide.datacollector.showplacesource.walkspb.WalkSpbItemExtractor;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,9 @@ public class WalkSpbItemExtractorTest {
         String html = "";
         try( final var inputSteam = classLoader.getResourceAsStream(ITEMS_HTML))
         {
+            assert inputSteam != null;
             final var array = inputSteam.readAllBytes();
-            final Charset charset = Charset.forName("UTF-8");
+            final Charset charset = StandardCharsets.UTF_8;
             html = new String(array, charset);
         }
         return html;

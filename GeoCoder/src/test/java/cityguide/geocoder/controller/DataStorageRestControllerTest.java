@@ -37,19 +37,18 @@ class DataStorageRestControllerTest {
 
     @Test
     void shouldThrowExceptionThenResponseNotOkForGetAllAddresses() {
-        final AddressDto[] result = null;
-        ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>(result, HttpStatus.BAD_REQUEST);
+        ResponseEntity<AddressDto[]> response = new ResponseEntity<AddressDto[]>((AddressDto[]) null, HttpStatus.BAD_REQUEST);
         Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
 
-        assertThatThrownBy(() -> restController.getAddresses()).isInstanceOf(GeoCoderRestControllerException.class);
+        assertThatThrownBy(restController::getAddresses).isInstanceOf(GeoCoderRestControllerException.class);
     }
 
     @Test
     void whenGetAddressesShouldReturnAddressesList() {
         final var result = new AddressDto[] { new AddressDto(), new AddressDto() };
-        final var response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
+        final var response = new ResponseEntity<>(result, HttpStatus.OK);
         Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);
@@ -61,8 +60,7 @@ class DataStorageRestControllerTest {
 
     @Test
     void whenGetAddressesShouldReturnEmptySize() {
-        final AddressDto[] result = null;
-        final var response = new ResponseEntity<AddressDto[]>(result, HttpStatus.OK);
+        final var response = new ResponseEntity<>((AddressDto[]) null, HttpStatus.OK);
         Mockito.when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(AddressDto[].class)))
                 .thenReturn(response);
         final var restController = new DataStorageRestControllerImpl(restTemplate, restServerConfig);

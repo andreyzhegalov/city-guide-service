@@ -3,9 +3,10 @@ package cityguide.datacollector.controller;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,14 +34,16 @@ public class ShowPlaceCollectorRestController implements ShowPlaceSendController
                 .fromHttpUrl(restServerConfig.getUrl() + restServerConfig.getShowplacesUri())
                 .queryParam("address", showPlace.getAddress());
 
+        final ResponseEntity<String> response;
         HttpEntity<?> entity = new HttpEntity<>(showPlace, headers);
-
         try {
-            ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity,
-                    String.class);
+            response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, String.class);
             log.debug("response {}", response);
-        } catch (ResourceAccessException e) {
-            log.error("can't send showplace to datastorage server");
+        } catch (RestClientException e) {
+            throw new DataCollectorRestControllerException("can't send new showplace to data storage. Error " + e);
+        }
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new DataCollectorRestControllerException("response with error from data storage server " + response);
         }
     }
 }

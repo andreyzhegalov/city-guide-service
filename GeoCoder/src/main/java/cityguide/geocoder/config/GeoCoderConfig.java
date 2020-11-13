@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "cityguide.geocoder")
+@ConfigurationProperties(prefix = "cityguide.geocoder", ignoreUnknownFields = false)
 @Configuration("geoCoderConfig")
 public class GeoCoderConfig {
     private String url;

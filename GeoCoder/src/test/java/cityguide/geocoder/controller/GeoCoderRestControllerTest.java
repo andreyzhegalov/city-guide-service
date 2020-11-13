@@ -44,7 +44,7 @@ class GeoCoderRestControllerTest {
 
         geoCoderRestController.getSuggestions(ADDRESS);
 
-        final ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        final var requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         Mockito.verify(restTemplate).postForObject(anyString(), requestCaptor.capture(), eq(SuggestionsList.class));
 
         final HttpEntity<?> request = requestCaptor.getValue();
@@ -64,7 +64,7 @@ class GeoCoderRestControllerTest {
         final var geoCoderRestController = new GeoCoderRestControllerImpl(restTemplate, geoCoderConfig);
         Mockito.when(restTemplate.postForObject(anyString(), any(), any())).thenReturn(new SuggestionsList());
         geoCoderRestController.getSuggestions(ADDRESS);
-        final ArgumentCaptor<HttpEntity<?>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        final var requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         Mockito.verify(restTemplate).postForObject(anyString(), requestCaptor.capture(), eq(SuggestionsList.class));
 
         final HttpEntity<?> request = requestCaptor.getValue();

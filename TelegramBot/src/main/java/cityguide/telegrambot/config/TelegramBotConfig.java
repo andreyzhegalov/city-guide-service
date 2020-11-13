@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "cityguide.telegram")
+@ConfigurationProperties(prefix = "cityguide.telegram", ignoreUnknownFields = false)
 @Configuration("telegramBotConfig")
 public class TelegramBotConfig {
     private String name;

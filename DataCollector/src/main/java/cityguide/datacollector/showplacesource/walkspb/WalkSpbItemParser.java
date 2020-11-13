@@ -15,7 +15,7 @@ import cityguide.datacollector.showplacesource.sitesource.ItemParser;
 
 @Component
 public class WalkSpbItemParser implements ItemParser {
-    private static final String city = "г.Санкт-Петербург";
+    private static final String CITY = "г.Санкт-Петербург";
 
     @Override
     public Optional<ShowPlaceDto> getShowPlace(String html) {
@@ -55,6 +55,6 @@ public class WalkSpbItemParser implements ItemParser {
     }
 
     private String addCity(String address) {
-        return city + address;
+        return CITY  + " " + address;
     }
 }

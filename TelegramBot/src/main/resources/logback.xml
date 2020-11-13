@@ -11,6 +11,7 @@
     </root>
 
     <logger name="cityguide" level="INFO"/>
+    <logger name="org.telegram.telegrabots" level="DEBUG"/>
     <logger name="org.springframework.web" level="DEBUG"/>
     <logger name="org.apache" level="INFO"/>
 </configuration>

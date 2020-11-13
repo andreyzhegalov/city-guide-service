@@ -10,7 +10,7 @@ import cityguide.datacollector.dto.ShowPlaceDto;
 import cityguide.datacollector.showplacesource.ShowPlaceSource;
 
 @Service
-public class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService {
+public final class ShowPlaceCollectorServiceImpl implements ShowPlaceCollectorService {
     private final ShowPlaceSendController restController;
     private final List<ShowPlaceSource> showPlaceSources = new ArrayList<>();
 

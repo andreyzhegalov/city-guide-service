@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties(prefix = "cityguide.sources.walkspb")
+@ConfigurationProperties(prefix = "cityguide.sources.walkspb", ignoreUnknownFields = false)
 @Component
 public class WalkSpbSiteConfig {
     private String baseUrl;

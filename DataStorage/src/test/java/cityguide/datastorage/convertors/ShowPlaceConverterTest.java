@@ -3,6 +3,7 @@ package cityguide.datastorage.convertors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +53,7 @@ class ShowPlaceConverterTest {
         showPlace.setAddressString("street");
         final var description = new Description();
         description.setInfo("info");
-        showPlace.setDescriptionList(Arrays.asList(description));
+        showPlace.setDescriptionList(Collections.singletonList(description));
 
         assertThat(ShowPlaceConverter.toShowPlace(showPlaceDto)).isEqualTo(showPlace);
     }

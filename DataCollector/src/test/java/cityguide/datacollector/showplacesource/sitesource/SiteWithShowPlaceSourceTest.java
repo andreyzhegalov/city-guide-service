@@ -1,10 +1,10 @@
 package cityguide.datacollector.showplacesource.sitesource;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -35,7 +35,7 @@ class SiteWithShowPlaceSourceTest {
         final var siteSource = new SiteSource(siteHandler);
 
         siteSource.collect();
-        Mockito.verify(siteHandler, Mockito.never()).getAllPageUrl();
+        Mockito.verify(siteHandler, never()).getAllPageUrl();
     }
 
     @Test
