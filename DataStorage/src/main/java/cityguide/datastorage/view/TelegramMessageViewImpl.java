@@ -9,13 +9,13 @@ import cityguide.datastorage.model.Description;
 import cityguide.datastorage.model.ShowPlace;
 
 @Service
-public class TelegramMessageViewImpl implements TelegramMessageView {
+public class TelegramMessageViewImpl implements ShowPlaceView {
 
     @Override
     public String prepareMessage(List<ShowPlace> showPlaces) {
         // NOTE only first description at this time
         return (showPlaces.isEmpty()) ? "Ничего не найдено"
-                : showPlaces.get(0).getDescriptionList().stream().map(Description::getInfo).collect(Collectors.toList())
-                        .toString();
+                : showPlaces.get(0).getDescriptionList().stream().map(Description::getInfo)
+                        .collect(Collectors.joining(System.lineSeparator())).toString();
     }
 }

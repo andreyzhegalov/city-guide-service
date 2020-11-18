@@ -48,3 +48,5 @@ gradlew.bat
 backend.properties
 
 tags
+
+**/.vimspector.json

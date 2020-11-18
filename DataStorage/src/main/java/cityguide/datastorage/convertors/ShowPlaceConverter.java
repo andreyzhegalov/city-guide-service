@@ -13,14 +13,21 @@ public class ShowPlaceConverter {
     public static ShowPlace toShowPlace(AddressDto addressDto) {
         final var showPlace = new ShowPlace();
         showPlace.setAddressString(addressDto.getAddress());
-        final var location = new Location(addressDto.getLatitude(), addressDto.getLongitude());
-        showPlace.setLocation(location);
+
+        if (addressDto.getLatitude() != null && addressDto.getLatitude() != null) {
+            final var location = new Location(addressDto.getLatitude(), addressDto.getLongitude());
+            showPlace.setLocation(location);
+        }
         return showPlace;
     }
 
     public static ShowPlace toShowPlace(ShowPlaceDto showPlaceDto) {
         final var showPlace = new ShowPlace();
         showPlace.setAddressString(showPlaceDto.getAddress());
+
+        if (showPlaceDto.getInfo() == null){
+            return showPlace;
+        }
         final var description = new Description();
         description.setInfo(showPlaceDto.getInfo());
         final List<Description> descriptions = new ArrayList<>();
