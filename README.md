@@ -3,10 +3,6 @@
 
 # City Guide Service
 
-## Usage
-
-Just send message with your current location via attachment in the Telegram(@CityGuide2020Bot) and service returned show place description.
-
 ## Description
 
 The service provides information about city showplaces. The service is available via telegarm bot @CityGuide2020Bot.
@@ -20,6 +16,10 @@ The service includes a number of modules:
 
 At the moment, the service contains information about almost 700 objects of the city of St. Petersburg.
 The main source of information is the site https://walkspb.ru/
+
+## Usage
+
+Just send message with your current location via attachment in the Telegram(@CityGuide2020Bot) and service returned show place description.
 
 ## License
 
