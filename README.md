@@ -3,7 +3,12 @@
 
 # City Guide Service
 
+## Usage
+
+Just send message with your current location via attachment in the Telegram and service returned show place description.
+
 ## Description
+
 The service provides information about city showplaces. The service is available via telegarm bot @ CityGuide2020Bot.
 
 The service includes a number of modules:
